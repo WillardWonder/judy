@@ -2,358 +2,161 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="theme-color" content="#ffd7ec" />
-  <title>Judy's Dream Pony Stable</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#ffd9ea" />
+  <title>Judy's Pony World</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <div class="sky-decor" aria-hidden="true">
-    <span class="cloud cloud-one"></span>
-    <span class="cloud cloud-two"></span>
-    <span class="cloud cloud-three"></span>
-  </div>
+  <main class="game" aria-label="Judy's pony game">
+    <section id="world" class="world meadow" aria-label="Pony play area">
+      <div class="sky-glow" aria-hidden="true"></div>
+      <div class="rainbow" aria-hidden="true"></div>
+      <div class="cloud cloud-a" aria-hidden="true"></div>
+      <div class="cloud cloud-b" aria-hidden="true"></div>
+      <div class="hill hill-a" aria-hidden="true"></div>
+      <div class="hill hill-b" aria-hidden="true"></div>
+      <div class="fence" aria-hidden="true"></div>
+      <div class="barn" aria-hidden="true"><i></i></div>
+      <div class="flowers f1" aria-hidden="true">✿</div>
+      <div class="flowers f2" aria-hidden="true">✿</div>
+      <div class="flowers f3" aria-hidden="true">✿</div>
+      <div class="butterfly b1" aria-hidden="true">♥</div>
+      <div class="butterfly b2" aria-hidden="true">♥</div>
 
-  <header class="site-header">
-    <div>
-      <p class="eyebrow">A sparkly pocket stable made for Judy</p>
-      <h1>Judy's Dream Pony Stable</h1>
-      <p class="subtitle">Choose a horse bestie, dress them up, groom them, ride through dreamy places, and fill the stable with happy memories.</p>
-    </div>
-    <div class="header-actions">
-      <div class="coin-pill" aria-label="Pony coins">
-        <span class="coin-dot" aria-hidden="true"></span>
-        <strong id="coinCount">0</strong>
-        <span>pony coins</span>
-      </div>
-      <button class="soft-button" id="openSettings" type="button">Save &amp; backup</button>
-    </div>
-  </header>
-
-  <main class="app-shell">
-
-    <section class="card stable-card" aria-labelledby="stableHeading">
-      <div class="section-title-row stable-title-row">
-        <div>
-          <p class="mini-label">Judy's little stable</p>
-          <h2 id="stableHeading">Pick a horse bestie</h2>
-          <p class="section-copy">Every horse has a different look and personality. Judy can switch anytime and the stable remembers her favorite.</p>
+      <header class="top">
+        <div class="brand" aria-label="Judy's Pony World">
+          <span class="brand-heart" aria-hidden="true">♥</span>
+          <span class="brand-name">Judy's</span>
         </div>
-        <span class="stable-badge">6 sweet horses</span>
-      </div>
-      <div id="horsePicker" class="horse-picker" role="list" aria-label="Choose a horse"></div>
-    </section>
-    <section class="card pet-card" aria-labelledby="petHeading">
-      <div class="pet-card-top">
-        <div>
-          <p class="mini-label">Your stable star</p>
-          <h2 id="petHeading"><span id="ponyNameHeading">Rosie</span></h2>
-          <p id="ponyMoodText" class="mood-line">She is feeling cozy and curious.</p>
-          <p id="ponyPersonality" class="personality-line">Sweet, curious, and always ready for an apple.</p>
-        </div>
-        <button class="icon-button" id="renameButton" type="button" aria-label="Rename pony">Rename</button>
-      </div>
+        <button id="parentButton" class="gear" type="button" aria-label="Grown-up settings">⚙</button>
+      </header>
 
-      <div class="scene meadow" id="scene">
-        <div class="scene-sparkle s1" aria-hidden="true"></div>
-        <div class="scene-sparkle s2" aria-hidden="true"></div>
-        <div class="scene-sparkle s3" aria-hidden="true"></div>
-        <div class="scene-sun" aria-hidden="true"></div>
-        <div class="hill hill-back" aria-hidden="true"></div>
-        <div class="hill hill-front" aria-hidden="true"></div>
-        <div class="flower-patch" aria-hidden="true">
-          <span></span><span></span><span></span><span></span><span></span>
-        </div>
+      <div id="horseStrip" class="pony-picker" aria-label="Choose a pony"></div>
 
-        <svg id="ponySvg" class="pony-svg" viewBox="0 0 520 430" role="img" aria-label="A cute customizable pony">
+      <button id="ponyTap" class="pony-stage" type="button" aria-label="Play with pony">
+        <span id="ponyName" class="pony-name">Rosie</span>
+        <span id="loveBurst" class="love-burst" aria-hidden="true"></span>
+
+        <svg id="ponySvg" class="pony" viewBox="0 0 520 500" role="img" aria-label="Cute pony">
           <defs>
-            <filter id="softShadow" x="-30%" y="-30%" width="160%" height="160%">
-              <feDropShadow dx="0" dy="10" stdDeviation="10" flood-color="#744a6c" flood-opacity=".18" />
+            <filter id="softShadow" x="-30%" y="-30%" width="170%" height="180%">
+              <feDropShadow dx="0" dy="12" stdDeviation="11" flood-color="#6d4662" flood-opacity=".20"/>
             </filter>
-            <linearGradient id="hoofGrad" x1="0" x2="0" y1="0" y2="1">
-              <stop offset="0" stop-color="#634b62" />
-              <stop offset="1" stop-color="#4a3548" />
+            <linearGradient id="ponyBodyShade" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="var(--body-light)"/>
+              <stop offset="1" stop-color="var(--body-color)"/>
             </linearGradient>
           </defs>
 
-          <ellipse cx="260" cy="376" rx="155" ry="25" fill="#755275" opacity=".12" />
+          <ellipse cx="265" cy="438" rx="148" ry="24" fill="#5d4761" opacity=".12"/>
 
-          <g id="ponyBody" filter="url(#softShadow)">
-            <path id="tail" class="mane-fill" d="M124 226c-60 0-78 25-84 54 19-11 38-14 55-7-28 14-36 36-29 61 16-19 32-27 51-24-12 18-11 37-1 55 23-23 39-56 39-92 0-19-9-35-31-47z" />
-            <ellipse class="body-fill" cx="245" cy="247" rx="126" ry="88" />
-            <path class="body-fill" d="M320 239c3-58 17-106 48-137 24-24 66-25 90-4 25 23 25 63 1 91-17 20-39 34-67 42-8 2-15 8-22 17l-31 44z" />
-            <ellipse class="body-fill" cx="413" cy="126" rx="67" ry="59" transform="rotate(-9 413 126)" />
-            <path class="body-fill" d="M370 83l-19-61c26 12 43 31 50 58z" />
-            <path class="body-fill" d="M435 74l24-53c15 20 19 43 8 66z" />
-
-            <path class="leg-fill" d="M165 291c-1 39-3 75 5 91 8 14 34 13 39-2 5-14 2-55 2-88z" />
-            <path class="leg-fill" d="M234 304c1 35 1 65 9 78 8 13 32 12 37-2 5-13-1-49-2-78z" />
-            <path class="leg-fill" d="M299 297c0 39 0 69 8 84 8 14 32 12 37-2 5-13 0-53-2-88z" />
-            <path class="leg-fill" d="M347 277c0 41 4 83 12 99 8 14 31 11 35-4 4-16-6-63-7-96z" />
-
-            <path d="M164 365c16 8 31 8 46 0l-1 17c-6 18-35 20-41 1z" fill="url(#hoofGrad)" />
-            <path d="M239 365c15 8 29 8 42 0l-1 16c-6 17-32 19-38 1z" fill="url(#hoofGrad)" />
-            <path d="M304 365c15 7 29 7 41 0l-1 16c-5 17-31 20-37 1z" fill="url(#hoofGrad)" />
-            <path d="M356 362c15 7 28 6 39-2l1 15c-4 17-29 22-36 5z" fill="url(#hoofGrad)" />
-
-            <path id="mane" class="mane-fill" d="M357 102c-36 34-46 80-39 131 12-10 25-17 39-21-10 16-12 33-5 51 13-16 26-25 42-27-9 17-9 32-2 48 19-20 31-46 34-77 3-40-9-80-35-112z" />
-            <path class="mane-fill" d="M386 68c18 9 35 11 50 7-8-16-21-29-39-37z" />
-
-            <ellipse cx="433" cy="120" rx="8.5" ry="11" fill="#3e3040" />
-            <ellipse cx="436" cy="116" rx="2.6" ry="3.4" fill="#fff" />
-            <path d="M459 153c-12 8-25 8-37 0" fill="none" stroke="#86566c" stroke-width="4" stroke-linecap="round" />
-            <ellipse cx="473" cy="136" rx="7" ry="4" fill="#bf809b" opacity=".6" />
-            <circle cx="405" cy="140" r="7" class="cheek-fill" opacity=".55" />
-
-            <path d="M174 245c40 24 84 30 132 16" fill="none" stroke="#fff" stroke-opacity=".25" stroke-width="7" stroke-linecap="round" />
-            <path d="M390 93c19 11 35 13 49 6" fill="none" stroke="#fff" stroke-opacity=".25" stroke-width="6" stroke-linecap="round" />
-          </g>
-
-
-          <g id="markingDapples" class="marking hidden" aria-hidden="true">
-            <circle cx="185" cy="220" r="12"/><circle cx="222" cy="205" r="9"/><circle cx="260" cy="226" r="13"/>
-            <circle cx="295" cy="207" r="8"/><circle cx="322" cy="239" r="10"/><circle cx="206" cy="258" r="8"/>
-          </g>
-          <g id="markingBlaze" class="marking hidden" aria-hidden="true">
-            <path d="M409 78c14 13 18 31 11 54-3 10-2 22 5 35-11-2-21-7-28-15 8-24 8-49 12-74z"/>
-          </g>
-          <g id="markingStar" class="marking hidden" aria-hidden="true">
-            <path d="M412 84l5 10 11 2-8 8 2 12-10-6-10 6 2-12-8-8 11-2z"/>
-          </g>
-          <g id="markingSocks" class="marking socks hidden" aria-hidden="true">
-            <path d="M165 335h45v31c-14 7-29 7-44 0z"/><path d="M304 337h42v29c-12 7-26 7-41 0z"/>
-          </g>
-
-          <g id="accessoryBow" class="accessory hidden">
-            <circle cx="356" cy="103" r="13" fill="#ff5fa2" />
-            <path d="M350 104c-29-27-52-10-38 13 9 15 28 8 38-13z" fill="#ff7db6" />
-            <path d="M362 104c29-27 52-10 38 13-9 15-28 8-38-13z" fill="#ff7db6" />
-          </g>
-
-          <g id="accessoryCrown" class="accessory hidden">
-            <path d="M386 61l9-29 18 23 18-29 10 34z" fill="#ffd258" stroke="#e2a83a" stroke-width="4" />
-            <circle cx="413" cy="50" r="4" fill="#ff6da9" />
-          </g>
-
-          <g id="accessoryFlower" class="accessory hidden">
-            <g transform="translate(366 84)">
-              <circle r="8" fill="#ffd65e" />
-              <circle cx="0" cy="-13" r="8" fill="#fff1f7" />
-              <circle cx="12" cy="-4" r="8" fill="#fff1f7" />
-              <circle cx="7" cy="11" r="8" fill="#fff1f7" />
-              <circle cx="-7" cy="11" r="8" fill="#fff1f7" />
-              <circle cx="-12" cy="-4" r="8" fill="#fff1f7" />
+          <g id="ponyArt" filter="url(#softShadow)">
+            <!-- tail -->
+            <g class="tail mane-fill">
+              <path d="M150 266c-58-22-101 1-110 45 23-11 45-9 63 5-30 10-46 31-48 62 23-21 47-28 72-20-17 18-22 40-15 65 35-25 56-63 59-113 1-22-6-36-21-44z"/>
+              <path d="M122 285c-36 3-55 21-58 46 19-9 39-6 57 10 14-20 14-39 1-56z" opacity=".72"/>
             </g>
+
+            <!-- body -->
+            <ellipse class="body-fill" cx="245" cy="291" rx="132" ry="96"/>
+            <path class="body-fill" d="M319 288c5-57 20-106 47-148 14-22 37-36 65-37 37-1 67 26 68 61 2 37-25 67-65 74-27 5-43 18-52 43l-17 51z"/>
+
+            <!-- legs -->
+            <path class="body-fill" d="M154 338c-2 40-1 77 4 96 4 17 39 17 44-1 5-19 1-60 0-93z"/>
+            <path class="body-fill" d="M229 350c0 38 1 70 7 86 6 16 39 15 43-2 4-17-1-55-3-88z"/>
+            <path class="body-fill" d="M296 348c1 37 2 69 9 85 6 16 39 14 42-4 3-17-3-54-5-87z"/>
+            <path class="body-fill" d="M350 328c2 43 6 81 13 99 7 17 39 13 40-6 1-18-8-62-12-99z"/>
+
+            <!-- hooves -->
+            <path class="hoof" d="M157 419c15 9 30 9 45 0l1 18c-9 16-34 18-45 1z"/>
+            <path class="hoof" d="M234 419c14 9 29 9 44 0l1 18c-9 16-34 18-44 1z"/>
+            <path class="hoof" d="M302 418c14 9 29 9 44 0l1 17c-8 16-33 19-43 2z"/>
+            <path class="hoof" d="M360 411c14 8 28 7 42-2l2 17c-7 17-32 21-42 3z"/>
+
+            <!-- neck mane -->
+            <path class="mane-fill" d="M354 145c-29 37-40 78-36 123 15-13 30-19 45-19-12 15-15 31-8 48 13-15 27-23 43-23-11 17-11 34-3 50 27-27 43-60 46-99 4-45-7-81-35-108z"/>
+
+            <!-- head -->
+            <ellipse class="body-fill" cx="427" cy="155" rx="74" ry="70" transform="rotate(-9 427 155)"/>
+            <ellipse class="muzzle" cx="465" cy="184" rx="45" ry="32" transform="rotate(-7 465 184)"/>
+
+            <!-- ears -->
+            <path class="body-fill" d="M384 109c-16-22-22-48-16-78 25 16 41 40 45 70z"/>
+            <path class="body-fill" d="M441 94c4-26 16-48 36-66 9 28 6 54-8 76z"/>
+            <path class="ear-inner" d="M383 92c-8-14-11-29-8-44 13 11 22 25 25 42z"/>
+            <path class="ear-inner" d="M452 87c5-15 12-27 22-36 2 16 0 30-8 42z"/>
+
+            <!-- forelock -->
+            <path class="mane-fill" d="M379 103c21-27 52-33 83-17-15 0-27 7-35 20 17-5 31-2 43 8-17 1-30 8-38 20-14-17-32-27-53-31z"/>
+
+            <!-- face -->
+            <ellipse class="eye" cx="426" cy="150" rx="11" ry="15"/>
+            <ellipse cx="430" cy="145" rx="4" ry="5" fill="#fff"/>
+            <path class="lash" d="M416 139l-7-6M418 135l-3-8M439 138l6-7"/>
+            <circle class="blush" cx="444" cy="176" r="12"/>
+            <ellipse class="nostril" cx="484" cy="180" rx="5" ry="3.5"/>
+            <path class="smile" d="M459 199c11 9 23 10 35 1"/>
+
+            <!-- body shine -->
+            <path d="M166 258c42-35 99-42 146-18" fill="none" stroke="#fff" stroke-opacity=".30" stroke-width="10" stroke-linecap="round"/>
           </g>
 
-          <g id="accessoryGlasses" class="accessory hidden" fill="none" stroke="#5c4462" stroke-width="5">
-            <circle cx="414" cy="120" r="17" />
-            <circle cx="452" cy="117" r="17" />
-            <path d="M431 118h5" />
-            <path d="M397 115l-18-4" />
-          </g>
+          <!-- markings -->
+          <g id="markStar" class="mark hidden"><path d="M419 112l7 13 15 2-11 11 3 15-14-7-13 7 2-15-10-11 14-2z"/></g>
+          <g id="markBlaze" class="mark hidden"><path d="M414 104c16 18 18 39 7 62-5 10-5 21-1 33-12-3-22-9-29-18 11-25 13-51 23-77z"/></g>
+          <g id="markDapples" class="mark hidden" opacity=".52"><circle cx="182" cy="279" r="13"/><circle cx="219" cy="248" r="10"/><circle cx="262" cy="274" r="15"/><circle cx="302" cy="248" r="10"/><circle cx="324" cy="302" r="11"/><circle cx="217" cy="321" r="9"/></g>
+          <g id="markSocks" class="mark hidden"><path d="M156 388h47v34c-15 8-31 8-47 0z"/><path d="M301 386h46v34c-15 8-30 8-46 0z"/></g>
 
-          <g id="accessoryScarf" class="accessory hidden">
-            <path d="M347 214c26 17 54 19 82 4l10 23c-38 19-73 17-105-5z" fill="#8d78ff" />
-            <path d="M419 235l18 62 20-7-17-67z" fill="#a798ff" />
+          <!-- accessories -->
+          <g id="accBow" class="acc hidden">
+            <circle cx="368" cy="118" r="13" fill="#ff66aa"/>
+            <path d="M359 117c-31-25-51-7-36 14 10 14 28 7 36-14z" fill="#ff96c6"/>
+            <path d="M377 117c31-25 51-7 36 14-10 14-28 7-36-14z" fill="#ff96c6"/>
           </g>
-
-          <g id="accessoryWings" class="accessory hidden">
-            <path d="M230 205c-60-82-120-48-92 12 20 42 64 46 111 30-26-5-45-17-57-35 17 8 30 8 38-7z" fill="#f8efff" stroke="#cdbdf6" stroke-width="5" />
-            <path d="M252 222c-49-50-89-25-71 18 13 32 45 38 78 28-18-6-30-16-37-29 12 5 22 3 30-17z" fill="#fff" opacity=".9" />
+          <g id="accFlower" class="acc hidden" transform="translate(376 111)">
+            <circle r="8" fill="#ffd95f"/><circle cy="-13" r="9" fill="#fff"/><circle cx="12" cy="-4" r="9" fill="#fff"/><circle cx="7" cy="11" r="9" fill="#fff"/><circle cx="-7" cy="11" r="9" fill="#fff"/><circle cx="-12" cy="-4" r="9" fill="#fff"/>
           </g>
-
-          <g id="accessoryBlanket" class="accessory hidden">
-            <path d="M151 196c58-34 127-37 190-7l-15 92c-57 27-116 26-176-1z" fill="#ffc0dc" stroke="#fff4fa" stroke-width="7"/>
-            <path d="M172 204c48 18 96 18 144 0" fill="none" stroke="#9f7bdd" stroke-width="7" stroke-linecap="round"/>
-            <circle cx="210" cy="242" r="9" fill="#fff4a8"/><circle cx="247" cy="242" r="9" fill="#fff4a8"/><circle cx="284" cy="242" r="9" fill="#fff4a8"/>
-          </g>
-
-          <g id="accessoryHalter" class="accessory hidden" fill="none" stroke="#ff72ab" stroke-width="6" stroke-linecap="round">
-            <path d="M382 101c18 16 44 22 75 16"/><path d="M392 132c21 12 44 14 68 6"/><path d="M397 102l-5 31"/><path d="M451 116l8 25"/>
-          </g>
-
-          <g id="accessoryRosette" class="accessory hidden">
-            <circle cx="344" cy="212" r="20" fill="#a88bf1"/><circle cx="344" cy="212" r="11" fill="#fff4a8"/>
-            <path d="M335 228l-7 46 17-11 12 16 3-51z" fill="#8d70df"/>
-          </g>
+          <g id="accCrown" class="acc hidden"><path d="M390 94l10-35 20 26 21-34 12 40z" fill="#ffd75e" stroke="#e8af39" stroke-width="4"/><circle cx="422" cy="77" r="5" fill="#ff70ad"/></g>
+          <g id="accHalter" class="acc hidden" fill="none" stroke="#ff6dae" stroke-width="7" stroke-linecap="round"><path d="M391 137c20 18 47 23 80 16"/><path d="M398 171c23 12 47 13 73 4"/><path d="M406 138l-8 33"/><path d="M464 151l7 27"/></g>
+          <g id="accBlanket" class="acc hidden"><path d="M145 248c60-37 134-40 199-8l-15 104c-62 29-126 28-190-2z" fill="#ffb9d9" stroke="#fff7fb" stroke-width="8"/><path d="M164 258c53 19 106 19 159 0" fill="none" stroke="#aa8ae4" stroke-width="8" stroke-linecap="round"/><path d="M210 298l12 12 12-12 12 12 12-12" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round"/></g>
+          <g id="accWings" class="acc hidden"><path d="M232 238c-58-87-125-58-99 6 18 44 64 53 113 39-27-8-45-22-56-42 18 9 32 8 42-3z" fill="#faf3ff" stroke="#d5c4f5" stroke-width="6"/><path d="M248 254c-46-52-90-30-73 16 12 34 46 42 81 32-19-7-32-18-39-32 14 6 24 3 31-16z" fill="#fff" opacity=".95"/></g>
         </svg>
+      </button>
 
-        <div id="speechBubble" class="speech-bubble" role="status" aria-live="polite">Hi Judy! I was hoping you'd visit.</div>
-      </div>
-
-      <div class="stats-grid" aria-label="Pony needs">
-        <div class="stat-box">
-          <div class="stat-label"><span>Happiness</span><strong id="happyValue">0%</strong></div>
-          <div class="meter"><div id="happyBar" class="meter-fill pink"></div></div>
-        </div>
-        <div class="stat-box">
-          <div class="stat-label"><span>Full tummy</span><strong id="foodValue">0%</strong></div>
-          <div class="meter"><div id="foodBar" class="meter-fill peach"></div></div>
-        </div>
-        <div class="stat-box">
-          <div class="stat-label"><span>Fluffy &amp; clean</span><strong id="cleanValue">0%</strong></div>
-          <div class="meter"><div id="cleanBar" class="meter-fill lilac"></div></div>
-        </div>
-        <div class="stat-box">
-          <div class="stat-label"><span>Friendship</span><strong id="friendValue">0%</strong></div>
-          <div class="meter"><div id="friendBar" class="meter-fill mint"></div></div>
-        </div>
-      </div>
-    </section>
-
-    <section class="card actions-card" aria-labelledby="careHeading">
-      <div class="section-title-row">
-        <div>
-          <p class="mini-label">Tamagotchi-style care</p>
-          <h2 id="careHeading">Take care of her</h2>
-        </div>
-        <span class="level-badge">Friendship level <strong id="levelValue">1</strong></span>
-      </div>
-
-      <div class="care-grid">
-        <button class="care-button" data-care="feed" type="button">
-          <span class="care-icon apple-icon" aria-hidden="true"></span>
-          <span><strong>Snack time</strong><small>Apples + oats</small></span>
-        </button>
-        <button class="care-button" data-care="brush" type="button">
-          <span class="care-icon brush-icon" aria-hidden="true"></span>
-          <span><strong>Brush her</strong><small>Extra fluffy</small></span>
-        </button>
-        <button class="care-button" data-care="play" type="button">
-          <span class="care-icon ball-icon" aria-hidden="true"></span>
-          <span><strong>Play together</strong><small>Zoomies in the meadow</small></span>
-        </button>
-        <button class="care-button" data-care="cuddle" type="button">
-          <span class="care-icon heart-icon" aria-hidden="true"></span>
-          <span><strong>Cuddle</strong><small>Best-friend points</small></span>
-        </button>
-      </div>
-
-      <div class="daily-box">
-        <div>
-          <p class="mini-label">Daily visit</p>
-          <h3 id="dailyTitle">A little gift is waiting</h3>
-          <p id="dailyText">Visit once each day to build a streak and collect pony coins.</p>
-        </div>
-        <button class="primary-button" id="dailyButton" type="button">Collect daily gift</button>
-      </div>
-    </section>
-
-
-    <section class="card horse-stuff-card" aria-labelledby="horseStuffHeading">
-      <div class="section-title-row">
-        <div>
-          <p class="mini-label">More horse stuff</p>
-          <h2 id="horseStuffHeading">Stable time</h2>
-          <p class="section-copy">Do real horse-care inspired activities and earn a few pony coins along the way.</p>
-        </div>
-      </div>
-      <div class="horse-activity-grid">
-        <button class="horse-activity" data-horse-activity="braid" type="button"><span class="activity-art braid-art" aria-hidden="true"></span><strong>Braid the mane</strong><small>Make a tiny show braid</small></button>
-        <button class="horse-activity" data-horse-activity="hooves" type="button"><span class="activity-art hoof-art" aria-hidden="true"></span><strong>Pick the hooves</strong><small>Clean and comfy feet</small></button>
-        <button class="horse-activity" data-horse-activity="treat" type="button"><span class="activity-art carrot-art" aria-hidden="true"></span><strong>Carrot picnic</strong><small>Crunchy bestie snack</small></button>
-        <button class="horse-activity" data-horse-activity="poles" type="button"><span class="activity-art poles-art" aria-hidden="true"></span><strong>Practice poles</strong><small>Little riding lesson</small></button>
-      </div>
-      <div class="ribbon-shelf"><span class="ribbon-title">Show ribbon shelf</span><div id="ribbonShelf" class="ribbons" aria-label="Earned ribbons"></div></div>
-    </section>
-
-    <section class="card closet-card" aria-labelledby="closetHeading">
-      <div class="section-title-row">
-        <div>
-          <p class="mini-label">Dress-up closet</p>
-          <h2 id="closetHeading">Make her ridiculously cute</h2>
-        </div>
-      </div>
-
-      <div class="customizer-grid">
-        <div>
-          <label class="field-label" for="bodyColor">Coat color</label>
-          <div class="swatch-row" id="bodySwatches" role="group" aria-label="Coat colors"></div>
-        </div>
-        <div>
-          <label class="field-label" for="maneColor">Mane &amp; tail</label>
-          <div class="swatch-row" id="maneSwatches" role="group" aria-label="Mane colors"></div>
-        </div>
-      </div>
-
-      <h3 class="subheading">Accessories</h3>
-      <div id="closetItems" class="closet-grid"></div>
-
-      <h3 class="subheading">Favorite place</h3>
-      <div class="scene-picker" id="scenePicker">
-        <button type="button" class="scene-choice active" data-scene="meadow"><span class="scene-thumb meadow-thumb"></span>Flower meadow</button>
-        <button type="button" class="scene-choice" data-scene="sunset"><span class="scene-thumb sunset-thumb"></span>Peach sunset</button>
-        <button type="button" class="scene-choice" data-scene="moon"><span class="scene-thumb moon-thumb"></span>Moonlit stable</button>
-        <button type="button" class="scene-choice" data-scene="orchard"><span class="scene-thumb orchard-thumb"></span>Apple orchard</button>
-        <button type="button" class="scene-choice" data-scene="paddock"><span class="scene-thumb paddock-thumb"></span>Sunny paddock</button>
-        <button type="button" class="scene-choice" data-scene="show"><span class="scene-thumb show-thumb"></span>Ribbon show</button>
-      </div>
-    </section>
-
-    <section class="card game-card" aria-labelledby="gameHeading">
-      <div class="section-title-row">
-        <div>
-          <p class="mini-label">Mini game</p>
-          <h2 id="gameHeading">Catch the falling stars</h2>
-          <p class="section-copy">Tap the stars before they reach the grass. Each one adds a pony coin.</p>
-        </div>
-        <button class="primary-button" id="startGame" type="button">Start game</button>
-      </div>
-      <div id="gameField" class="game-field" aria-label="Star catching game">
-        <div class="game-message" id="gameMessage">Ready when you are.</div>
-      </div>
-    </section>
-
-    <section class="card journal-card" aria-labelledby="journalHeading">
-      <div class="section-title-row">
-        <div>
-          <p class="mini-label">Pony journal</p>
-          <h2 id="journalHeading">Little memories</h2>
-        </div>
-      </div>
-      <div id="memoryList" class="memory-list"></div>
+      <nav class="dock" aria-label="Pony actions">
+        <button class="toy-button feed" data-action="feed" type="button" aria-label="Give an apple"><span>🍎</span></button>
+        <button class="toy-button brush" data-action="brush" type="button" aria-label="Brush pony"><span class="brush-icon" aria-hidden="true"></span></button>
+        <button class="toy-button ride" data-action="ride" type="button" aria-label="Ride pony"><span>🐎</span></button>
+        <button class="toy-button dress" data-action="dress" type="button" aria-label="Dress up pony"><span>🎀</span></button>
+      </nav>
     </section>
   </main>
 
-  <footer class="site-footer">
-    <p>Made as a tiny cozy corner of the internet for Judy.</p>
-  </footer>
-
-  <dialog id="renameDialog" class="cute-dialog">
-    <form method="dialog" id="renameForm">
-      <p class="mini-label">Pony name</p>
-      <h2>What should we call her?</h2>
-      <label for="ponyNameInput">Name</label>
-      <input id="ponyNameInput" name="ponyName" maxlength="18" autocomplete="off" />
-      <div class="dialog-actions">
-        <button value="cancel" class="soft-button">Cancel</button>
-        <button value="default" id="saveName" class="primary-button">Save name</button>
+  <dialog id="closet" class="drawer">
+    <div class="drawer-card">
+      <button id="closeCloset" class="close" type="button" aria-label="Close">×</button>
+      <div id="closetGrid" class="closet-grid" aria-label="Pick an accessory"></div>
+      <div class="scene-picks" aria-label="Pick a place">
+        <button data-scene="meadow" class="scene meadow-pick" type="button" aria-label="Flower meadow"><span>🌸</span></button>
+        <button data-scene="stable" class="scene stable-pick" type="button" aria-label="Cozy stable"><span>🏠</span></button>
+        <button data-scene="show" class="scene show-pick" type="button" aria-label="Horse show"><span>🏆</span></button>
       </div>
-    </form>
+    </div>
   </dialog>
 
-  <dialog id="settingsDialog" class="cute-dialog wide-dialog">
-    <form method="dialog">
-      <p class="mini-label">Progress &amp; backup</p>
-      <h2>Your pony lives in this browser</h2>
-      <p>Progress is saved automatically on this laptop in this browser. If browser data is cleared or Judy changes devices, use a backup file to move the pony safely.</p>
-      <div class="backup-grid">
-        <button type="button" class="soft-button" id="exportSave">Export backup</button>
-        <label class="soft-button file-button" for="importSave">Import backup</label>
-        <input id="importSave" type="file" accept="application/json,.json" hidden />
-      </div>
-      <details>
-        <summary>Reset everything</summary>
-        <p>This returns the game to a brand-new stable.</p>
-        <button type="button" class="danger-button" id="resetSave">Reset Judy's stable</button>
-      </details>
-      <div class="dialog-actions">
-        <button value="cancel" class="primary-button">Done</button>
-      </div>
-    </form>
+  <dialog id="parentSheet" class="parent-sheet">
+    <div class="parent-card">
+      <button id="closeParent" class="close" type="button" aria-label="Close">×</button>
+      <h2>Grown-up settings</h2>
+      <p>Judy's pony saves automatically on this browser.</p>
+      <button id="exportSave" type="button">Export backup</button>
+      <label>Import backup<input id="importSave" type="file" accept="application/json" /></label>
+      <button id="resetGame" class="danger" type="button">Start over</button>
+    </div>
   </dialog>
 
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
   <script src="app.js"></script>
 </body>
 </html>
