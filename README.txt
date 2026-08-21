@@ -1,14 +1,13 @@
-Judy's Pony Pals v5
+Judy's Pony Pals v6
 
-Static GitHub Pages game. Upload index.html, characters/, and assets/ together.
+Upload this folder's contents to a GitHub Pages repository. Keep index.html,
+assets/, and characters/ together.
 
-v5 art pass:
-- high-resolution pixel-art farm/stable background
-- illustrated action buttons for Feed, Brush, Pet, Play, and Sleep
-- illustrated Goals and Stable controls
-- upgraded pixel-art card/panel styling
-- scenic art carried into the minigame screens
-- compact Today goals card on larger screens
-- localStorage save data and v4 goals/rewards remain intact
-
-No server or build step is required.
+v6 cleanup:
+- Removed the pre-rendered mockup screenshot background and baked-in fake UI.
+- Removed the rectangular pony-stage crop.
+- Uses a cleaned art-only landscape strip on the home screen.
+- Trail Ride, Star Run, and Pony Maze each have independent game scenery.
+- Pony Maze generates a new solvable maze every time it starts.
+- Compact HUD/action dock to prevent overlap at common laptop/tablet sizes.
+- Existing localStorage save migration/progress remains intact.
