@@ -1,0 +1,372 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<meta name="theme-color" content="#f49bc4">
+<title>Judy's Pony Pals</title>
+<style>
+:root{
+  --ink:#4b3141; --deep:#6e4658; --cream:#fff8ef; --paper:#fffdf8;
+  --pink:#f57fb0; --pink-soft:#ffd8e7; --gold:#ffd055; --mint:#a9e6c4;
+  --blue:#91d5f4; --lav:#bea9f7; --shadow:rgba(83,52,66,.28);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#9bdcf8;color:var(--ink);font-family:"Trebuchet MS","Arial Rounded MT Bold",system-ui,sans-serif}
+button{font:inherit;color:inherit;border:0}.hidden{display:none!important}
+button:focus-visible{outline:4px solid white;outline-offset:4px}
+.app{position:relative;width:100%;height:100dvh;min-height:520px;overflow:hidden;isolation:isolate;background:linear-gradient(#79cdf9 0 52%,#7ec867 52%)}
+
+/* Meadow */
+.sky{position:absolute;inset:0 0 47% 0;z-index:-10;background:radial-gradient(circle at 78% 18%,#fff7b0 0 4.2%,rgba(255,247,176,.35) 4.5% 7.5%,transparent 7.8%),linear-gradient(#70c8fb,#d8f4ff)}
+.cloud{position:absolute;z-index:-9;width:72px;height:22px;background:#fff;border-radius:18px;box-shadow:25px -13px 0 7px #fff,54px -4px 0 2px #fff;opacity:.88}.cloud.c1{left:10%;top:18%}.cloud.c2{left:47%;top:11%;transform:scale(.74)}
+.mountains{position:absolute;left:-5%;right:-5%;top:28%;height:30%;z-index:-8;background:linear-gradient(135deg,transparent 0 36%,#82b5a5 37% 57%,transparent 58%) 0 0/270px 100% repeat-x,linear-gradient(45deg,transparent 0 32%,#6ea690 33% 62%,transparent 63%) 120px 22px/330px 100% repeat-x;opacity:.78}
+.meadow{position:absolute;inset:49% 0 0;z-index:-7;background:radial-gradient(circle at 12% 33%,#fff 0 2px,#f4d94e 2px 4px,transparent 4.5px) 0 0/92px 79px,radial-gradient(circle at 61% 56%,#f8a6ca 0 3px,transparent 3.5px) 0 0/110px 88px,linear-gradient(#98d875,#6ec15e 70%,#5db153)}
+.path{position:absolute;left:27%;right:9%;bottom:-15%;height:48%;z-index:-6;background:#efd295;clip-path:polygon(39% 0,58% 0,100% 100%,0 100%);opacity:.85}
+.fence{position:absolute;left:0;right:0;bottom:32%;height:53px;z-index:-5;border-top:10px solid #e6bc7d;border-bottom:10px solid #cf9b60;box-shadow:0 5px 0 rgba(95,63,48,.11)}
+.fence:after{content:"";position:absolute;inset:-22px 0;background:repeating-linear-gradient(90deg,transparent 0 118px,#c8955c 118px 132px,transparent 132px 230px)}
+.stable-bg{position:absolute;right:2.5%;bottom:29%;width:clamp(138px,18vw,230px);height:clamp(126px,22vh,210px);z-index:-4;filter:drop-shadow(6px 8px 0 rgba(74,51,42,.14))}.stable-bg .wall{position:absolute;inset:24% 0 0;background:#b96d45;border:5px solid #714332;border-radius:4px}.stable-bg .roof{position:absolute;left:-6%;right:-6%;top:0;height:42%;background:#e87979;border:5px solid #714332;clip-path:polygon(50% 0,100% 100%,0 100%)}.stable-bg .door{position:absolute;left:26%;right:15%;bottom:0;height:59%;background:#6b4332;border:5px solid #54342c;border-radius:5px}.stable-bg .door:after{content:"";position:absolute;left:50%;top:45%;width:22px;height:20px;transform:translate(-50%,-50%) rotate(45deg);background:#f395b4;border-radius:5px}
+
+/* Night */
+.app.night .sky{background:radial-gradient(circle at 78% 17%,#fff7d1 0 4.3%,rgba(255,247,209,.22) 4.5% 7%,transparent 7.2%),linear-gradient(#46588f,#8196c9)}
+.app.night .meadow,.app.night .mountains,.app.night .fence,.app.night .stable-bg,.app.night .path{filter:brightness(.64) saturate(.8)}.app.night .cloud{opacity:.15}
+
+/* Top bar */
+.topbar{position:absolute;z-index:20;top:max(12px,env(safe-area-inset-top));left:max(12px,env(safe-area-inset-left));right:max(12px,env(safe-area-inset-right));display:grid;grid-template-columns:auto 1fr auto;align-items:start;gap:12px;pointer-events:none}.topbar>*{pointer-events:auto}
+.card{background:rgba(255,249,241,.96);border:3px solid #fff;box-shadow:0 4px 0 var(--deep),0 0 0 2px var(--ink);border-radius:19px}
+.status{height:66px;width:clamp(205px,27vw,298px);padding:7px 9px;display:grid;grid-template-columns:46px 1fr;gap:8px;align-items:center}.avatar{width:46px;height:46px;object-fit:contain}.meters{display:grid;gap:4px}.meter-row{display:grid;grid-template-columns:20px 1fr;align-items:center;gap:5px}.mini-icon{width:18px;height:18px}.meter{height:10px;background:#d9c6ca;border:2px solid #7a5162;border-radius:10px;overflow:hidden}.meter>i{display:block;height:100%;transition:width .3s ease}.m-happy>i{background:#f56fa8}.m-food>i{background:#ffb54a}.m-energy>i{background:#72c3ec}
+.nameplate{justify-self:center;min-width:190px;padding:7px 22px;text-align:center;font-size:clamp(21px,2.6vw,31px);font-weight:1000;letter-spacing:.01em;white-space:nowrap}.nameplate .heart{color:#f05f98}
+.top-actions{display:flex;gap:9px}.stars,.stable-btn{height:54px;display:flex;align-items:center;justify-content:center;gap:7px;padding:0 13px;font-weight:1000;cursor:pointer}.stars{font-size:24px}.stars svg{width:29px;height:29px}.stable-btn{width:58px;padding:0}.stable-btn svg{width:32px;height:32px}.stable-btn:active{transform:translateY(3px);box-shadow:0 1px 0 var(--deep),0 0 0 2px var(--ink)}
+
+/* Pony stage */
+.pony-zone{position:absolute;z-index:8;left:50%;bottom:16%;width:min(600px,65vw);height:min(520px,67vh);transform:translateX(-50%);display:flex;align-items:flex-end;justify-content:center;pointer-events:none}.pony-shadow{position:absolute;bottom:4.5%;width:50%;height:7%;border-radius:50%;background:rgba(56,62,48,.20);filter:blur(2px)}
+#pony{position:relative;z-index:2;width:min(100%,520px);height:min(100%,425px);object-fit:contain;object-position:center bottom;filter:drop-shadow(0 8px 0 rgba(75,54,61,.13));transform-origin:50% 86%;animation:idle 2.8s ease-in-out infinite}
+@keyframes idle{0%,100%{transform:translateY(0) rotate(-.25deg)}50%{transform:translateY(-6px) rotate(.3deg)}}
+#pony.hop{animation:hop .7s cubic-bezier(.2,.75,.2,1)}@keyframes hop{0%,100%{transform:translateY(0)}46%{transform:translateY(-35px) scale(1.02,.98)}72%{transform:translateY(4px) scale(.99,1.01)}}
+#pony.wiggle{animation:wiggle .22s ease-in-out 5}@keyframes wiggle{0%,100%{transform:rotate(0)}50%{transform:rotate(1.8deg)}}
+#pony.sleepy{animation:sleepy 3.5s ease-in-out infinite;transform:translateY(14px) rotate(-2deg) scale(.97)}@keyframes sleepy{0%,100%{transform:translateY(14px) rotate(-2deg) scale(.97)}50%{transform:translateY(18px) rotate(-2deg) scale(.965)}}
+.bubble{position:absolute;z-index:4;top:12%;left:66%;min-width:60px;height:48px;padding:0 13px;border-radius:22px;background:#fff9f4;border:3px solid #fff;box-shadow:0 4px 0 #9d6a7c,0 0 0 2px #6b4858;display:grid;place-items:center;font-size:27px;font-weight:1000;opacity:0;transform:translateY(8px) scale(.82);transition:.18s}.bubble.show{opacity:1;transform:none}
+
+/* Main action dock */
+.actions{position:absolute;z-index:22;left:50%;bottom:max(11px,env(safe-area-inset-bottom));transform:translateX(-50%);display:flex;gap:clamp(7px,1.1vw,14px);padding:0 10px}.action{width:clamp(76px,10.5vw,116px);height:clamp(76px,11.5vh,106px);cursor:pointer;border-radius:24px;background:rgba(255,249,241,.98);border:3px solid #fff;box-shadow:0 6px 0 #996276,0 0 0 2px #6e4658;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;font-weight:1000;font-size:clamp(13px,1.55vw,18px);transition:transform .1s,box-shadow .1s}.action svg{width:clamp(39px,5vw,56px);height:clamp(39px,5vw,56px)}.action:active{transform:translateY(5px);box-shadow:0 1px 0 #996276,0 0 0 2px #6e4658}.action.feed{background:#ffd1df}.action.brush{background:#ffe29e}.action.pet{background:#e9d9ff}.action.play{background:#bcebd1}.action.sleep{background:#cad9ff}
+
+/* Toast and effects */
+.toast{position:absolute;z-index:60;left:50%;top:112px;transform:translate(-50%,-12px) scale(.9);padding:8px 18px;border-radius:17px;background:#fff8ef;border:3px solid white;box-shadow:0 4px 0 #8b5d70,0 0 0 2px #624455;font-size:18px;font-weight:1000;opacity:0;pointer-events:none;transition:.18s}.toast.show{opacity:1;transform:translate(-50%,0) scale(1)}
+.fx{position:absolute;inset:0;z-index:50;pointer-events:none;overflow:hidden}.particle{position:absolute;font-weight:1000;font-size:28px;animation:float .95s ease-out forwards;text-shadow:2px 2px 0 rgba(77,45,62,.18)}@keyframes float{0%{opacity:0;transform:translateY(12px) scale(.5)}15%{opacity:1}100%{opacity:0;transform:translateY(-80px) scale(1.1) rotate(10deg)}}.zzz{position:absolute;font-weight:1000;color:#6f6dcc;font-size:35px;text-shadow:2px 2px 0 #fff;animation:zz 1.5s ease-out forwards}@keyframes zz{from{opacity:0;transform:translateY(12px)}20%{opacity:1}to{opacity:0;transform:translateY(-80px)}}
+
+/* Stable chooser */
+.scrim{position:absolute;inset:0;z-index:80;background:rgba(52,35,49,.38);backdrop-filter:blur(5px);display:grid;place-items:center;padding:20px}.panel{width:min(720px,94vw);background:rgba(255,250,244,.99);border:4px solid #fff;box-shadow:0 8px 0 #7f5365,0 0 0 3px #5d4050;border-radius:30px;padding:18px}.panel-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}.panel-title{font-size:clamp(25px,4vw,38px);font-weight:1000}.close-btn{width:48px;height:48px;border-radius:50%;background:#ffd7e6;border:3px solid white;box-shadow:0 3px 0 #9b647a,0 0 0 2px #69485a;font-size:28px;font-weight:1000;cursor:pointer}.pony-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.pony-card{min-width:0;cursor:pointer;background:#fff5ed;border:3px solid white;box-shadow:0 4px 0 #ae7887,0 0 0 2px #755060;border-radius:22px;padding:8px 6px 10px;display:flex;flex-direction:column;align-items:center;gap:4px;font-weight:1000;font-size:17px}.pony-card img{width:100%;aspect-ratio:1/1;object-fit:contain}.pony-card.active{background:#ffd9e8;transform:translateY(-4px)}
+
+
+/* Goals, rewards, and wearable goodies */
+.goals-btn{width:58px;height:54px;padding:0;display:grid;place-items:center;cursor:pointer}.goals-btn svg{width:31px;height:31px}.goals-btn:active{transform:translateY(3px);box-shadow:0 1px 0 var(--deep),0 0 0 2px var(--ink)}
+.goals-panel{width:min(850px,95vw);max-height:88vh;overflow:auto}.goal-note{margin:-6px 0 14px;text-align:center;font-weight:800;opacity:.72}.goal-columns{display:grid;grid-template-columns:1fr 1fr;gap:14px}.goal-section{background:#fff5ed;border:3px solid #fff;box-shadow:0 3px 0 #b5808f,0 0 0 2px #7b5665;border-radius:22px;padding:13px}.goal-section h3{margin:0 0 10px;font-size:22px}.goal-list{display:grid;gap:8px}.goal-row{display:grid;grid-template-columns:34px 1fr auto;align-items:center;gap:9px;min-height:56px;padding:7px 9px;border-radius:16px;background:#fffdf8;border:2px solid #ead8d4}.goal-row.done{background:#e4f6e9;border-color:#b9dfc3}.goal-check{width:30px;height:30px;border-radius:10px;background:#eadde0;border:2px solid #8b6976;display:grid;place-items:center;font-weight:1000}.goal-row.done .goal-check{background:#8fd09e;color:#fff}.goal-text strong{display:block;font-size:16px}.goal-text small{display:block;opacity:.68;line-height:1.2}.goal-reward{font-weight:1000;white-space:nowrap}.goal-progress{height:12px;margin-top:7px;border-radius:10px;background:#ddcfd2;border:2px solid #8b6674;overflow:hidden}.goal-progress i{display:block;height:100%;background:linear-gradient(90deg,#f28ab5,#ffd267);transition:width .25s}.time-goal{margin-top:9px;padding:10px;border-radius:16px;background:#e8e3ff;border:2px solid #c4b8ed;font-weight:900}.time-goal small{display:block;font-weight:700;opacity:.72;margin-top:2px}.goodies{margin-top:14px}.goodie-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}.goodie{min-width:0;min-height:92px;border-radius:17px;background:#fffdf8;border:3px solid #fff;box-shadow:0 3px 0 #a27384,0 0 0 2px #765060;padding:7px 5px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;font-weight:1000;cursor:pointer}.goodie.locked{filter:grayscale(.8);opacity:.48;cursor:default}.goodie.equipped{background:#dff4e7;transform:translateY(-2px)}.goodie-art{width:48px;height:42px;position:relative;display:grid;place-items:center}.goodie small{font-size:11px;line-height:1.05;text-align:center}.save-note{text-align:center;margin-top:12px;font-size:13px;font-weight:800;opacity:.6}
+.accessory-layer{position:absolute;z-index:3;inset:0;pointer-events:none}.wearable{position:absolute;filter:drop-shadow(0 3px 0 rgba(77,49,61,.18))}.wear-flower{left:58%;top:29%;width:105px;height:45px;transform:translate(-50%,-50%) rotate(-7deg);display:flex;align-items:center;justify-content:center;gap:1px}.wear-flower i{position:relative;width:21px;height:21px;border-radius:50%;background:#fff7ef;border:3px solid #6c4b57}.wear-flower i:before,.wear-flower i:after{content:"";position:absolute;inset:-7px 5px;background:#f78eb6;border-radius:50%;z-index:-1}.wear-flower i:after{transform:rotate(90deg)}.wear-flower i:nth-child(2){transform:translateY(-5px) scale(1.12)}.wear-flower i:nth-child(3):before,.wear-flower i:nth-child(3):after{background:#ffd766}
+.wear-bow{left:64%;top:43%;width:88px;height:58px;transform:translate(-50%,-50%) rotate(5deg)}.wear-bow:before,.wear-bow:after{content:"";position:absolute;top:7px;width:39px;height:39px;background:#ef6aa5;border:4px solid #714c5c}.wear-bow:before{left:2px;border-radius:70% 30% 55% 45%;transform:rotate(24deg)}.wear-bow:after{right:2px;border-radius:30% 70% 45% 55%;transform:rotate(-24deg)}.wear-bow i{position:absolute;z-index:2;left:33px;top:18px;width:23px;height:23px;background:#ff9ec2;border:4px solid #714c5c;border-radius:8px}
+.wear-star{left:65%;top:54%;width:43px;height:43px;transform:translate(-50%,-50%);background:#ffd34f;border:4px solid #755141;clip-path:polygon(50% 0,61% 34%,98% 35%,68% 56%,79% 93%,50% 71%,21% 93%,32% 56%,2% 35%,39% 34%)}
+.wear-blanket{left:43%;top:56%;width:150px;height:79px;transform:translate(-50%,-50%) rotate(-3deg);background:repeating-linear-gradient(90deg,#f19bbd 0 18px,#ffd7e6 18px 35px);border:5px solid #754f5e;border-radius:28px 28px 18px 18px;opacity:.94}.wear-blanket:after{content:"";position:absolute;left:14px;right:14px;bottom:9px;height:11px;background:#ffd35b;border-radius:7px}
+#pony.rainbow-aura{filter:drop-shadow(8px 0 0 rgba(255,112,165,.25)) drop-shadow(-8px 0 0 rgba(98,188,255,.25)) drop-shadow(0 -8px 0 rgba(255,219,92,.22)) drop-shadow(0 8px 0 rgba(154,117,242,.20)) drop-shadow(0 8px 0 rgba(75,54,61,.13))}
+.goodie-icon-flower:before{content:"";width:34px;height:14px;border-radius:12px;background:radial-gradient(circle at 18% 50%,#f58bb6 0 6px,#fff 7px 9px,transparent 10px),radial-gradient(circle at 50% 40%,#ffd45a 0 6px,#fff 7px 9px,transparent 10px),radial-gradient(circle at 82% 50%,#f58bb6 0 6px,#fff 7px 9px,transparent 10px)}.goodie-icon-bow:before{content:"";width:42px;height:28px;background:#ef6aa5;border:3px solid #714c5c;clip-path:polygon(0 13%,40% 36%,50% 0,60% 36%,100% 13%,85% 100%,57% 65%,50% 100%,43% 65%,15% 100%)}.goodie-icon-star:before{content:"";width:37px;height:37px;background:#ffd34f;border:3px solid #755141;clip-path:polygon(50% 0,61% 34%,98% 35%,68% 56%,79% 93%,50% 71%,21% 93%,32% 56%,2% 35%,39% 34%)}.goodie-icon-blanket:before{content:"";width:44px;height:30px;border-radius:12px;background:repeating-linear-gradient(90deg,#f19bbd 0 9px,#ffd7e6 9px 18px);border:3px solid #754f5e}.goodie-icon-rainbow:before{content:"";width:42px;height:24px;border-radius:42px 42px 0 0;border:7px solid #f47dac;border-bottom:0;box-shadow:inset 0 0 0 5px #ffd15b, inset 0 0 0 10px #76c8ef}
+.goal-pop{position:absolute;z-index:75;top:92px;left:50%;transform:translateX(-50%) translateY(-10px);background:#fff8ef;border:3px solid #fff;box-shadow:0 4px 0 #8b5d70,0 0 0 2px #624455;border-radius:18px;padding:9px 15px;font-weight:1000;opacity:0;pointer-events:none;transition:.18s}.goal-pop.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* Brush interaction */
+.brush-mode{position:absolute;inset:0;z-index:70;background:rgba(255,255,255,.06);cursor:none}.brush-hint{position:absolute;top:105px;left:50%;transform:translateX(-50%);background:#fff9f1;border:3px solid white;box-shadow:0 4px 0 #966276,0 0 0 2px #674655;border-radius:18px;padding:9px 15px;font-weight:1000}.brush-tool{position:absolute;width:78px;height:78px;pointer-events:none;transform:translate(-50%,-50%) rotate(-18deg);filter:drop-shadow(0 4px 0 rgba(71,48,60,.2))}.brush-progress{position:absolute;left:50%;bottom:128px;transform:translateX(-50%);width:min(360px,72vw);height:18px;border:3px solid white;box-shadow:0 0 0 2px #6a4859;border-radius:12px;background:#d8c6cd;overflow:hidden}.brush-progress i{display:block;width:0;height:100%;background:linear-gradient(90deg,#f584b3,#ffd05e);transition:width .08s}.brush-done{position:absolute;right:16px;top:16px;width:48px;height:48px;border-radius:50%;background:#fff7ef;border:3px solid white;box-shadow:0 3px 0 #8f6071,0 0 0 2px #674554;font-size:25px;font-weight:1000;cursor:pointer}
+
+/* Play hub */
+.play-panel{width:min(820px,95vw)}.play-intro{margin:-5px 0 15px;text-align:center;font-weight:800;opacity:.75}.game-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.game-card{cursor:pointer;min-height:210px;border-radius:25px;padding:14px 10px 12px;border:3px solid white;box-shadow:0 5px 0 #916174,0 0 0 2px #684756;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:8px;font-weight:1000}.game-card:nth-child(1){background:#c9f0db}.game-card:nth-child(2){background:#ffe0a6}.game-card:nth-child(3){background:#dcd4ff}.game-card svg{width:88px;height:88px}.game-card strong{font-size:24px}.game-card small{font-size:14px;line-height:1.25;opacity:.72}.game-card:active{transform:translateY(4px)}
+
+/* Activity shell */
+.activity{position:absolute;inset:0;z-index:100;background:#aee3f8;display:flex;flex-direction:column}.activity-head{height:72px;padding:max(9px,env(safe-area-inset-top)) 12px 7px;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:10px;background:rgba(255,250,243,.96);border-bottom:4px solid #765164;box-shadow:0 4px 0 rgba(100,68,83,.15);z-index:4}.back-btn{width:51px;height:46px;border-radius:17px;background:#ffd8e6;border:3px solid white;box-shadow:0 3px 0 #956277,0 0 0 2px #684757;font-size:24px;font-weight:1000;cursor:pointer}.activity-title{text-align:center;font-size:clamp(21px,3.5vw,30px);font-weight:1000}.score-box{min-width:105px;height:46px;padding:0 10px;border-radius:16px;background:#fff2c0;border:3px solid white;box-shadow:0 3px 0 #aa7a55,0 0 0 2px #6c4e4a;display:flex;align-items:center;justify-content:center;gap:5px;font-size:20px;font-weight:1000}.game-area{position:relative;flex:1;overflow:hidden;touch-action:none}.game-message{position:absolute;z-index:20;left:50%;top:18px;transform:translateX(-50%);padding:8px 14px;border-radius:18px;background:rgba(255,250,244,.96);border:3px solid white;box-shadow:0 3px 0 #8f6071,0 0 0 2px #674554;font-weight:1000;white-space:nowrap;pointer-events:none}.game-over{position:absolute;z-index:30;inset:0;background:rgba(64,44,58,.28);display:grid;place-items:center;padding:20px}.result-card{width:min(420px,90vw);background:#fff9f2;border:4px solid white;box-shadow:0 7px 0 #89596c,0 0 0 3px #614150;border-radius:28px;padding:22px;text-align:center}.result-card h2{font-size:32px;margin:0 0 6px}.result-card p{font-size:18px;margin:5px 0 16px}.result-card button{cursor:pointer;background:#bcebd1;border:3px solid white;box-shadow:0 4px 0 #7d6570,0 0 0 2px #604451;border-radius:18px;padding:11px 18px;font-weight:1000;font-size:18px}
+
+/* Trail Ride */
+.ride-world{position:absolute;inset:0;background:radial-gradient(circle at 14% 25%,#fff 0 3px,#ffd559 3px 5px,transparent 5.5px) 0 0/98px 83px,linear-gradient(#91db79,#65bb5b)}.ride-world:before{content:"";position:absolute;left:7%;right:7%;top:15%;bottom:16%;border:12px solid #d5a66b;border-radius:34px;box-shadow:inset 0 0 0 4px #a87850}.ride-pond{position:absolute;left:12%;top:22%;width:24%;height:27%;border-radius:50%;background:linear-gradient(#8adcf6,#62b9dd);border:7px solid #d9c28e;box-shadow:inset 0 0 0 4px rgba(255,255,255,.22)}.ride-rock{position:absolute;width:66px;height:48px;border-radius:50% 45% 42% 50%;background:#9d9b98;border:5px solid #777675}.ride-rock.r1{right:18%;top:25%}.ride-rock.r2{left:43%;bottom:20%;transform:scale(.78)}.ride-pony{position:absolute;width:130px;height:130px;object-fit:contain;transform:translate(-50%,-50%);filter:drop-shadow(0 5px 0 rgba(55,47,48,.15));transition:transform .08s}.collectible{position:absolute;width:45px;height:45px;transform:translate(-50%,-50%);display:grid;place-items:center}.collectible svg{width:100%;height:100%;filter:drop-shadow(0 3px 0 rgba(68,45,53,.15))}.dpad{position:absolute;right:16px;bottom:max(14px,env(safe-area-inset-bottom));z-index:16;width:152px;height:152px}.dpad button{position:absolute;width:54px;height:54px;border-radius:18px;background:rgba(255,250,243,.95);border:3px solid white;box-shadow:0 3px 0 #875a6b,0 0 0 2px #614452;font-size:25px;font-weight:1000;cursor:pointer}.dpad .up{left:49px;top:0}.dpad .down{left:49px;bottom:0}.dpad .left{left:0;top:49px}.dpad .right{right:0;top:49px}.dpad button:active{transform:translateY(3px);box-shadow:0 0 0 #875a6b,0 0 0 2px #614452}.ride-tip{position:absolute;left:16px;bottom:18px;max-width:235px;background:rgba(255,250,243,.88);border-radius:15px;padding:8px 11px;font-weight:900;font-size:14px}
+
+/* Runner */
+.run-world{position:absolute;inset:0;background:linear-gradient(#83d4ff 0 54%,#88d36b 54%)}.run-clouds{position:absolute;left:0;right:0;top:10%;height:90px;background:radial-gradient(ellipse,#fff 0 32%,transparent 34%) 0 0/180px 75px repeat-x;opacity:.85;animation:scrollCloud 9s linear infinite}@keyframes scrollCloud{to{background-position:-180px 0}}.run-hills{position:absolute;left:0;right:0;bottom:35%;height:30%;background:linear-gradient(145deg,transparent 0 40%,#73b774 41% 62%,transparent 63%) 0 0/260px 100% repeat-x;animation:scrollHill 5s linear infinite}@keyframes scrollHill{to{background-position:-260px 0}}.run-ground{position:absolute;left:0;right:0;bottom:0;height:38%;background:repeating-linear-gradient(90deg,rgba(255,255,255,.08) 0 45px,transparent 45px 90px),linear-gradient(#87cf65,#65b850);animation:groundMove .7s linear infinite}@keyframes groundMove{to{background-position:-90px 0,0 0}}.run-lane{position:absolute;left:0;right:0;bottom:19%;height:13px;background:#e5ba7c;box-shadow:0 6px 0 #c89458}.runner-pony{position:absolute;left:14%;bottom:19%;width:150px;height:150px;object-fit:contain;transform-origin:center bottom;filter:drop-shadow(0 6px 0 rgba(64,48,50,.16))}.runner-pony.running{animation:gallop .28s ease-in-out infinite}@keyframes gallop{0%,100%{transform:translateY(0) rotate(-1deg)}50%{transform:translateY(-5px) rotate(1deg)}}.runner-pony.jumping{animation:none}.run-object{position:absolute;bottom:20%;transform:translateX(-50%)}.hay{width:58px;height:48px;background:#f1c04d;border:5px solid #a06b38;border-radius:8px;box-shadow:inset 0 0 0 4px #ffdc75}.run-star{width:45px;height:45px;bottom:42%}.run-star svg{width:100%;height:100%}.tap-zone{position:absolute;inset:0;z-index:10;display:flex;align-items:flex-end;justify-content:center;padding-bottom:20px;cursor:pointer}.jump-hint{background:rgba(255,250,243,.92);border:3px solid white;box-shadow:0 3px 0 #8b5d70,0 0 0 2px #674655;border-radius:18px;padding:8px 16px;font-weight:1000;font-size:17px;pointer-events:none}
+
+/* Maze */
+.maze-world{position:absolute;inset:0;background:linear-gradient(#b7e8ff 0 15%,#92d775 15%);display:grid;place-items:center;padding:65px 14px 120px}.maze-board{width:min(700px,92vw);height:min(500px,62vh);display:grid;grid-template-columns:repeat(9,1fr);grid-template-rows:repeat(7,1fr);gap:3px;background:#8d6b55;border:7px solid #fff;box-shadow:0 0 0 4px #684959,0 8px 0 rgba(83,51,65,.22);border-radius:18px;padding:4px}.maze-cell{position:relative;background:#91d779;border-radius:5px;overflow:hidden}.maze-cell.wall{background:repeating-linear-gradient(90deg,#d6a86c 0 11px,#c18b55 11px 18px);box-shadow:inset 0 0 0 3px #99653f}.maze-cell.goal{background:#ffe49b}.maze-carrot{position:absolute;inset:12%;width:76%;height:76%}.maze-pony{position:absolute;inset:4%;width:92%;height:92%;object-fit:contain;filter:drop-shadow(0 3px 0 rgba(69,49,52,.15));transition:transform .12s}.maze-dpad{left:50%;right:auto;bottom:10px;transform:translateX(-50%) scale(.84);transform-origin:center bottom}.maze-tip{position:absolute;bottom:16px;left:16px;background:rgba(255,250,243,.9);padding:7px 10px;border-radius:14px;font-weight:900;font-size:14px}
+
+@media (max-width:760px){
+  .topbar{grid-template-columns:auto 1fr auto}.status{width:188px}.nameplate{min-width:0;padding:7px 12px}.stable-bg{opacity:.78}.pony-zone{width:72vw}.pony-grid{grid-template-columns:repeat(2,1fr)}.game-cards{grid-template-columns:1fr}.game-card{min-height:130px;display:grid;grid-template-columns:105px 1fr;grid-template-rows:auto auto;text-align:left}.game-card svg{grid-row:1/3;width:90px;height:90px}.play-panel{max-height:88vh;overflow:auto}.ride-tip{display:none}
+}
+@media (max-width:570px){
+  .status{width:156px;grid-template-columns:38px 1fr}.nameplate{display:none}.topbar{grid-template-columns:1fr auto}.avatar{width:38px;height:38px}.nameplate{font-size:19px}.stars{font-size:18px;padding:0 8px}.stars svg{width:23px}.stable-btn{width:48px}.goals-btn{width:48px;height:48px}.top-actions{gap:5px}.goodie-grid{grid-template-columns:repeat(3,1fr)}.goal-columns{grid-template-columns:1fr}.pony-zone{width:82vw;bottom:17%}.action{width:68px;height:75px;font-size:12px;border-radius:20px}.action svg{width:35px;height:35px}.actions{gap:5px}.toast{top:89px}.status{height:58px}.stars,.stable-btn{height:48px}.activity-head{height:64px}.score-box{min-width:82px;font-size:17px}.runner-pony{width:120px;height:120px}.dpad{transform:scale(.82);transform-origin:right bottom}.maze-dpad{transform:translateX(-50%) scale(.72)}
+}
+@media (max-height:640px){.pony-zone{height:60vh;bottom:16%}.action{height:78px}.action svg{width:38px;height:38px}.status{height:58px}.topbar{top:8px}.toast{top:83px}.stable-bg{bottom:31%;transform:scale(.82);transform-origin:right bottom}}
+
+/* v5 art pass: generated pixel-art scenery and controls */
+.app{
+  background:#8bcff3 url("assets/farm-bg.webp") center center/cover no-repeat;
+  image-rendering:auto;
+}
+.sky,.cloud,.mountains,.meadow,.path,.fence,.stable-bg{display:none!important}
+.app::before{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(180deg,rgba(255,255,255,.03),transparent 60%);transition:background .4s}
+.app.night::before{background:rgba(30,36,82,.48);backdrop-filter:saturate(.75) brightness(.82)}
+.topbar,.home-goals,.pony-zone,.actions,.toast,.goal-pop,.fx{z-index:8}
+.card,.panel{background:linear-gradient(#fffaf0,#ffeada);border:4px solid #fff1e3;box-shadow:0 5px 0 #7b4f59,0 0 0 3px #5b3949,inset 0 0 0 2px rgba(255,255,255,.55)}
+.status{height:148px;width:390px;padding:14px 16px;grid-template-columns:104px 1fr;gap:14px;border-radius:25px}
+.avatar{width:100px;height:100px;filter:drop-shadow(0 4px 0 rgba(91,57,73,.15))}
+.meters{gap:10px}.meter-row{grid-template-columns:30px 1fr;gap:8px}.mini-icon{width:28px;height:28px}.meter{height:18px;border-width:3px;box-shadow:inset 0 2px 0 rgba(255,255,255,.5)}
+.nameplate{min-width:390px;padding:15px 32px;font-size:34px;border-radius:24px}
+.top-actions{gap:10px;align-items:flex-start}
+.stars{height:66px;min-width:126px;padding:0 18px;font-size:28px;border-radius:22px}
+.stars svg{width:34px;height:34px}
+.goals-btn,.stable-btn{width:88px;height:108px;border:0;box-shadow:none;background-size:100% 100%;background-repeat:no-repeat;background-color:transparent;border-radius:18px;overflow:hidden}
+.goals-btn{background-image:url("assets/goals.webp")}.stable-btn{background-image:url("assets/stable.webp")}
+.goals-btn svg,.stable-btn svg{display:none}.goals-btn:active,.stable-btn:active{transform:translateY(4px);box-shadow:none}
+.home-goals{position:absolute;left:max(24px,env(safe-area-inset-left));top:285px;width:235px;padding:15px 16px 13px;border-radius:25px;cursor:pointer;text-align:left}
+.home-goals-title{font-size:25px;font-weight:1000;text-align:center;margin-bottom:9px;color:#6b3c50}.home-goal-row{display:grid;grid-template-columns:35px 1fr 28px;align-items:center;gap:7px;padding:6px 2px;font-size:18px;font-weight:1000}.home-goal-pic{font-size:25px;text-align:center}.home-goal-row i{width:25px;height:25px;border-radius:50%;background:#ead9d4;border:3px solid #8d6871;position:relative}.home-goal-row i.done{background:#83ce6d;border-color:#4f8752}.home-goal-row i.done:after{content:"✓";position:absolute;inset:-4px 0 0;text-align:center;color:white;font-size:20px}.home-goal-prize{margin-top:8px;padding:7px 8px;text-align:center;border-radius:13px;background:#ffe9a8;border:2px solid #9a6a4d;font-size:13px;font-weight:1000}
+.pony-zone{bottom:14%;width:min(650px,65vw);height:min(560px,70vh)}
+.pony-zone::before{content:"";position:absolute;left:50%;bottom:-2%;transform:translateX(-50%);width:720px;max-width:120%;height:470px;max-height:82%;background:url("assets/pony-stage.png") center/100% 100% no-repeat;z-index:0;pointer-events:none}
+.pony-shadow{z-index:1;background:rgba(60,48,50,.23);height:8%;filter:blur(3px)}
+#pony{z-index:2;width:min(100%,560px);height:min(100%,470px);filter:drop-shadow(0 10px 0 rgba(72,47,53,.16)) drop-shadow(0 0 3px rgba(255,255,255,.5))}
+.accessory-layer{z-index:3}
+.actions{bottom:max(8px,env(safe-area-inset-bottom));gap:clamp(5px,.7vw,11px)}
+.action{position:relative;width:clamp(104px,13.7vw,190px);height:clamp(94px,16vh,166px);padding:0;border:0;border-radius:24px;background-color:transparent!important;background-size:100% 100%;background-repeat:no-repeat;box-shadow:none;transition:transform .12s,filter .12s;overflow:hidden}
+.action svg{display:none}.action span{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.action.feed{background-image:url("assets/feed.webp")}.action.brush{background-image:url("assets/brush.webp")}.action.pet{background-image:url("assets/pet.webp")}.action.play{background-image:url("assets/play.webp")}.action.sleep{background-image:url("assets/sleep.webp")}
+.action:hover{filter:brightness(1.05);transform:translateY(-3px) scale(1.015)}.action:active{transform:translateY(5px) scale(.98);box-shadow:none}
+.toast{background:linear-gradient(#fff9f0,#ffe8df);border-width:4px;font-size:20px}
+.panel{border-radius:28px;background:linear-gradient(rgba(255,250,240,.97),rgba(255,232,220,.98)),url("assets/scenery.webp") center/cover no-repeat}
+.game-card{background:linear-gradient(rgba(255,250,240,.87),rgba(255,238,225,.9)),url("assets/scenery.webp") center/cover no-repeat!important;border-width:4px;box-shadow:0 5px 0 #765061,0 0 0 3px #513947}.game-card svg{filter:drop-shadow(0 3px 0 rgba(86,55,65,.18))}
+.ride-world,.run-world,.maze-world{background-image:linear-gradient(rgba(255,255,255,.10),rgba(90,154,89,.18)),url("assets/scenery.webp")!important;background-size:cover!important;background-position:center!important}
+.ride-world:after,.run-world:after,.maze-world:after{content:"";position:absolute;inset:0;pointer-events:none;box-shadow:inset 0 0 90px rgba(76,50,67,.16)}
+.brush-hint,.jump-hint,.game-message,.ride-tip,.maze-tip{background:linear-gradient(#fff9ef,#ffe6d7)!important;border:3px solid #fff!important;box-shadow:0 3px 0 #7a5262,0 0 0 2px #573b49!important}
+@media(max-width:900px){
+  .status{width:250px;height:90px;grid-template-columns:62px 1fr;padding:9px}.avatar{width:60px;height:60px}.meters{gap:5px}.meter-row{grid-template-columns:21px 1fr}.mini-icon{width:19px;height:19px}.meter{height:12px}.nameplate{min-width:235px;font-size:24px;padding:10px 16px}.home-goals{display:none}.goals-btn,.stable-btn{width:60px;height:72px}.stars{height:56px;min-width:92px;font-size:21px}.pony-zone{width:76vw}.action{width:clamp(78px,17vw,120px);height:clamp(72px,12vh,106px)}
+}
+@media(max-width:620px){
+  .status{width:168px;height:62px;grid-template-columns:40px 1fr;padding:6px 7px}.avatar{width:40px;height:40px}.meter-row{grid-template-columns:15px 1fr;gap:3px}.mini-icon{width:14px;height:14px}.meter{height:8px;border-width:1.5px}.nameplate{display:none}.top-actions{gap:4px}.goals-btn,.stable-btn{width:45px;height:54px}.stars{height:47px;min-width:76px;font-size:17px;padding:0 7px}.stars svg{width:21px}.pony-zone{width:88vw;bottom:15%}.pony-zone::before{width:620px;height:390px}.action{width:68px;height:69px;border-radius:14px}.actions{gap:2px;padding:0 4px}
+}
+
+</style>
+</head>
+<body>
+<main class="app" id="app">
+  <div class="sky"></div><div class="cloud c1"></div><div class="cloud c2"></div><div class="mountains"></div><div class="meadow"></div><div class="path"></div><div class="fence"></div>
+  <div class="stable-bg" aria-hidden="true"><div class="roof"></div><div class="wall"></div><div class="door"></div></div>
+
+  <header class="topbar">
+    <div class="status card" aria-label="Pony care levels">
+      <img id="avatar" class="avatar" src="characters/buttercup.png" alt="">
+      <div class="meters">
+        <div class="meter-row" title="Happy"><svg class="mini-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21S3 16 3 9.2C3 4.8 8.7 3 12 7c3.3-4 9-2.2 9 2.2C21 16 12 21 12 21Z" fill="#ef6ca5" stroke="#684756" stroke-width="1.8"/></svg><div class="meter m-happy"><i id="happyMeter"></i></div></div>
+        <div class="meter-row" title="Food"><svg class="mini-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M11 6c5 0 8 3 7 7-2 5-7 9-11 9-3-4-2-9 0-13 1-2 2-3 4-3Z" fill="#ff9a42" stroke="#6c4a3f" stroke-width="1.8"/><path d="M11 6c-2-4 1-6 3-2 1-4 5-3 3 1 4-2 5 2 1 3" fill="#72bd62" stroke="#4a7850" stroke-width="1.7"/></svg><div class="meter m-food"><i id="foodMeter"></i></div></div>
+        <div class="meter-row" title="Energy"><svg class="mini-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M17 3c-5 1-8 5-7 10 1 5 6 8 11 7-3 3-8 4-12 2C3 19 1 12 4 7c2-4 7-6 13-4Z" fill="#83c9ef" stroke="#5d5b82" stroke-width="1.8"/></svg><div class="meter m-energy"><i id="energyMeter"></i></div></div>
+      </div>
+    </div>
+    <div class="nameplate card"><span class="heart">♥</span> <span id="ponyName">Buttercup</span> <span class="heart">♥</span></div>
+    <div class="top-actions">
+      <div class="stars card" aria-label="Stars"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="m16 3 3.7 7.5 8.3 1.2-6 5.8 1.4 8.2-7.4-3.9-7.4 3.9 1.4-8.2-6-5.8 8.3-1.2Z" fill="#ffd04f" stroke="#8e603e" stroke-width="2.2"/></svg><span id="stars">12</span></div>
+      <button class="goals-btn card" id="openGoals" aria-label="Goals and rewards"><svg viewBox="0 0 48 48" aria-hidden="true"><rect x="9" y="8" width="30" height="34" rx="6" fill="#fff4c9" stroke="#68483d" stroke-width="3"/><path d="M17 17h15M17 25h15M17 33h10" stroke="#f078aa" stroke-width="4" stroke-linecap="round"/><path d="m12 29 3 3 5-7" fill="none" stroke="#6bb37a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <button class="stable-btn card" id="openStable" aria-label="Choose a pony"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M8 20 24 8l16 12v22H8Z" fill="#d98559" stroke="#68483d" stroke-width="3"/><path d="M15 42V25h18v17" fill="#754a37" stroke="#68483d" stroke-width="3"/><path d="M19 31h10M19 36h10" stroke="#edbd7f" stroke-width="2.5"/></svg></button>
+    </div>
+  </header>
+
+  <button class="home-goals card" id="homeGoals" aria-label="Open today's pony goals">
+    <div class="home-goals-title">Today's Goals</div>
+    <div class="home-goal-row"><span class="home-goal-pic">🥕</span><span>Care</span><i id="homeCare"></i></div>
+    <div class="home-goal-row"><span class="home-goal-pic">♥</span><span>Pet</span><i id="homeFriend"></i></div>
+    <div class="home-goal-row"><span class="home-goal-pic">★</span><span>Play</span><i id="homeAdventure"></i></div>
+    <div class="home-goal-prize">Daily chest + 5 stars</div>
+  </button>
+
+  <section class="pony-zone" id="ponyZone" aria-live="polite">
+    <div class="pony-shadow"></div>
+    <img id="pony" src="characters/buttercup.png" alt="Buttercup, a cute golden pony with pink bows and flowers">
+    <div class="accessory-layer" id="accessoryLayer" aria-hidden="true"></div>
+    <div class="bubble" id="bubble">♥</div>
+  </section>
+
+  <div class="toast" id="toast">Yum!</div><div class="goal-pop" id="goalPop">Goal complete!</div><div class="fx" id="fx" aria-hidden="true"></div>
+
+  <nav class="actions" aria-label="Take care of your pony">
+    <button class="action feed" id="feed" aria-label="Feed"><svg viewBox="0 0 80 80" aria-hidden="true"><path d="M35 24c14 0 24 8 21 19-4 15-20 30-31 32-8-10-7-25 0-38 4-8 5-13 10-13Z" fill="#ff8d38" stroke="#70483c" stroke-width="5"/><path d="M34 25c-7-14 3-18 7-7 4-13 15-10 9 3 13-7 17 4 5 8" fill="#69bd59" stroke="#477c49" stroke-width="5" stroke-linecap="round"/></svg><span>Feed</span></button>
+    <button class="action brush" id="brush" aria-label="Brush"><svg viewBox="0 0 80 80" aria-hidden="true"><rect x="19" y="18" width="42" height="29" rx="10" fill="#ef72a7" stroke="#70495d" stroke-width="5"/><path d="M27 47v18M37 47v18M47 47v18M57 47v18" stroke="#70495d" stroke-width="5" stroke-linecap="round"/><path d="M30 18c1-11 19-11 20 0" fill="none" stroke="#70495d" stroke-width="5"/></svg><span>Brush</span></button>
+    <button class="action pet" id="pet" aria-label="Pet"><svg viewBox="0 0 80 80" aria-hidden="true"><path d="M40 67S10 50 10 29c0-17 22-22 30-8 8-14 30-9 30 8 0 21-30 38-30 38Z" fill="#f86fa9" stroke="#70495d" stroke-width="5"/></svg><span>Pet</span></button>
+    <button class="action play" id="play" aria-label="Play"><svg viewBox="0 0 80 80" aria-hidden="true"><path d="M16 53c11-20 37-20 48 0" fill="#6fbf72" stroke="#5c4854" stroke-width="5"/><path d="M20 54h40" stroke="#5c4854" stroke-width="5"/><path d="M33 48c-3-8 0-15 7-20 5-4 13-4 18-1" fill="none" stroke="#5c4854" stroke-width="5" stroke-linecap="round"/><circle cx="58" cy="27" r="6" fill="#ffd04e" stroke="#5c4854" stroke-width="4"/></svg><span>Play</span></button>
+    <button class="action sleep" id="sleep" aria-label="Sleep"><svg viewBox="0 0 80 80" aria-hidden="true"><path d="M57 13c-15 4-23 17-20 31 3 15 17 24 32 20-7 9-18 14-30 12-19-3-32-21-29-40 3-18 18-30 35-29 5 0 9 2 12 6Z" fill="#ffe58a" stroke="#625b85" stroke-width="5"/><path d="M58 21h14L61 34h13" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Sleep</span></button>
+  </nav>
+
+
+  <div class="scrim hidden" id="goalsModal">
+    <section class="panel goals-panel" role="dialog" aria-modal="true" aria-label="Goals and rewards">
+      <div class="panel-head"><div class="panel-title">Pony Goals</div><button class="close-btn" data-close="goalsModal" aria-label="Close">×</button></div>
+      <div class="goal-note">Little goals earn stars and special goodies. Missing one never takes anything away.</div>
+      <div class="goal-columns">
+        <section class="goal-section"><h3>Today</h3><div class="goal-list" id="dailyGoals"></div><div class="time-goal" id="timeGoal"></div></section>
+        <section class="goal-section"><h3>This Week</h3><div class="goal-list" id="weeklyGoals"></div></section>
+      </div>
+      <section class="goal-section goodies"><h3>Goodies</h3><div class="goodie-grid" id="goodieGrid"></div></section>
+      <div class="save-note" id="saveNote">Saved automatically on this device.</div>
+    </section>
+  </div>
+
+  <div class="scrim hidden" id="stableModal">
+    <section class="panel" role="dialog" aria-modal="true" aria-label="Choose a pony">
+      <div class="panel-head"><div class="panel-title">My Ponies</div><button class="close-btn" data-close="stableModal" aria-label="Close">×</button></div>
+      <div class="pony-grid" id="ponyGrid"></div>
+    </section>
+  </div>
+
+  <div class="brush-mode hidden" id="brushMode">
+    <div class="brush-hint">Brush your pony until it sparkles!</div>
+    <svg class="brush-tool" id="brushTool" viewBox="0 0 80 80" aria-hidden="true"><rect x="19" y="18" width="42" height="29" rx="10" fill="#ef72a7" stroke="#70495d" stroke-width="5"/><path d="M27 47v18M37 47v18M47 47v18M57 47v18" stroke="#70495d" stroke-width="5" stroke-linecap="round"/></svg>
+    <div class="brush-progress"><i id="brushFill"></i></div><button class="brush-done" id="brushCancel" aria-label="Stop brushing">×</button>
+  </div>
+
+  <div class="scrim hidden" id="playModal">
+    <section class="panel play-panel" role="dialog" aria-modal="true" aria-label="Choose a game">
+      <div class="panel-head"><div class="panel-title">Let's Play!</div><button class="close-btn" data-close="playModal" aria-label="Close">×</button></div>
+      <div class="play-intro">Pick an adventure for <span id="playPonyName">Buttercup</span>.</div>
+      <div class="game-cards">
+        <button class="game-card" data-game="ride"><svg viewBox="0 0 110 110" aria-hidden="true"><path d="M18 78c16-30 56-33 76-7" fill="#77c975" stroke="#5d4854" stroke-width="6"/><path d="M30 76c2-22 14-38 34-49" fill="none" stroke="#f0cb87" stroke-width="11" stroke-linecap="round"/><path d="M59 22 76 16l-5 16Z" fill="#f47fae" stroke="#5d4854" stroke-width="5"/><circle cx="31" cy="78" r="8" fill="#ffd455" stroke="#5d4854" stroke-width="5"/></svg><strong>Trail Ride</strong><small>Steer your pony around the meadow and collect treats.</small></button>
+        <button class="game-card" data-game="run"><svg viewBox="0 0 110 110" aria-hidden="true"><path d="M9 78h92" stroke="#7ebc64" stroke-width="13" stroke-linecap="round"/><path d="M24 70h19v-19h18" fill="none" stroke="#a86c43" stroke-width="8" stroke-linejoin="round"/><path d="m78 18 5 10 11 2-8 8 2 11-10-5-10 5 2-11-8-8 11-2Z" fill="#ffd34e" stroke="#674858" stroke-width="4"/></svg><strong>Star Run</strong><small>Tap to jump hay bales and grab shining stars.</small></button>
+        <button class="game-card" data-game="maze"><svg viewBox="0 0 110 110" aria-hidden="true"><path d="M15 15h80v80H15Z" fill="#9cd97b" stroke="#684957" stroke-width="6"/><path d="M33 15v27h25V27h19v31H49v37M15 61h22v17h23M77 58v20h18" fill="none" stroke="#d39a5b" stroke-width="10"/><path d="M86 83c7 0 9 8 3 12-8 5-15-2-11-8 2-3 4-4 8-4Z" fill="#ff9640" stroke="#68483d" stroke-width="4"/></svg><strong>Pony Maze</strong><small>Guide your pony through the fences to the carrot.</small></button>
+      </div>
+    </section>
+  </div>
+
+  <section class="activity hidden" id="activity" aria-label="Pony game">
+    <header class="activity-head"><button class="back-btn" id="exitGame" aria-label="Back">‹</button><div class="activity-title" id="activityTitle">Trail Ride</div><div class="score-box"><svg viewBox="0 0 32 32" width="24" height="24" aria-hidden="true"><path d="m16 3 3.7 7.5 8.3 1.2-6 5.8 1.4 8.2-7.4-3.9-7.4 3.9 1.4-8.2-6-5.8 8.3-1.2Z" fill="#ffd04f" stroke="#8e603e" stroke-width="2.2"/></svg><span id="gameScore">0</span></div></header>
+    <div class="game-area" id="gameArea"></div>
+  </section>
+</main>
+<script>
+(() => {
+  const PONIES={
+    buttercup:{name:'Buttercup',file:'characters/buttercup.png',alt:'Buttercup, a golden pony with pink bows and flowers'},
+    luna:{name:'Luna',file:'characters/luna.png',alt:'Luna, a dark purple celestial pony with a galaxy mane'},
+    snowdrop:{name:'Snowdrop',file:'characters/snowdrop.png',alt:'Snowdrop, a white pony with bright blue flower-filled hair'},
+    brownie:{name:'Brownie',file:'characters/brownie.png',alt:'Brownie, a fluffy brown pony with a blue saddle'}
+  };
+  const KEY='judysPonyPals_v4',OLD_KEYS=['judysPonyPals_v3','judysPonyPals_v2'];
+  const basePony=()=>({happy:92,food:86,energy:90,last:Date.now()});
+  let save={current:'buttercup',stars:12,ponies:{},games:{rideBest:0,runBest:0,mazeWins:0},goals:{days:{},weeks:{}},unlocked:['none'],equipped:{},totalDailyChests:0,totalWeeklyChests:0};
+  try{
+    const existing=JSON.parse(localStorage.getItem(KEY)||'null');
+    if(existing) save=Object.assign(save,existing);
+    else {
+      let old=null; for(const k of OLD_KEYS){old=JSON.parse(localStorage.getItem(k)||'null');if(old)break;}
+      if(old){ save=Object.assign(save,old); save.current=old.current||'buttercup'; save.ponies=old.ponies||{}; const oldStars=save.ponies[save.current]?.stars; if(Number.isFinite(oldStars)) save.stars=Math.floor(oldStars); }
+    }
+  }catch(e){}
+  if(!PONIES[save.current]) save.current='buttercup';
+  save.ponies=save.ponies||{}; save.games=Object.assign({rideBest:0,runBest:0,mazeWins:0},save.games||{});
+  save.goals=save.goals||{days:{},weeks:{}};save.goals.days=save.goals.days||{};save.goals.weeks=save.goals.weeks||{};save.unlocked=Array.isArray(save.unlocked)?save.unlocked:['none'];if(!save.unlocked.includes('none'))save.unlocked.unshift('none');save.equipped=save.equipped||{};save.totalDailyChests=Number(save.totalDailyChests)||0;save.totalWeeklyChests=Number(save.totalWeeklyChests)||0;
+  Object.keys(PONIES).forEach(k=>{if(!save.equipped[k])save.equipped[k]='none'});
+  Object.keys(PONIES).forEach(k=>save.ponies[k]=Object.assign(basePony(),save.ponies[k]||{}));
+  const now=Date.now();
+  Object.values(save.ponies).forEach(p=>{const hours=Math.min(72,Math.max(0,(now-(p.last||now))/3600000));p.food=Math.max(40,p.food-hours*.9);p.happy=Math.max(50,p.happy-hours*.4);p.energy=Math.max(45,p.energy-hours*.55);p.last=now;delete p.stars;});
+
+  const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+  const app=$('#app'),pony=$('#pony'),avatar=$('#avatar'),ponyName=$('#ponyName'),stars=$('#stars'),happy=$('#happyMeter'),food=$('#foodMeter'),energy=$('#energyMeter'),bubble=$('#bubble'),toast=$('#toast'),fx=$('#fx');
+  const activity=$('#activity'),gameArea=$('#gameArea'),gameScore=$('#gameScore'),activityTitle=$('#activityTitle'),accessoryLayer=$('#accessoryLayer'),goalPop=$('#goalPop');
+  let sleeping=false,toastTimer,activeGame=null,gameCleanup=()=>{};
+  const clamp=v=>Math.max(0,Math.min(100,v));
+  const current=()=>save.ponies[save.current];
+  function persist(){current().last=Date.now();try{localStorage.setItem(KEY,JSON.stringify(save));}catch(e){}}
+  function localDay(d=new Date()){return [d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-')}
+  function localWeek(d=new Date()){const x=new Date(d.getFullYear(),d.getMonth(),d.getDate());const day=(x.getDay()+6)%7;x.setDate(x.getDate()-day);return localDay(x)}
+  function today(){const k=localDay();if(!save.goals.days[k])save.goals.days[k]={week:localWeek(),actions:{visit:true},claimed:false,timeBonuses:{}};save.goals.days[k].actions=save.goals.days[k].actions||{};save.goals.days[k].actions.visit=true;save.goals.days[k].week=localWeek();return save.goals.days[k]}
+  function thisWeek(){const k=localWeek();if(!save.goals.weeks[k])save.goals.weeks[k]={actions:{},claimed:false};save.goals.weeks[k].actions=save.goals.weeks[k].actions||{};return save.goals.weeks[k]}
+  const GOODIES={none:{name:'No extra',art:''},flower:{name:'Flower Crown',art:'goodie-icon-flower'},bow:{name:'Pink Bow',art:'goodie-icon-bow'},star:{name:'Star Charm',art:'goodie-icon-star'},blanket:{name:'Cozy Blanket',art:'goodie-icon-blanket'},rainbow:{name:'Rainbow Glow',art:'goodie-icon-rainbow'}};
+  function unlock(item){if(save.unlocked.includes(item))return false;save.unlocked.push(item);save.equipped[save.current]=item;return true}
+  function renderAccessory(){const item=save.equipped[save.current]||'none';accessoryLayer.innerHTML='';pony.classList.toggle('rainbow-aura',item==='rainbow');if(item==='flower')accessoryLayer.innerHTML='<div class="wearable wear-flower"><i></i><i></i><i></i></div>';if(item==='bow')accessoryLayer.innerHTML='<div class="wearable wear-bow"><i></i></div>';if(item==='star')accessoryLayer.innerHTML='<div class="wearable wear-star"></div>';if(item==='blanket')accessoryLayer.innerHTML='<div class="wearable wear-blanket"></div>'}
+  function currentTimeGoal(){const h=new Date().getHours();if(h<12)return{key:'morning',action:'feed',title:'Morning Treat',text:'Feed your pony before noon.'};if(h<17)return{key:'afternoon',action:'play',title:'Afternoon Adventure',text:'Play one pony game before 5.'};return{key:'evening',action:'sleep',title:'Cozy Bedtime',text:'Tuck your pony in after 5.'}}
+  function dailyDone(d=today()){return !!(d.actions.feed&&d.actions.brush)&&!!d.actions.pet&&!!d.actions.play}
+  function weekStats(){const wk=localWeek();const days=Object.values(save.goals.days).filter(d=>d.week===wk);return{visits:days.filter(d=>d.actions&&d.actions.visit).length,chests:days.filter(d=>d.claimed).length}}
+  let goalPopTimer;
+  function goalMessage(text){clearTimeout(goalPopTimer);goalPop.textContent=text;goalPop.classList.add('show');goalPopTimer=setTimeout(()=>goalPop.classList.remove('show'),1800)}
+  function evaluateGoals(){const d=today(),w=thisWeek();let msg='';if(dailyDone(d)&&!d.claimed){d.claimed=true;save.stars+=5;save.totalDailyChests++;msg='Daily goal chest: +5 stars';let item=null;if(save.totalDailyChests===1)item='flower';else if(save.totalDailyChests===3)item='bow';else if(save.totalDailyChests===5)item='blanket';if(item&&unlock(item))msg+=' + '+GOODIES[item].name}
+    const ws=weekStats();const allGames=!!(w.actions.ride&&w.actions.run&&w.actions.maze);if(ws.visits>=4&&ws.chests>=3&&allGames&&!w.claimed){w.claimed=true;save.stars+=15;save.totalWeeklyChests++;const item=save.totalWeeklyChests===1?'star':'rainbow';if(unlock(item))msg=(msg?msg+' | ':'')+'Weekly treasure: '+GOODIES[item].name;else msg=(msg?msg+' | ':'')+'Weekly treasure: +15 stars'}
+    if(msg){particles('star',12);goalMessage(msg)}persist();renderGoals();}
+  function recordAction(action){const d=today(),w=thisWeek();d.actions[action]=true;if(['ride','run','maze'].includes(action))w.actions[action]=true;const tg=currentTimeGoal();if(action===tg.action&&!d.timeBonuses[tg.key]){d.timeBonuses[tg.key]=true;save.stars+=2;goalMessage(tg.title+': +2 stars')}evaluateGoals();}
+  function goalRow(done,title,desc,reward,progress=''){return `<div class="goal-row ${done?'done':''}"><div class="goal-check">${done?'✓':''}</div><div class="goal-text"><strong>${title}</strong><small>${desc}</small>${progress}</div><div class="goal-reward">${reward}</div></div>`}
+  function renderGoals(){const d=today(),w=thisWeek(),ws=weekStats(),tg=currentTimeGoal();const care=!!(d.actions.feed&&d.actions.brush),friend=!!d.actions.pet,adventure=!!d.actions.play;$('#dailyGoals').innerHTML=goalRow(care,'Care Time','Feed and brush your pony.','1/3')+goalRow(friend,'Best Friends','Give your pony a pet.','2/3')+goalRow(adventure,'Adventure','Finish any pony game.','3/3');const td=!!d.timeBonuses[tg.key];$('#timeGoal').innerHTML=`${td?'✓ ':''}<strong>${tg.title}</strong><small>${tg.text} ${td?'Bonus earned.':'Bonus: 2 stars.'}</small>`;const allGames=!!(w.actions.ride&&w.actions.run&&w.actions.maze);$('#weeklyGoals').innerHTML=goalRow(ws.visits>=4,'Visit 4 Days',`${Math.min(ws.visits,4)} of 4 days this week.`,'Weekly')+goalRow(ws.chests>=3,'3 Great Care Days',`${Math.min(ws.chests,3)} of 3 daily chests.`,'Weekly')+goalRow(allGames,'Try Every Adventure',`${Number(!!w.actions.ride)+Number(!!w.actions.run)+Number(!!w.actions.maze)} of 3 games.`,'Weekly');const grid=$('#goodieGrid');if(grid){grid.innerHTML='';Object.entries(GOODIES).forEach(([key,item])=>{const owned=save.unlocked.includes(key),eq=(save.equipped[save.current]||'none')===key;const b=document.createElement('button');b.className='goodie'+(!owned?' locked':'')+(eq?' equipped':'');b.disabled=!owned;b.innerHTML=`<div class="goodie-art ${item.art}"></div><small>${item.name}</small>`;if(owned)b.addEventListener('click',()=>{save.equipped[save.current]=key;persist();renderAccessory();renderGoals();say(item.name,'★')});grid.appendChild(b)})}}
+  function renderHomeGoals(){const d=today();const care=!!(d.actions.feed&&d.actions.brush),friend=!!d.actions.pet,adventure=!!d.actions.play;const a=$('#homeCare'),b=$('#homeFriend'),c=$('#homeAdventure');if(a)a.classList.toggle('done',care);if(b)b.classList.toggle('done',friend);if(c)c.classList.toggle('done',adventure);}
+  function render(){const meta=PONIES[save.current],p=current();renderHomeGoals();pony.src=meta.file;pony.alt=meta.alt;avatar.src=meta.file;ponyName.textContent=meta.name;stars.textContent=Math.floor(save.stars);happy.style.width=clamp(p.happy)+'%';food.style.width=clamp(p.food)+'%';energy.style.width=clamp(p.energy)+'%';$('#playPonyName').textContent=meta.name;renderAccessory();persist();}
+  function say(text,face='♥'){clearTimeout(toastTimer);toast.textContent=text;toast.classList.add('show');bubble.textContent=face;bubble.classList.add('show');toastTimer=setTimeout(()=>{toast.classList.remove('show');bubble.classList.remove('show')},1050)}
+  function particles(kind='heart',count=7,target=pony){const r=target.getBoundingClientRect();for(let i=0;i<count;i++){const el=document.createElement('span');el.className='particle';el.textContent=kind==='star'?'★':'♥';el.style.color=kind==='star'?['#ffd04e','#fff0a1','#f8b642'][i%3]:['#f45f9d','#ff8db9','#ffb0cf'][i%3];el.style.left=(r.left+r.width*(.22+Math.random()*.56))+'px';el.style.top=(r.top+r.height*(.25+Math.random()*.45))+'px';el.style.animationDelay=(Math.random()*.12)+'s';fx.appendChild(el);setTimeout(()=>el.remove(),1150);}}
+  function anim(cls,ms=720){pony.classList.remove('hop','wiggle');void pony.offsetWidth;pony.classList.add(cls);setTimeout(()=>pony.classList.remove(cls),ms)}
+  function wake(){if(!sleeping)return;sleeping=false;app.classList.remove('night');pony.classList.remove('sleepy');say('Good morning!','♥')}
+  function reward(n,label){save.stars+=n;current().happy=clamp(current().happy+Math.min(12,n));particles('star',Math.min(12,4+n));render();if(label)say(label,'★')}
+
+  // Pony chooser
+  const ponyGrid=$('#ponyGrid');
+  Object.entries(PONIES).forEach(([key,p])=>{const b=document.createElement('button');b.className='pony-card';b.dataset.pony=key;b.innerHTML=`<img src="${p.file}" alt=""><span>${p.name}</span>`;b.addEventListener('click',()=>{wake();save.current=key;$('#stableModal').classList.add('hidden');syncPonyCards();render();particles('heart',5);say(p.name+'!','♥')});ponyGrid.appendChild(b)});
+  function syncPonyCards(){$$('.pony-card').forEach(b=>b.classList.toggle('active',b.dataset.pony===save.current))}
+  $('#openGoals').addEventListener('click',()=>{renderGoals();$('#goalsModal').classList.remove('hidden')});
+  $('#homeGoals').addEventListener('click',()=>{renderGoals();$('#goalsModal').classList.remove('hidden')});
+  $('#openStable').addEventListener('click',()=>{syncPonyCards();$('#stableModal').classList.remove('hidden')});
+  $$('[data-close]').forEach(b=>b.addEventListener('click',()=>$('#'+b.dataset.close).classList.add('hidden')));
+  $$('.scrim').forEach(s=>s.addEventListener('pointerdown',e=>{if(e.target===s)s.classList.add('hidden')}));
+
+  // Care
+  $('#feed').addEventListener('click',()=>{wake();const p=current();p.food=clamp(p.food+18);p.happy=clamp(p.happy+3);save.stars+=1;anim('hop');particles('heart',5);say('Yum!','♥');recordAction('feed');render()});
+  $('#pet').addEventListener('click',()=>{wake();const p=current();p.happy=clamp(p.happy+12);save.stars+=1;anim('hop');particles('heart',9);say('So happy!','♥');recordAction('pet');render()});
+  $('#sleep').addEventListener('click',()=>{if(sleeping){wake();render();return}sleeping=true;app.classList.add('night');pony.classList.add('sleepy');current().energy=clamp(current().energy+22);say('Night night','Zz');for(let i=0;i<3;i++)setTimeout(()=>{const z=document.createElement('span');z.className='zzz';z.textContent='Z';z.style.left=(58+i*4)+'%';z.style.top=(35-i*3)+'%';fx.appendChild(z);setTimeout(()=>z.remove(),1700)},i*280);recordAction('sleep');render()});
+
+  // Interactive brushing
+  const brushMode=$('#brushMode'),brushTool=$('#brushTool'),brushFill=$('#brushFill');let brushing=false,brushAmount=0,lastBrush=0;
+  function endBrush(completed=false){if(!brushing)return;brushing=false;brushMode.classList.add('hidden');brushFill.style.width='0';if(completed){current().happy=clamp(current().happy+12);save.stars+=2;anim('wiggle',1000);particles('star',11);say('All shiny!','★');recordAction('brush');render()}}
+  $('#brush').addEventListener('click',()=>{wake();brushing=true;brushAmount=0;lastBrush=0;brushFill.style.width='0';brushMode.classList.remove('hidden')});
+  $('#brushCancel').addEventListener('click',()=>endBrush(false));
+  brushMode.addEventListener('pointermove',e=>{if(!brushing)return;brushTool.style.left=e.clientX+'px';brushTool.style.top=e.clientY+'px';const r=pony.getBoundingClientRect();const inside=e.clientX>r.left+r.width*.18&&e.clientX<r.right-r.width*.15&&e.clientY>r.top+r.height*.18&&e.clientY<r.bottom-r.height*.05;const t=performance.now();if(inside&&t-lastBrush>45){lastBrush=t;brushAmount=Math.min(100,brushAmount+3.2);brushFill.style.width=brushAmount+'%';if(Math.random()<.3)particles('star',1,pony);if(brushAmount>=100)endBrush(true)}});
+  brushMode.addEventListener('pointerdown',e=>{brushTool.style.left=e.clientX+'px';brushTool.style.top=e.clientY+'px'});
+
+  // Play hub
+  $('#play').addEventListener('click',()=>{wake();$('#playModal').classList.remove('hidden')});
+  $$('.game-card').forEach(b=>b.addEventListener('click',()=>{const g=b.dataset.game;$('#playModal').classList.add('hidden');startGame(g)}));
+  $('#exitGame').addEventListener('click',closeGame);
+  function closeGame(){gameCleanup();gameCleanup=()=>{};activeGame=null;activity.classList.add('hidden');gameArea.innerHTML='';render()}
+  function startGame(type){gameCleanup();gameArea.innerHTML='';activeGame=type;activity.classList.remove('hidden');if(type==='ride')startRide();if(type==='run')startRun();if(type==='maze')startMaze()}
+  function finishGame(title,text,starsEarned,replay){save.stars+=starsEarned;current().happy=clamp(current().happy+8);recordAction('play');if(activeGame)recordAction(activeGame);persist();const over=document.createElement('div');over.className='game-over';over.innerHTML=`<div class="result-card"><h2>${title}</h2><p>${text}</p><p><strong>+${starsEarned} stars</strong></p><button type="button">Play again</button></div>`;gameArea.appendChild(over);over.querySelector('button').addEventListener('click',replay);}
+
+  // Trail Ride: free movement and collectible treats
+  function startRide(){activityTitle.textContent='Trail Ride';gameScore.textContent='0';gameArea.innerHTML='<div class="ride-world" id="rideWorld"><div class="ride-pond"></div><div class="ride-rock r1"></div><div class="ride-rock r2"></div><img class="ride-pony" id="ridePony" alt=""><div class="game-message">Collect all 8 treats!</div><div class="ride-tip">Arrow keys work too.</div><div class="dpad"><button class="up" data-dir="up">↑</button><button class="left" data-dir="left">←</button><button class="right" data-dir="right">→</button><button class="down" data-dir="down">↓</button></div></div>';
+    const world=$('#rideWorld'),rp=$('#ridePony');rp.src=PONIES[save.current].file;let x=50,y=58,score=0,done=false;const items=[];const spots=[[58,23],[72,38],[83,64],[65,76],[45,68],[32,74],[42,32],[78,78]];
+    const carrotSvg='<svg viewBox="0 0 50 50"><path d="M22 14c9 0 15 5 13 13-2 10-12 19-20 20-5-7-4-16 0-24 2-5 3-9 7-9Z" fill="#ff9340" stroke="#70483c" stroke-width="3"/><path d="M22 14c-4-8 2-10 5-4 2-8 9-6 6 2 8-4 10 3 3 6" fill="#6abf5a" stroke="#477c49" stroke-width="3"/></svg>';
+    spots.forEach((s,i)=>{const el=document.createElement('div');el.className='collectible';el.innerHTML=carrotSvg;el.style.left=s[0]+'%';el.style.top=s[1]+'%';el.dataset.x=s[0];el.dataset.y=s[1];world.appendChild(el);items.push(el)});
+    function place(){rp.style.left=x+'%';rp.style.top=y+'%'}place();
+    function blocked(nx,ny){if(nx<9||nx>91||ny<18||ny>83)return true;const pond=nx>11&&nx<37&&ny>20&&ny<51;const r1=nx>73&&nx<88&&ny>21&&ny<39;const r2=nx>39&&nx<51&&ny>66&&ny<79;return pond||r1||r2}
+    function move(dx,dy){if(done)return;const nx=x+dx,ny=y+dy;if(!blocked(nx,ny)){x=nx;y=ny;rp.style.transform=`translate(-50%,-50%) scaleX(${dx<0?-1:1})`;place();check()}}
+    function check(){items.forEach(el=>{if(el.classList.contains('hidden'))return;const ix=+el.dataset.x,iy=+el.dataset.y;if(Math.hypot(x-ix,y-iy)<6.8){el.classList.add('hidden');score++;gameScore.textContent=score;}});if(score===items.length){done=true;save.games.rideBest=Math.max(save.games.rideBest,score);finishGame('Great ride!','You found every treat in the meadow.',8,()=>startGame('ride'))}}
+    const keys=new Set();const kd=e=>{const map={ArrowUp:'up',ArrowDown:'down',ArrowLeft:'left',ArrowRight:'right',w:'up',s:'down',a:'left',d:'right'};if(map[e.key]){e.preventDefault();keys.add(map[e.key])}};const ku=e=>{const map={ArrowUp:'up',ArrowDown:'down',ArrowLeft:'left',ArrowRight:'right',w:'up',s:'down',a:'left',d:'right'};if(map[e.key])keys.delete(map[e.key])};window.addEventListener('keydown',kd);window.addEventListener('keyup',ku);
+    let raf,last=0;function loop(t){if(!done&&t-last>45){last=t;if(keys.has('up'))move(0,-1.3);if(keys.has('down'))move(0,1.3);if(keys.has('left'))move(-1.3,0);if(keys.has('right'))move(1.3,0)}raf=requestAnimationFrame(loop)}raf=requestAnimationFrame(loop);
+    const handlers=[];world.querySelectorAll('[data-dir]').forEach(btn=>{const dir=btn.dataset.dir;const fn=()=>{for(let i=0;i<2;i++){if(dir==='up')move(0,-2.2);if(dir==='down')move(0,2.2);if(dir==='left')move(-2.2,0);if(dir==='right')move(2.2,0)}};btn.addEventListener('pointerdown',fn);handlers.push([btn,fn])});
+    gameCleanup=()=>{cancelAnimationFrame(raf);window.removeEventListener('keydown',kd);window.removeEventListener('keyup',ku);handlers.forEach(([b,f])=>b.removeEventListener('pointerdown',f))};
+  }
+
+  // Star Run: one-button jumping runner
+  function startRun(){activityTitle.textContent='Star Run';gameScore.textContent='0';gameArea.innerHTML='<div class="run-world" id="runWorld"><div class="run-clouds"></div><div class="run-hills"></div><div class="run-ground"></div><div class="run-lane"></div><img class="runner-pony running" id="runnerPony" alt=""><div class="game-message">Jump and catch stars!</div><div class="tap-zone" id="tapZone"><div class="jump-hint">Tap anywhere to jump</div></div></div>';
+    const world=$('#runWorld'),rp=$('#runnerPony'),tap=$('#tapZone');rp.src=PONIES[save.current].file;let y=0,vy=0,onGround=true,score=0,time=0,last=performance.now(),spawnT=0,done=false,raf;const objects=[];
+    function jump(){if(done)return;if(onGround){vy=10.7;onGround=false;rp.classList.remove('running');rp.classList.add('jumping')}}
+    const key=e=>{if(e.code==='Space'||e.code==='ArrowUp'){e.preventDefault();jump()}};window.addEventListener('keydown',key);tap.addEventListener('pointerdown',jump);
+    function addObj(type){const el=document.createElement('div');el.className='run-object '+(type==='hay'?'hay':'run-star');if(type==='star')el.innerHTML='<svg viewBox="0 0 50 50"><path d="m25 4 6 12 13 2-10 9 3 13-12-6-12 6 3-13-10-9 13-2Z" fill="#ffd24e" stroke="#775044" stroke-width="3"/></svg>';el.dataset.type=type;el.dataset.x='105';world.appendChild(el);objects.push(el)}
+    function loop(t){const dt=Math.min(34,t-last);last=t;time+=dt;spawnT+=dt;if(spawnT>900){spawnT=0;addObj(Math.random()<.55?'star':'hay')}
+      if(!onGround){vy-=0.63*(dt/16.7);y+=vy*(dt/16.7);if(y<=0){y=0;vy=0;onGround=true;rp.classList.add('running');rp.classList.remove('jumping')}}rp.style.transform=`translateY(${-y}px) rotate(${onGround?0:-5}deg)`;
+      const horseRect=rp.getBoundingClientRect();for(let i=objects.length-1;i>=0;i--){const el=objects[i],nx=(+el.dataset.x)-.42*(dt/16.7);el.dataset.x=nx;el.style.left=nx+'%';if(nx<-5){el.remove();objects.splice(i,1);continue}const r=el.getBoundingClientRect();const hit=!(horseRect.right<r.left+8||horseRect.left>r.right-8||horseRect.bottom<r.top+8||horseRect.top>r.bottom-8);if(hit){if(el.dataset.type==='star'){score++;gameScore.textContent=score;el.remove();objects.splice(i,1)}else if(y<42){rp.animate([{transform:`translateY(${-y}px) rotate(-5deg)`},{transform:`translateY(${-y}px) translateX(-10px) rotate(-3deg)`},{transform:`translateY(${-y}px) rotate(-5deg)`}],{duration:260});el.remove();objects.splice(i,1)}}}
+      if(time>=22000&&!done){done=true;save.games.runBest=Math.max(save.games.runBest,score);finishGame('Nice run!',`You caught ${score} shining star${score===1?'':'s'}.`,Math.max(3,score),()=>startGame('run'));return}raf=requestAnimationFrame(loop)}raf=requestAnimationFrame(loop);
+    gameCleanup=()=>{cancelAnimationFrame(raf);window.removeEventListener('keydown',key);tap.removeEventListener('pointerdown',jump)};
+  }
+
+  // Maze: discrete grid movement
+  function startMaze(){activityTitle.textContent='Pony Maze';gameScore.textContent=save.games.mazeWins;const layout=['.........','.###.#.#.','...#.#.#.','#.##...#.','...###.#.','.#.....#.','...###...'];const rows=layout.length,cols=layout[0].length;gameArea.innerHTML='<div class="maze-world"><div class="game-message">Find the carrot!</div><div class="maze-board" id="mazeBoard"></div><div class="maze-tip">Arrow keys work too.</div><div class="dpad maze-dpad"><button class="up" data-move="up">↑</button><button class="left" data-move="left">←</button><button class="right" data-move="right">→</button><button class="down" data-move="down">↓</button></div></div>';const board=$('#mazeBoard');let px=0,py=0,goal={x:8,y:6},won=false;
+    const carrot='<svg class="maze-carrot" viewBox="0 0 50 50"><path d="M22 14c9 0 15 5 13 13-2 10-12 19-20 20-5-7-4-16 0-24 2-5 3-9 7-9Z" fill="#ff9340" stroke="#70483c" stroke-width="3"/><path d="M22 14c-4-8 2-10 5-4 2-8 9-6 6 2 8-4 10 3 3 6" fill="#6abf5a" stroke="#477c49" stroke-width="3"/></svg>';
+    for(let y=0;y<rows;y++)for(let x=0;x<cols;x++){const c=document.createElement('div');c.className='maze-cell'+(layout[y][x]==='#'?' wall':'')+(x===goal.x&&y===goal.y?' goal':'');c.dataset.x=x;c.dataset.y=y;if(x===goal.x&&y===goal.y)c.innerHTML=carrot;board.appendChild(c)}
+    const pimg=document.createElement('img');pimg.className='maze-pony';pimg.src=PONIES[save.current].file;pimg.alt='';cell(px,py).appendChild(pimg);
+    function cell(x,y){return board.querySelector(`[data-x="${x}"][data-y="${y}"]`)}
+    function move(dir){if(won)return;let nx=px,ny=py;if(dir==='up')ny--;if(dir==='down')ny++;if(dir==='left')nx--;if(dir==='right')nx++;if(nx<0||ny<0||nx>=cols||ny>=rows||layout[ny][nx]==='#')return;px=nx;py=ny;pimg.style.transform=`scaleX(${dir==='left'?-1:1})`;cell(px,py).appendChild(pimg);if(px===goal.x&&py===goal.y){won=true;save.games.mazeWins++;gameScore.textContent=save.games.mazeWins;finishGame('You found it!','Your pony made it all the way to the carrot.',7,()=>startGame('maze'))}}
+    const key=e=>{const m={ArrowUp:'up',ArrowDown:'down',ArrowLeft:'left',ArrowRight:'right',w:'up',s:'down',a:'left',d:'right'};if(m[e.key]){e.preventDefault();move(m[e.key])}};window.addEventListener('keydown',key);const handlers=[];gameArea.querySelectorAll('[data-move]').forEach(b=>{const f=()=>move(b.dataset.move);b.addEventListener('pointerdown',f);handlers.push([b,f])});gameCleanup=()=>{window.removeEventListener('keydown',key);handlers.forEach(([b,f])=>b.removeEventListener('pointerdown',f))};
+  }
+
+  today();thisWeek();renderGoals();evaluateGoals();
+  document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden')persist();else{today();renderGoals();render()}});window.addEventListener('beforeunload',persist);setInterval(persist,15000);
+  setInterval(()=>{const p=current();if(sleeping)p.energy=clamp(p.energy+.65);else{p.food=clamp(p.food-.05);p.energy=clamp(p.energy-.035)}render()},20000);
+  window.addEventListener('pagehide',persist);syncPonyCards();render();
+})();
+</script>
+</body>
+</html>
