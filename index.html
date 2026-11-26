@@ -36,7 +36,9 @@ button:focus-visible{outline:4px solid white;outline-offset:4px}
 .card{background:rgba(255,249,241,.96);border:3px solid #fff;box-shadow:0 4px 0 var(--deep),0 0 0 2px var(--ink);border-radius:19px}
 .status{height:66px;width:clamp(205px,27vw,298px);padding:7px 9px;display:grid;grid-template-columns:46px 1fr;gap:8px;align-items:center}.avatar{width:46px;height:46px;object-fit:contain}.meters{display:grid;gap:4px}.meter-row{display:grid;grid-template-columns:20px 1fr;align-items:center;gap:5px}.mini-icon{width:18px;height:18px}.meter{height:10px;background:#d9c6ca;border:2px solid #7a5162;border-radius:10px;overflow:hidden}.meter>i{display:block;height:100%;transition:width .3s ease}.m-happy>i{background:#f56fa8}.m-food>i{background:#ffb54a}.m-energy>i{background:#72c3ec}
 .nameplate{justify-self:center;min-width:190px;padding:7px 22px;text-align:center;font-size:clamp(21px,2.6vw,31px);font-weight:1000;letter-spacing:.01em;white-space:nowrap}.nameplate .heart{color:#f05f98}
-.top-actions{display:flex;gap:9px}.stars,.stable-btn{height:54px;display:flex;align-items:center;justify-content:center;gap:7px;padding:0 13px;font-weight:1000;cursor:pointer}.stars{font-size:24px}.stars svg{width:29px;height:29px}.stable-btn{width:58px;padding:0}.stable-btn svg{width:32px;height:32px}.stable-btn:active{transform:translateY(3px);box-shadow:0 1px 0 var(--deep),0 0 0 2px var(--ink)}
+.top-actions{display:flex;gap:9px}
+.sound-btn{width:54px;height:54px;padding:0;display:grid;place-items:center;font-size:26px;line-height:1;cursor:pointer;align-self:flex-start}.sound-btn:active{transform:translateY(3px);box-shadow:0 1px 0 var(--deep),0 0 0 2px var(--ink)}.sound-btn.muted{opacity:.7}
+@media(max-width:620px){.sound-btn{width:42px;height:42px;font-size:20px;border-radius:14px}}.stars,.stable-btn{height:54px;display:flex;align-items:center;justify-content:center;gap:7px;padding:0 13px;font-weight:1000;cursor:pointer}.stars{font-size:24px}.stars svg{width:29px;height:29px}.stable-btn{width:58px;padding:0}.stable-btn svg{width:32px;height:32px}.stable-btn:active{transform:translateY(3px);box-shadow:0 1px 0 var(--deep),0 0 0 2px var(--ink)}
 
 /* Pony stage */
 .pony-zone{position:absolute;z-index:8;left:50%;bottom:16%;width:min(600px,65vw);height:min(520px,67vh);transform:translateX(-50%);display:flex;align-items:flex-end;justify-content:center;pointer-events:none}.pony-shadow{position:absolute;bottom:4.5%;width:50%;height:7%;border-radius:50%;background:rgba(56,62,48,.20);filter:blur(2px)}
@@ -176,6 +178,7 @@ button:focus-visible{outline:4px solid white;outline-offset:4px}
     <div class="top-actions">
       <div class="stars card" aria-label="Stars"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="m16 3 3.7 7.5 8.3 1.2-6 5.8 1.4 8.2-7.4-3.9-7.4 3.9 1.4-8.2-6-5.8 8.3-1.2Z" fill="#ffd04f" stroke="#8e603e" stroke-width="2.2"/></svg><span id="stars">12</span></div>
       <button class="goals-btn card" id="openGoals" aria-label="Goals and rewards"><svg viewBox="0 0 48 48" aria-hidden="true"><rect x="9" y="8" width="30" height="34" rx="6" fill="#fff4c9" stroke="#68483d" stroke-width="3"/><path d="M17 17h15M17 25h15M17 33h10" stroke="#f078aa" stroke-width="4" stroke-linecap="round"/><path d="m12 29 3 3 5-7" fill="none" stroke="#6bb37a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <button class="sound-btn card" id="soundBtn" aria-label="Sound on or off">🎵</button>
       <button class="stable-btn card" id="openStable" aria-label="Choose a pony"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M8 20 24 8l16 12v22H8Z" fill="#d98559" stroke="#68483d" stroke-width="3"/><path d="M15 42V25h18v17" fill="#754a37" stroke="#68483d" stroke-width="3"/><path d="M19 31h10M19 36h10" stroke="#edbd7f" stroke-width="2.5"/></svg></button>
     </div>
   </header>
@@ -250,6 +253,236 @@ button:focus-visible{outline:4px solid white;outline-offset:4px}
   </section>
 </main>
 <script>
+/* Pony Pals sound: every song and sound effect is synthesized live with Web Audio. No audio files. */
+window.PonyAudio=(()=>{
+  const MODE_KEY='judysPonyPals_sound',MODES=['all','sfx','off'];
+  let mode='all';try{const m=localStorage.getItem(MODE_KEY);if(MODES.includes(m))mode=m}catch(e){}
+  let ctx=null,master,musicBus,sfxBus,noise,unlocked=false;
+  let scene='home',song=null,songGain=null,step=0,nextT=0,timer=null;
+  const last={};
+
+  const mtof=m=>440*Math.pow(2,(m-69)/12);
+  const NOTE={C:0,D:2,E:4,F:5,G:7,A:9,B:11};
+  const nm=s=>{const r=/^([A-G])([#b]?)(-?\d)$/.exec(s);return 12*(+r[3]+1)+NOTE[r[1]]+(r[2]==='#'?1:r[2]==='b'?-1:0)};
+  const chordOf=s=>{const r=/^([A-G][#b]?-?\d)(m|7)?$/.exec(s);const root=nm(r[1]);return (r[2]==='m'?[0,3,7]:r[2]==='7'?[0,4,7,10]:[0,4,7]).map(i=>root+i)};
+
+  function build(){
+    const AC=window.AudioContext||window.webkitAudioContext;if(!AC)return false;
+    ctx=new AC();
+    master=ctx.createGain();master.gain.value=.9;
+    const comp=ctx.createDynamicsCompressor();comp.threshold.value=-16;comp.ratio.value=4;comp.attack.value=.004;comp.release.value=.2;
+    master.connect(comp);comp.connect(ctx.destination);
+    musicBus=ctx.createGain();sfxBus=ctx.createGain();musicBus.gain.value=0;sfxBus.gain.value=0;
+    musicBus.connect(master);sfxBus.connect(master);
+    // soft "barn" reverb shared by music and effects
+    const conv=ctx.createConvolver(),len=Math.floor(ctx.sampleRate*2.1),ir=ctx.createBuffer(2,len,ctx.sampleRate);
+    for(let c=0;c<2;c++){const d=ir.getChannelData(c);for(let i=0;i<len;i++)d[i]=(Math.random()*2-1)*Math.pow(1-i/len,3.4)}
+    conv.buffer=ir;const send=ctx.createGain();send.gain.value=.2;musicBus.connect(send);sfxBus.connect(send);send.connect(conv);conv.connect(master);
+    noise=ctx.createBuffer(1,ctx.sampleRate,ctx.sampleRate);const nd=noise.getChannelData(0);for(let i=0;i<nd.length;i++)nd[i]=Math.random()*2-1;
+    applyMode();return true;
+  }
+  function applyMode(){if(!ctx)return;const t=ctx.currentTime;musicBus.gain.setTargetAtTime(mode==='all'?.5:0,t,.15);sfxBus.gain.setTargetAtTime(mode==='off'?0:.95,t,.05)}
+
+  // ---------- building blocks ----------
+  function osc(type,f,t){const o=ctx.createOscillator();o.type=type;o.frequency.setValueAtTime(f,t);return o}
+  function env(t,a,peak,hold,rel){const g=ctx.createGain();g.gain.setValueAtTime(.0001,t);g.gain.linearRampToValueAtTime(peak,t+a);if(hold>0)g.gain.setValueAtTime(peak,t+a+hold);g.gain.exponentialRampToValueAtTime(.0001,t+a+hold+rel);return g}
+  function filt(type,f,q=1){const b=ctx.createBiquadFilter();b.type=type;b.frequency.value=f;b.Q.value=q;return b}
+  function noiseSrc(t,dur){const s=ctx.createBufferSource();s.buffer=noise;s.start(t,Math.random()*.6);s.stop(t+dur);return s}
+  function run(oscs,t,end){oscs.forEach(o=>{o.start(t);o.stop(end)})}
+
+  function voice(kind,m,t,dur,vel,out){
+    const f=mtof(m);
+    if(kind==='pluck'||kind==='banjo'){
+      const banjo=kind==='banjo',dec=banjo?.3:Math.min(.9,dur+.25),g=env(t,.004,vel,0,dec),lp=filt('lowpass',banjo?4500:2600);
+      lp.frequency.setValueAtTime(banjo?4500:2600,t);lp.frequency.exponentialRampToValueAtTime(650,t+dec);
+      const a=osc('triangle',f,t),b=osc(banjo?'sawtooth':'square',banjo?f:f*2,t),bg=ctx.createGain();bg.gain.value=banjo?.22:.08;
+      a.connect(lp);b.connect(bg);bg.connect(lp);lp.connect(g);g.connect(out);run([a,b],t,t+dec+.05);
+    }else if(kind==='whistle'){
+      const g=env(t,.035,vel,Math.max(0,dur-.07),.15),a=osc('sine',f,t),h=osc('sine',f*2,t),hg=ctx.createGain();hg.gain.value=.06;
+      const lfo=osc('sine',5.6,t),lg=ctx.createGain();lg.gain.setValueAtTime(0,t);lg.gain.linearRampToValueAtTime(f*.012,t+.18);lfo.connect(lg);lg.connect(a.frequency);
+      a.connect(g);h.connect(hg);hg.connect(g);g.connect(out);run([a,h,lfo],t,t+dur+.3);
+    }else if(kind==='musicbox'){
+      const g=env(t,.003,vel,0,1.5),a=osc('sine',f,t),b=osc('sine',f*3.01,t),bg=env(t,.002,.25,0,.35);
+      a.connect(g);b.connect(bg);bg.connect(g);g.connect(out);run([a,b],t,t+1.6);
+    }else if(kind==='marimba'){
+      const g=env(t,.003,vel,0,.5),a=osc('sine',f,t),b=osc('sine',f*4,t),bg=env(t,.002,.35,0,.07);
+      a.connect(g);b.connect(bg);bg.connect(g);g.connect(out);run([a,b],t,t+.6);
+    }else if(kind==='square'){
+      const g=env(t,.005,vel,Math.max(0,dur-.05),.07),a=osc('square',f,t),lp=filt('lowpass',3200);
+      a.connect(lp);lp.connect(g);g.connect(out);run([a],t,t+dur+.15);
+    }else if(kind==='bass'){
+      const g=env(t,.006,vel,Math.max(0,dur*.55),.14),a=osc('triangle',f,t),s=osc('sine',f,t),sg=ctx.createGain();sg.gain.value=.5;
+      a.connect(g);s.connect(sg);sg.connect(g);g.connect(out);run([a,s],t,t+dur+.25);
+    }else if(kind==='pizz'){
+      const g=env(t,.003,vel,0,.2),a=osc('triangle',f,t),lp=filt('lowpass',1300);a.connect(lp);lp.connect(g);g.connect(out);run([a],t,t+.3);
+    }else if(kind==='pad'){
+      const g=env(t,.4,vel,Math.max(0,dur-.4),.9),lp=filt('lowpass',1000),a=osc('sawtooth',f,t),b=osc('sawtooth',f,t);
+      a.detune.value=-8;b.detune.value=8;a.connect(lp);b.connect(lp);lp.connect(g);g.connect(out);run([a,b],t,t+dur+1);
+    }
+  }
+  // hooves: a hollow "coconut" clop
+  function clop(t,hi,vel,out){
+    const f=hi?1150:800,o=osc('sine',f,t);o.frequency.exponentialRampToValueAtTime(f*.55,t+.05);
+    const g=env(t,.002,vel,0,.07);o.connect(g);g.connect(out);run([o],t,t+.1);
+    const n=noiseSrc(t,.04),bp=filt('bandpass',hi?2600:1900,3),gn=env(t,.001,vel*.7,0,.025);n.connect(bp);bp.connect(gn);gn.connect(out);
+  }
+  function kick(t,vel,out){const o=osc('sine',150,t);o.frequency.exponentialRampToValueAtTime(45,t+.12);const g=env(t,.002,vel,0,.22);o.connect(g);g.connect(out);run([o],t,t+.3)}
+  function snare(t,vel,out){const n=noiseSrc(t,.2),hp=filt('highpass',1500),g=env(t,.002,vel,0,.13);n.connect(hp);hp.connect(g);g.connect(out);
+    const o=osc('triangle',220,t);o.frequency.exponentialRampToValueAtTime(140,t+.06);const g2=env(t,.002,vel*.6,0,.07);o.connect(g2);g2.connect(out);run([o],t,t+.12)}
+  function hat(t,vel,out,len=.03){const n=noiseSrc(t,len+.03),hp=filt('highpass',7000),g=env(t,.001,vel,0,len);n.connect(hp);hp.connect(g);g.connect(out)}
+
+  // ---------- songs ----------
+  // melody: one token per step. note = play, "-" = hold, "." = rest, "|" = bar line (ignored)
+  const SONGS={
+    home:{ // "Meadow Morning" - easygoing country tune with clip-clop hooves
+      bpm:96,spb:2,bar:8,lead:'whistle',leadVel:.15,
+      chords:'F3 Bb3 F3 C3 F3 Bb3 C3 F3',
+      melody:`C5 - A4 - F4 . A4 C5 | D5 - - C5 Bb4 - D5 . | C5 - A4 - F4 - G4 A4 | G4 - - - . . C5 . |
+              A4 - C5 - F5 - E5 D5 | D5 - Bb4 - D5 - C5 Bb4 | C5 - E5 - G5 - E5 D5 | F5 - - - . . . .`,
+      parts(s,ch,t,d,o){
+        if(s===0)voice('bass',ch[0]-12,t,d*3,.3,o);
+        if(s===4)voice('bass',ch[0]-17,t,d*3,.26,o);
+        if(s===2||s===6)ch.forEach((m,i)=>voice('pluck',m,t+i*.014,d*1.5,.055,o));
+        if(s%2===0)clop(t,s%4===0,.07,o);
+      }},
+    night:{ // "Starry Stable Lullaby" - music box waltz
+      bpm:76,spb:2,bar:6,lead:'musicbox',leadVel:.13,
+      chords:'C4 A3m F3 G3 C4 A3m G3 C4',
+      melody:`G4 - - E5 - D5 | C5 - - A4 - - | A4 - C5 F5 - E5 | D5 - - - - - |
+              G4 - - E5 - D5 | C5 - - E5 - G5 | F5 - E5 D5 - B4 | C5 - - - - -`,
+      parts(s,ch,t,d,o){
+        if(s===0){ch.forEach(m=>voice('pad',m,t,d*6,.02,o));voice('bass',ch[0]-12,t,d*5,.12,o)}
+        const arp=[null,ch[1],ch[2],ch[0]+12,ch[2],ch[1]][s];if(arp)voice('musicbox',arp,t,d,.04,o);
+      }},
+    ride:{ // "Trail Ride Hoedown" - galloping 6/8 with banjo
+      bpm:112,spb:3,bar:6,lead:'whistle',leadVel:.13,lead2:'banjo',lead2Vel:.07,
+      chords:'G3 C3 G3 D3 G3 C3 D3 G3',
+      melody:`D5 - B4 G4 - B4 | C5 - E5 G5 - E5 | D5 - B4 D5 - G5 | F#5 - - D5 - A4 |
+              B4 - D5 G5 - F#5 | E5 - C5 E5 - G5 | F#5 - A5 F#5 - D5 | G5 - - G4 - -`,
+      parts(s,ch,t,d,o){
+        if(s===0)voice('bass',ch[0]-12,t,d*2,.3,o);
+        if(s===3)voice('bass',ch[0]-17,t,d*2,.26,o);
+        if(s===1||s===4)voice('banjo',ch[1]+12,t,d,.06,o);
+        if(s===2||s===5)voice('banjo',ch[2]+12,t,d,.06,o);
+        const g=s%3;clop(t,g===0,g===0?.13:g===1?.05:.09,o); // clip-a-CLOP gallop
+      }},
+    run:{ // "Star Run" - bright, bouncy chiptune
+      bpm:150,spb:2,bar:8,lead:'square',leadVel:.07,lead2:'musicbox',lead2Vel:.04,
+      chords:'C3 G3 A3m F3 C3 G3 F3 G3',
+      melody:`C5 E5 G5 - E5 G5 C6 - | B5 - G5 - D5 - G5 B5 | C6 - A5 - E5 - A5 - | A5 G5 F5 - C5 - F5 G5 |
+              E5 - G5 - C6 - E6 - | D6 - B5 - G5 - B5 D6 | C6 - A5 - F5 G5 A5 - | G5 A5 B5 - D6 - - -`,
+      parts(s,ch,t,d,o){
+        voice('bass',ch[0]-12+(s%2?12:0),t,d*.9,.2,o);
+        if(s===0||s===4)kick(t,.38,o);
+        if(s===2||s===6)snare(t,.14,o);
+        hat(t,s%2?.045:.025,o);
+        if(s===3||s===7)ch.forEach(m=>voice('square',m+12,t,d*.7,.018,o));
+      }},
+    maze:{ // "Tiptoe Maze" - sneaky, curious marimba
+      bpm:104,spb:2,bar:8,lead:'marimba',leadVel:.17,
+      chords:'A3m D3m E3 A3m F3 G3 E3 A3m',
+      melody:`A4 . C5 . E5 . C5 . | D5 . F5 . A5 - . . | G#5 . E5 . B4 . E5 . | A5 - . . E5 . . . |
+              F5 . A5 . C6 . A5 . | G5 . B5 . D6 - B5 . | E5 . G#5 . B5 . G#5 . | A5 - - - . . . .`,
+      parts(s,ch,t,d,o){
+        if(s%2===0)voice('pizz',ch[0]-12+[0,7,12,7][s/2],t,d,.3,o);
+        else hat(t,.022,o,.015);
+        if(s===6)clop(t,true,.035,o);
+      }}
+  };
+  Object.values(SONGS).forEach(s=>{s.notes=s.melody.split(/\s+/).filter(x=>x&&x!=='|');s.ch=s.chords.split(' ').map(chordOf)});
+
+  function startSong(name){
+    const s=SONGS[name];if(!ctx||!s)return;
+    if(songGain){const g=songGain;g.gain.setTargetAtTime(.0001,ctx.currentTime,.25);setTimeout(()=>{try{g.disconnect()}catch(e){}},3000)}
+    song=s;s.name=name;step=0;nextT=ctx.currentTime+.1;
+    songGain=ctx.createGain();songGain.gain.setValueAtTime(.0001,ctx.currentTime);songGain.gain.setTargetAtTime(1,ctx.currentTime+.05,.3);songGain.connect(musicBus);
+    if(!timer)timer=setInterval(tick,25);
+  }
+  function tick(){
+    if(!ctx||!song||ctx.state!=='running')return;
+    const d=60/song.bpm/song.spb;
+    if(nextT<ctx.currentTime-.05)nextT=ctx.currentTime+.05; // skip, never cram, after a stall
+    while(nextT<ctx.currentTime+.15){if(mode==='all')playStep(song,step,nextT,d);step++;nextT+=d}
+  }
+  function playStep(s,i,t,d){
+    const total=s.notes.length,pos=i%total,bar=Math.floor(pos/s.bar),tok=s.notes[pos],ch=s.ch[bar%s.ch.length];
+    if(tok!=='.'&&tok!=='-'){let len=1;while(len<total&&s.notes[(pos+len)%total]==='-')len++;const m=nm(tok);
+      voice(s.lead,m,t,len*d,s.leadVel,songGain);if(s.lead2)voice(s.lead2,m,t,len*d,s.lead2Vel,songGain)}
+    s.parts(pos%s.bar,ch,t,d,songGain);
+  }
+
+  // ---------- sound effects ----------
+  function crunch(t,o){for(let i=0;i<3;i++){const n=noiseSrc(t+i*.022,.04),bp=filt('bandpass',1500+Math.random()*1500,1.2),g=env(t+i*.022,.002,.3,0,.03);n.connect(bp);bp.connect(g);g.connect(o)}}
+  function swish(t,o){const n=noiseSrc(t,.24),bp=filt('bandpass',1200,1.4);bp.frequency.setValueAtTime(1100,t);bp.frequency.exponentialRampToValueAtTime(3800,t+.18);const g=env(t,.05,.16,0,.14);n.connect(bp);bp.connect(g);g.connect(o)}
+  function nicker(t,o,vol=1){ // soft happy "huh-huh-huh"
+    const d=.5,s=osc('sawtooth',210,t);s.frequency.linearRampToValueAtTime(160,t+d);
+    const lp=filt('lowpass',850,2),am=ctx.createGain();am.gain.value=.5;const lfo=osc('square',19,t),lg=ctx.createGain();lg.gain.value=.5;lfo.connect(lg);lg.connect(am.gain);
+    const g=env(t,.04,.2*vol,d-.15,.12);s.connect(lp);lp.connect(am);am.connect(g);g.connect(o);run([s,lfo],t,t+d+.1);
+  }
+  function whinny(t,o,vol=1){ // "wheeheehee!"
+    const d=1.1,s=osc('sawtooth',650,t);
+    s.frequency.linearRampToValueAtTime(1250,t+.13);s.frequency.linearRampToValueAtTime(1050,t+.5);s.frequency.exponentialRampToValueAtTime(380,t+d);
+    const lfo=osc('sine',15,t);lfo.frequency.linearRampToValueAtTime(25,t+d);const lg=ctx.createGain();lg.gain.setValueAtTime(25,t);lg.gain.linearRampToValueAtTime(120,t+d);lfo.connect(lg);lg.connect(s.frequency);
+    const f1=filt('bandpass',1100,2.2),f2=filt('bandpass',2500,4),f3=filt('lowpass',900),mix=ctx.createGain();
+    [f1,f2,f3].forEach(f=>{s.connect(f);f.connect(mix)});
+    const g=ctx.createGain();g.gain.setValueAtTime(.0001,t);g.gain.linearRampToValueAtTime(.17*vol,t+.06);g.gain.setValueAtTime(.17*vol,t+.6);g.gain.exponentialRampToValueAtTime(.0001,t+d);
+    mix.connect(g);g.connect(o);run([s,lfo],t,t+d+.05);
+    const n=noiseSrc(t+d-.02,.28),lp=filt('lowpass',650),gn=env(t+d-.02,.02,.14*vol,0,.22);n.connect(lp);lp.connect(gn);gn.connect(o); // little snort
+  }
+  const notes=(kind,list,t,gap,dur,vel,o)=>list.forEach((n,i)=>voice(kind,nm(n),t+i*gap,dur,vel,o));
+  const SFX={
+    pop(t,o){const s=osc('sine',480,t);s.frequency.exponentialRampToValueAtTime(1150,t+.07);const g=env(t,.003,.22,0,.09);s.connect(g);g.connect(o);run([s],t,t+.12)},
+    open(t,o){notes('musicbox',['C5','E5','G5'],t,.05,.2,.12,o)},
+    close(t,o){notes('musicbox',['G5','E5','C5'],t,.045,.2,.08,o)},
+    feed(t,o){for(let i=0;i<3;i++)crunch(t+i*.17,o);nicker(t+.6,o,.7)},
+    pet(t,o){notes('musicbox',['C6','E6','G6','C7'],t,.07,.3,.1,o);nicker(t+.08,o,.9)},
+    whinny(t,o){whinny(t,o)},
+    brush(t,o){swish(t,o)},
+    shiny(t,o){notes('musicbox',['C6','E6','G6','C7','E7','G7'],t,.055,.4,.1,o);notes('marimba',['C5','G5'],t,.12,.2,.12,o)},
+    sleep(t,o){notes('musicbox',['G5','E5','C5','G4'],t,.24,.6,.11,o)},
+    wake(t,o){notes('whistle',['C5','E5','G5','C6'],t,.09,.12,.11,o);nicker(t+.4,o,.6)},
+    star(t,o){voice('square',nm('B5'),t,.07,.08,o);voice('square',nm('E6'),t+.07,.22,.08,o);voice('musicbox',nm('E7'),t+.07,.3,.06,o)},
+    treat(t,o){crunch(t,o);voice('marimba',nm('G5'),t+.04,.1,.2,o);voice('marimba',nm('C6'),t+.12,.2,.2,o)},
+    jump(t,o){const s=osc('square',260,t);s.frequency.exponentialRampToValueAtTime(760,t+.16);const lp=filt('lowpass',2400),g=env(t,.005,.06,.08,.08);s.connect(lp);lp.connect(g);g.connect(o);run([s],t,t+.3)},
+    bump(t,o){const s=osc('sine',190,t);s.frequency.exponentialRampToValueAtTime(70,t+.18);const g=env(t,.003,.35,0,.22);s.connect(g);g.connect(o);run([s],t,t+.3);
+      const n=noiseSrc(t,.12),lp=filt('lowpass',500),gn=env(t,.002,.25,0,.1);n.connect(lp);lp.connect(gn);gn.connect(o)},
+    step(t,o){clop(t,Math.random()<.5,.18,o)},
+    clop(t,o){clop(t,(SFX._c=!SFX._c),.16,o)},
+    wall(t,o){const s=osc('triangle',150,t);s.frequency.exponentialRampToValueAtTime(105,t+.15);const g=env(t,.004,.22,0,.16);s.connect(g);g.connect(o);run([s],t,t+.22)},
+    chime(t,o){notes('marimba',['E5','G5','C6','E6'],t,.08,.2,.16,o);voice('musicbox',nm('C7'),t+.32,.6,.08,o)},
+    win(t,o){
+      notes('square',['C5','E5','G5'],t,.11,.09,.07,o);notes('whistle',['C5','E5','G5'],t,.11,.09,.1,o);
+      voice('square',nm('C6'),t+.33,.18,.07,o);voice('whistle',nm('C6'),t+.33,.18,.1,o);
+      voice('square',nm('G5'),t+.55,.1,.07,o);voice('square',nm('C6'),t+.68,.55,.08,o);voice('whistle',nm('E6'),t+.68,.55,.1,o);
+      notes('musicbox',['C6','E6','G6','C7','E7'],t+.68,.05,.4,.07,o);
+      whinny(t+1.35,o,.9);
+    }
+  };
+
+  // ---------- public ----------
+  function unlock(){
+    if(!ctx&&!build())return;
+    if(ctx.state==='suspended')ctx.resume();
+    if(!unlocked){unlocked=true;startSong(scene)}
+  }
+  function setScene(name){if(scene===name&&song&&song.name===name)return;scene=name;if(ctx&&unlocked)startSong(name)}
+  function sfx(name,throttle=0){
+    if(!ctx||mode==='off'||!SFX[name])return;
+    const now=performance.now();if(throttle&&now-(last[name]||0)<throttle)return;last[name]=now;
+    try{SFX[name](ctx.currentTime+.01,sfxBus)}catch(e){}
+  }
+  function fanfare(){
+    sfx('win');
+    if(songGain){const t=ctx.currentTime;songGain.gain.cancelScheduledValues(t);songGain.gain.setTargetAtTime(.15,t,.05);songGain.gain.setTargetAtTime(1,t+2.4,.4)}
+  }
+  function cycleMode(){mode=MODES[(MODES.indexOf(mode)+1)%MODES.length];try{localStorage.setItem(MODE_KEY,mode)}catch(e){}applyMode();return mode}
+  document.addEventListener('pointerdown',unlock,true);
+  document.addEventListener('keydown',unlock,true);
+  document.addEventListener('visibilitychange',()=>{if(!ctx)return;if(document.hidden)ctx.suspend();else if(unlocked)ctx.resume()});
+  return {unlock,setScene,sfx,fanfare,cycleMode,get mode(){return mode}};
+})();
+</script>
+<script>
 (() => {
   const PONIES={
     buttercup:{name:'Buttercup',file:'characters/buttercup.png',alt:'Buttercup, a golden pony with pink bows and flowers'},
@@ -294,51 +527,51 @@ button:focus-visible{outline:4px solid white;outline-offset:4px}
   function dailyDone(d=today()){return !!(d.actions.feed&&d.actions.brush)&&!!d.actions.pet&&!!d.actions.play}
   function weekStats(){const wk=localWeek();const days=Object.values(save.goals.days).filter(d=>d.week===wk);return{visits:days.filter(d=>d.actions&&d.actions.visit).length,chests:days.filter(d=>d.claimed).length}}
   let goalPopTimer;
-  function goalMessage(text){clearTimeout(goalPopTimer);goalPop.textContent=text;goalPop.classList.add('show');goalPopTimer=setTimeout(()=>goalPop.classList.remove('show'),1800)}
+  function goalMessage(text){clearTimeout(goalPopTimer);goalPop.textContent=text;PonyAudio.sfx('chime');goalPop.classList.add('show');goalPopTimer=setTimeout(()=>goalPop.classList.remove('show'),1800)}
   function evaluateGoals(){const d=today(),w=thisWeek();let msg='';if(dailyDone(d)&&!d.claimed){d.claimed=true;save.stars+=5;save.totalDailyChests++;msg='Daily goal chest: +5 stars';let item=null;if(save.totalDailyChests===1)item='flower';else if(save.totalDailyChests===3)item='bow';else if(save.totalDailyChests===5)item='blanket';if(item&&unlock(item))msg+=' + '+GOODIES[item].name}
     const ws=weekStats();const allGames=!!(w.actions.ride&&w.actions.run&&w.actions.maze);if(ws.visits>=4&&ws.chests>=3&&allGames&&!w.claimed){w.claimed=true;save.stars+=15;save.totalWeeklyChests++;const item=save.totalWeeklyChests===1?'star':'rainbow';if(unlock(item))msg=(msg?msg+' | ':'')+'Weekly treasure: '+GOODIES[item].name;else msg=(msg?msg+' | ':'')+'Weekly treasure: +15 stars'}
     if(msg){particles('star',12);goalMessage(msg)}persist();renderGoals();}
   function recordAction(action){const d=today(),w=thisWeek();d.actions[action]=true;if(['ride','run','maze'].includes(action))w.actions[action]=true;const tg=currentTimeGoal();if(action===tg.action&&!d.timeBonuses[tg.key]){d.timeBonuses[tg.key]=true;save.stars+=2;goalMessage(tg.title+': +2 stars')}evaluateGoals();}
   function goalRow(done,title,desc,reward,progress=''){return `<div class="goal-row ${done?'done':''}"><div class="goal-check">${done?'✓':''}</div><div class="goal-text"><strong>${title}</strong><small>${desc}</small>${progress}</div><div class="goal-reward">${reward}</div></div>`}
-  function renderGoals(){const d=today(),w=thisWeek(),ws=weekStats(),tg=currentTimeGoal();const care=!!(d.actions.feed&&d.actions.brush),friend=!!d.actions.pet,adventure=!!d.actions.play;$('#dailyGoals').innerHTML=goalRow(care,'Care Time','Feed and brush your pony.','1/3')+goalRow(friend,'Best Friends','Give your pony a pet.','2/3')+goalRow(adventure,'Adventure','Finish any pony game.','3/3');const td=!!d.timeBonuses[tg.key];$('#timeGoal').innerHTML=`${td?'✓ ':''}<strong>${tg.title}</strong><small>${tg.text} ${td?'Bonus earned.':'Bonus: 2 stars.'}</small>`;const allGames=!!(w.actions.ride&&w.actions.run&&w.actions.maze);$('#weeklyGoals').innerHTML=goalRow(ws.visits>=4,'Visit 4 Days',`${Math.min(ws.visits,4)} of 4 days this week.`,'Weekly')+goalRow(ws.chests>=3,'3 Great Care Days',`${Math.min(ws.chests,3)} of 3 daily chests.`,'Weekly')+goalRow(allGames,'Try Every Adventure',`${Number(!!w.actions.ride)+Number(!!w.actions.run)+Number(!!w.actions.maze)} of 3 games.`,'Weekly');const grid=$('#goodieGrid');if(grid){grid.innerHTML='';Object.entries(GOODIES).forEach(([key,item])=>{const owned=save.unlocked.includes(key),eq=(save.equipped[save.current]||'none')===key;const b=document.createElement('button');b.className='goodie'+(!owned?' locked':'')+(eq?' equipped':'');b.disabled=!owned;b.innerHTML=`<div class="goodie-art ${item.art}"></div><small>${item.name}</small>`;if(owned)b.addEventListener('click',()=>{save.equipped[save.current]=key;persist();renderAccessory();renderGoals();say(item.name,'★')});grid.appendChild(b)})}}
+  function renderGoals(){const d=today(),w=thisWeek(),ws=weekStats(),tg=currentTimeGoal();const care=!!(d.actions.feed&&d.actions.brush),friend=!!d.actions.pet,adventure=!!d.actions.play;$('#dailyGoals').innerHTML=goalRow(care,'Care Time','Feed and brush your pony.','1/3')+goalRow(friend,'Best Friends','Give your pony a pet.','2/3')+goalRow(adventure,'Adventure','Finish any pony game.','3/3');const td=!!d.timeBonuses[tg.key];$('#timeGoal').innerHTML=`${td?'✓ ':''}<strong>${tg.title}</strong><small>${tg.text} ${td?'Bonus earned.':'Bonus: 2 stars.'}</small>`;const allGames=!!(w.actions.ride&&w.actions.run&&w.actions.maze);$('#weeklyGoals').innerHTML=goalRow(ws.visits>=4,'Visit 4 Days',`${Math.min(ws.visits,4)} of 4 days this week.`,'Weekly')+goalRow(ws.chests>=3,'3 Great Care Days',`${Math.min(ws.chests,3)} of 3 daily chests.`,'Weekly')+goalRow(allGames,'Try Every Adventure',`${Number(!!w.actions.ride)+Number(!!w.actions.run)+Number(!!w.actions.maze)} of 3 games.`,'Weekly');const grid=$('#goodieGrid');if(grid){grid.innerHTML='';Object.entries(GOODIES).forEach(([key,item])=>{const owned=save.unlocked.includes(key),eq=(save.equipped[save.current]||'none')===key;const b=document.createElement('button');b.className='goodie'+(!owned?' locked':'')+(eq?' equipped':'');b.disabled=!owned;b.innerHTML=`<div class="goodie-art ${item.art}"></div><small>${item.name}</small>`;if(owned)b.addEventListener('click',()=>{save.equipped[save.current]=key;persist();renderAccessory();renderGoals();say(item.name,'★');PonyAudio.sfx('shiny')});grid.appendChild(b)})}}
   function renderHomeGoals(){const d=today();const care=!!(d.actions.feed&&d.actions.brush),friend=!!d.actions.pet,adventure=!!d.actions.play;const a=$('#homeCare'),b=$('#homeFriend'),c=$('#homeAdventure');if(a)a.classList.toggle('done',care);if(b)b.classList.toggle('done',friend);if(c)c.classList.toggle('done',adventure);}
   function render(){const meta=PONIES[save.current],p=current();renderHomeGoals();pony.src=meta.file;pony.alt=meta.alt;avatar.src=meta.file;ponyName.textContent=meta.name;stars.textContent=Math.floor(save.stars);happy.style.width=clamp(p.happy)+'%';food.style.width=clamp(p.food)+'%';energy.style.width=clamp(p.energy)+'%';$('#playPonyName').textContent=meta.name;renderAccessory();persist();}
   function say(text,face='♥'){clearTimeout(toastTimer);toast.textContent=text;toast.classList.add('show');bubble.textContent=face;bubble.classList.add('show');toastTimer=setTimeout(()=>{toast.classList.remove('show');bubble.classList.remove('show')},1050)}
   function particles(kind='heart',count=7,target=pony){const r=target.getBoundingClientRect();for(let i=0;i<count;i++){const el=document.createElement('span');el.className='particle';el.textContent=kind==='star'?'★':'♥';el.style.color=kind==='star'?['#ffd04e','#fff0a1','#f8b642'][i%3]:['#f45f9d','#ff8db9','#ffb0cf'][i%3];el.style.left=(r.left+r.width*(.22+Math.random()*.56))+'px';el.style.top=(r.top+r.height*(.25+Math.random()*.45))+'px';el.style.animationDelay=(Math.random()*.12)+'s';fx.appendChild(el);setTimeout(()=>el.remove(),1150);}}
   function anim(cls,ms=720){pony.classList.remove('hop','wiggle');void pony.offsetWidth;pony.classList.add(cls);setTimeout(()=>pony.classList.remove(cls),ms)}
-  function wake(){if(!sleeping)return;sleeping=false;app.classList.remove('night');pony.classList.remove('sleepy');say('Good morning!','♥')}
+  function wake(){if(!sleeping)return;sleeping=false;app.classList.remove('night');pony.classList.remove('sleepy');say('Good morning!','♥');PonyAudio.sfx('wake');PonyAudio.setScene('home')}
   function reward(n,label){save.stars+=n;current().happy=clamp(current().happy+Math.min(12,n));particles('star',Math.min(12,4+n));render();if(label)say(label,'★')}
 
   // Pony chooser
   const ponyGrid=$('#ponyGrid');
-  Object.entries(PONIES).forEach(([key,p])=>{const b=document.createElement('button');b.className='pony-card';b.dataset.pony=key;b.innerHTML=`<img src="${p.file}" alt=""><span>${p.name}</span>`;b.addEventListener('click',()=>{wake();save.current=key;$('#stableModal').classList.add('hidden');syncPonyCards();render();particles('heart',5);say(p.name+'!','♥')});ponyGrid.appendChild(b)});
+  Object.entries(PONIES).forEach(([key,p])=>{const b=document.createElement('button');b.className='pony-card';b.dataset.pony=key;b.innerHTML=`<img src="${p.file}" alt=""><span>${p.name}</span>`;b.addEventListener('click',()=>{wake();save.current=key;$('#stableModal').classList.add('hidden');syncPonyCards();render();particles('heart',5);say(p.name+'!','♥');PonyAudio.sfx('whinny')});ponyGrid.appendChild(b)});
   function syncPonyCards(){$$('.pony-card').forEach(b=>b.classList.toggle('active',b.dataset.pony===save.current))}
-  $('#openGoals').addEventListener('click',()=>{renderGoals();$('#goalsModal').classList.remove('hidden')});
-  $('#homeGoals').addEventListener('click',()=>{renderGoals();$('#goalsModal').classList.remove('hidden')});
-  $('#openStable').addEventListener('click',()=>{syncPonyCards();$('#stableModal').classList.remove('hidden')});
-  $$('[data-close]').forEach(b=>b.addEventListener('click',()=>$('#'+b.dataset.close).classList.add('hidden')));
-  $$('.scrim').forEach(s=>s.addEventListener('pointerdown',e=>{if(e.target===s)s.classList.add('hidden')}));
+  $('#openGoals').addEventListener('click',()=>{PonyAudio.sfx('open');renderGoals();$('#goalsModal').classList.remove('hidden')});
+  $('#homeGoals').addEventListener('click',()=>{PonyAudio.sfx('open');renderGoals();$('#goalsModal').classList.remove('hidden')});
+  $('#openStable').addEventListener('click',()=>{PonyAudio.sfx('open');syncPonyCards();$('#stableModal').classList.remove('hidden')});
+  $$('[data-close]').forEach(b=>b.addEventListener('click',()=>{PonyAudio.sfx('close');$('#'+b.dataset.close).classList.add('hidden')}));
+  $$('.scrim').forEach(s=>s.addEventListener('pointerdown',e=>{if(e.target===s){PonyAudio.sfx('close');s.classList.add('hidden')}}));
 
   // Care
-  $('#feed').addEventListener('click',()=>{wake();const p=current();p.food=clamp(p.food+18);p.happy=clamp(p.happy+3);save.stars+=1;anim('hop');particles('heart',5);say('Yum!','♥');recordAction('feed');render()});
-  $('#pet').addEventListener('click',()=>{wake();const p=current();p.happy=clamp(p.happy+12);save.stars+=1;anim('hop');particles('heart',9);say('So happy!','♥');recordAction('pet');render()});
-  $('#sleep').addEventListener('click',()=>{if(sleeping){wake();render();return}sleeping=true;app.classList.add('night');pony.classList.add('sleepy');current().energy=clamp(current().energy+22);say('Night night','Zz');for(let i=0;i<3;i++)setTimeout(()=>{const z=document.createElement('span');z.className='zzz';z.textContent='Z';z.style.left=(58+i*4)+'%';z.style.top=(35-i*3)+'%';fx.appendChild(z);setTimeout(()=>z.remove(),1700)},i*280);recordAction('sleep');render()});
+  $('#feed').addEventListener('click',()=>{wake();const p=current();p.food=clamp(p.food+18);p.happy=clamp(p.happy+3);save.stars+=1;anim('hop');particles('heart',5);say('Yum!','♥');PonyAudio.sfx('feed');recordAction('feed');render()});
+  $('#pet').addEventListener('click',()=>{wake();const p=current();p.happy=clamp(p.happy+12);save.stars+=1;anim('hop');particles('heart',9);say('So happy!','♥');PonyAudio.sfx('pet');recordAction('pet');render()});
+  $('#sleep').addEventListener('click',()=>{if(sleeping){wake();render();return}sleeping=true;app.classList.add('night');pony.classList.add('sleepy');current().energy=clamp(current().energy+22);say('Night night','Zz');PonyAudio.sfx('sleep');PonyAudio.setScene('night');for(let i=0;i<3;i++)setTimeout(()=>{const z=document.createElement('span');z.className='zzz';z.textContent='Z';z.style.left=(58+i*4)+'%';z.style.top=(35-i*3)+'%';fx.appendChild(z);setTimeout(()=>z.remove(),1700)},i*280);recordAction('sleep');render()});
 
   // Interactive brushing
   const brushMode=$('#brushMode'),brushTool=$('#brushTool'),brushFill=$('#brushFill');let brushing=false,brushAmount=0,lastBrush=0;
-  function endBrush(completed=false){if(!brushing)return;brushing=false;brushMode.classList.add('hidden');brushFill.style.width='0';if(completed){current().happy=clamp(current().happy+12);save.stars+=2;anim('wiggle',1000);particles('star',11);say('All shiny!','★');recordAction('brush');render()}}
-  $('#brush').addEventListener('click',()=>{wake();brushing=true;brushAmount=0;lastBrush=0;brushFill.style.width='0';brushMode.classList.remove('hidden')});
+  function endBrush(completed=false){if(!brushing)return;brushing=false;brushMode.classList.add('hidden');brushFill.style.width='0';if(completed){current().happy=clamp(current().happy+12);save.stars+=2;anim('wiggle',1000);particles('star',11);say('All shiny!','★');PonyAudio.sfx('shiny');recordAction('brush');render()}}
+  $('#brush').addEventListener('click',()=>{wake();brushing=true;brushAmount=0;lastBrush=0;brushFill.style.width='0';brushMode.classList.remove('hidden');PonyAudio.sfx('pop')});
   $('#brushCancel').addEventListener('click',()=>endBrush(false));
-  brushMode.addEventListener('pointermove',e=>{if(!brushing)return;brushTool.style.left=e.clientX+'px';brushTool.style.top=e.clientY+'px';const r=pony.getBoundingClientRect();const inside=e.clientX>r.left+r.width*.18&&e.clientX<r.right-r.width*.15&&e.clientY>r.top+r.height*.18&&e.clientY<r.bottom-r.height*.05;const t=performance.now();if(inside&&t-lastBrush>45){lastBrush=t;brushAmount=Math.min(100,brushAmount+3.2);brushFill.style.width=brushAmount+'%';if(Math.random()<.3)particles('star',1,pony);if(brushAmount>=100)endBrush(true)}});
+  brushMode.addEventListener('pointermove',e=>{if(!brushing)return;brushTool.style.left=e.clientX+'px';brushTool.style.top=e.clientY+'px';const r=pony.getBoundingClientRect();const inside=e.clientX>r.left+r.width*.18&&e.clientX<r.right-r.width*.15&&e.clientY>r.top+r.height*.18&&e.clientY<r.bottom-r.height*.05;const t=performance.now();if(inside&&t-lastBrush>45){lastBrush=t;brushAmount=Math.min(100,brushAmount+3.2);PonyAudio.sfx('brush',140);brushFill.style.width=brushAmount+'%';if(Math.random()<.3)particles('star',1,pony);if(brushAmount>=100)endBrush(true)}});
   brushMode.addEventListener('pointerdown',e=>{brushTool.style.left=e.clientX+'px';brushTool.style.top=e.clientY+'px'});
 
   // Play hub
-  $('#play').addEventListener('click',()=>{wake();$('#playModal').classList.remove('hidden')});
+  $('#play').addEventListener('click',()=>{wake();PonyAudio.sfx('open');$('#playModal').classList.remove('hidden')});
   $$('.game-card').forEach(b=>b.addEventListener('click',()=>{const g=b.dataset.game;$('#playModal').classList.add('hidden');startGame(g)}));
   $('#exitGame').addEventListener('click',closeGame);
-  function closeGame(){gameCleanup();gameCleanup=()=>{};activeGame=null;activity.classList.add('hidden');gameArea.innerHTML='';render()}
-  function startGame(type){gameCleanup();gameArea.innerHTML='';activeGame=type;activity.classList.remove('hidden');if(type==='ride')startRide();if(type==='run')startRun();if(type==='maze')startMaze()}
-  function finishGame(title,text,starsEarned,replay){save.stars+=starsEarned;current().happy=clamp(current().happy+8);recordAction('play');if(activeGame)recordAction(activeGame);persist();const over=document.createElement('div');over.className='game-over';over.innerHTML=`<div class="result-card"><h2>${title}</h2><p>${text}</p><p><strong>+${starsEarned} stars</strong></p><button type="button">Play again</button></div>`;gameArea.appendChild(over);over.querySelector('button').addEventListener('click',replay);}
+  function closeGame(){gameCleanup();gameCleanup=()=>{};activeGame=null;activity.classList.add('hidden');gameArea.innerHTML='';PonyAudio.setScene(sleeping?'night':'home');render()}
+  function startGame(type){gameCleanup();gameArea.innerHTML='';activeGame=type;activity.classList.remove('hidden');PonyAudio.setScene(type);if(type==='ride')startRide();if(type==='run')startRun();if(type==='maze')startMaze()}
+  function finishGame(title,text,starsEarned,replay){save.stars+=starsEarned;current().happy=clamp(current().happy+8);recordAction('play');if(activeGame)recordAction(activeGame);persist();PonyAudio.fanfare();const over=document.createElement('div');over.className='game-over';over.innerHTML=`<div class="result-card"><h2>${title}</h2><p>${text}</p><p><strong>+${starsEarned} stars</strong></p><button type="button">Play again</button></div>`;gameArea.appendChild(over);over.querySelector('button').addEventListener('click',replay);}
 
   // Trail Ride: free movement and collectible treats
   function startRide(){activityTitle.textContent='Trail Ride';gameScore.textContent='0';gameArea.innerHTML='<div class="ride-world" id="rideWorld"><div class="ride-pond"></div><div class="ride-rock r1"></div><div class="ride-rock r2"></div><img class="ride-pony" id="ridePony" alt=""><div class="game-message">Collect all 8 treats!</div><div class="ride-tip">Arrow keys work too.</div><div class="dpad"><button class="up" data-dir="up">↑</button><button class="left" data-dir="left">←</button><button class="right" data-dir="right">→</button><button class="down" data-dir="down">↓</button></div></div>';
@@ -347,8 +580,8 @@ button:focus-visible{outline:4px solid white;outline-offset:4px}
     spots.forEach((s,i)=>{const el=document.createElement('div');el.className='collectible';el.innerHTML=carrotSvg;el.style.left=s[0]+'%';el.style.top=s[1]+'%';el.dataset.x=s[0];el.dataset.y=s[1];world.appendChild(el);items.push(el)});
     function place(){rp.style.left=x+'%';rp.style.top=y+'%'}place();
     function blocked(nx,ny){if(nx<9||nx>91||ny<18||ny>83)return true;const pond=nx>11&&nx<37&&ny>20&&ny<51;const r1=nx>73&&nx<88&&ny>21&&ny<39;const r2=nx>39&&nx<51&&ny>66&&ny<79;return pond||r1||r2}
-    function move(dx,dy){if(done)return;const nx=x+dx,ny=y+dy;if(!blocked(nx,ny)){x=nx;y=ny;rp.style.transform=`translate(-50%,-50%) scaleX(${dx<0?-1:1})`;place();check()}}
-    function check(){items.forEach(el=>{if(el.classList.contains('hidden'))return;const ix=+el.dataset.x,iy=+el.dataset.y;if(Math.hypot(x-ix,y-iy)<6.8){el.classList.add('hidden');score++;gameScore.textContent=score;}});if(score===items.length){done=true;save.games.rideBest=Math.max(save.games.rideBest,score);finishGame('Great ride!','You found every treat in the meadow.',8,()=>startGame('ride'))}}
+    function move(dx,dy){if(done)return;const nx=x+dx,ny=y+dy;if(!blocked(nx,ny)){x=nx;y=ny;rp.style.transform=`translate(-50%,-50%) scaleX(${dx<0?-1:1})`;place();PonyAudio.sfx('clop',190);check()}}
+    function check(){items.forEach(el=>{if(el.classList.contains('hidden'))return;const ix=+el.dataset.x,iy=+el.dataset.y;if(Math.hypot(x-ix,y-iy)<6.8){el.classList.add('hidden');score++;PonyAudio.sfx('treat');gameScore.textContent=score;}});if(score===items.length){done=true;save.games.rideBest=Math.max(save.games.rideBest,score);finishGame('Great ride!','You found every treat in the meadow.',8,()=>startGame('ride'))}}
     const keys=new Set();const kd=e=>{const map={ArrowUp:'up',ArrowDown:'down',ArrowLeft:'left',ArrowRight:'right',w:'up',s:'down',a:'left',d:'right'};if(map[e.key]){e.preventDefault();keys.add(map[e.key])}};const ku=e=>{const map={ArrowUp:'up',ArrowDown:'down',ArrowLeft:'left',ArrowRight:'right',w:'up',s:'down',a:'left',d:'right'};if(map[e.key])keys.delete(map[e.key])};window.addEventListener('keydown',kd);window.addEventListener('keyup',ku);
     let raf,last=0;function loop(t){if(!done&&t-last>45){last=t;if(keys.has('up'))move(0,-1.3);if(keys.has('down'))move(0,1.3);if(keys.has('left'))move(-1.3,0);if(keys.has('right'))move(1.3,0)}raf=requestAnimationFrame(loop)}raf=requestAnimationFrame(loop);
     const handlers=[];world.querySelectorAll('[data-dir]').forEach(btn=>{const dir=btn.dataset.dir;const fn=()=>{for(let i=0;i<2;i++){if(dir==='up')move(0,-2.2);if(dir==='down')move(0,2.2);if(dir==='left')move(-2.2,0);if(dir==='right')move(2.2,0)}};btn.addEventListener('pointerdown',fn);handlers.push([btn,fn])});
@@ -358,12 +591,12 @@ button:focus-visible{outline:4px solid white;outline-offset:4px}
   // Star Run: one-button jumping runner
   function startRun(){activityTitle.textContent='Star Run';gameScore.textContent='0';gameArea.innerHTML='<div class="run-world" id="runWorld"><div class="run-clouds"></div><div class="run-hills"></div><div class="run-ground"></div><div class="run-lane"></div><img class="runner-pony running" id="runnerPony" alt=""><div class="game-message">Jump and catch stars!</div><div class="tap-zone" id="tapZone"><div class="jump-hint">Tap anywhere to jump</div></div></div>';
     const world=$('#runWorld'),rp=$('#runnerPony'),tap=$('#tapZone');rp.src=PONIES[save.current].file;let y=0,vy=0,onGround=true,score=0,time=0,last=performance.now(),spawnT=0,done=false,raf;const objects=[];
-    function jump(){if(done)return;if(onGround){vy=10.7;onGround=false;rp.classList.remove('running');rp.classList.add('jumping')}}
+    function jump(){if(done)return;if(onGround){vy=10.7;PonyAudio.sfx('jump');onGround=false;rp.classList.remove('running');rp.classList.add('jumping')}}
     const key=e=>{if(e.code==='Space'||e.code==='ArrowUp'){e.preventDefault();jump()}};window.addEventListener('keydown',key);tap.addEventListener('pointerdown',jump);
     function addObj(type){const el=document.createElement('div');el.className='run-object '+(type==='hay'?'hay':'run-star');if(type==='star')el.innerHTML='<svg viewBox="0 0 50 50"><path d="m25 4 6 12 13 2-10 9 3 13-12-6-12 6 3-13-10-9 13-2Z" fill="#ffd24e" stroke="#775044" stroke-width="3"/></svg>';el.dataset.type=type;el.dataset.x='105';world.appendChild(el);objects.push(el)}
     function loop(t){const dt=Math.min(34,t-last);last=t;time+=dt;spawnT+=dt;if(spawnT>900){spawnT=0;addObj(Math.random()<.55?'star':'hay')}
       if(!onGround){vy-=0.63*(dt/16.7);y+=vy*(dt/16.7);if(y<=0){y=0;vy=0;onGround=true;rp.classList.add('running');rp.classList.remove('jumping')}}rp.style.transform=`translateY(${-y}px) rotate(${onGround?0:-5}deg)`;
-      const horseRect=rp.getBoundingClientRect();for(let i=objects.length-1;i>=0;i--){const el=objects[i],nx=(+el.dataset.x)-.42*(dt/16.7);el.dataset.x=nx;el.style.left=nx+'%';if(nx<-5){el.remove();objects.splice(i,1);continue}const r=el.getBoundingClientRect();const hit=!(horseRect.right<r.left+8||horseRect.left>r.right-8||horseRect.bottom<r.top+8||horseRect.top>r.bottom-8);if(hit){if(el.dataset.type==='star'){score++;gameScore.textContent=score;el.remove();objects.splice(i,1)}else if(y<42){rp.animate([{transform:`translateY(${-y}px) rotate(-5deg)`},{transform:`translateY(${-y}px) translateX(-10px) rotate(-3deg)`},{transform:`translateY(${-y}px) rotate(-5deg)`}],{duration:260});el.remove();objects.splice(i,1)}}}
+      const horseRect=rp.getBoundingClientRect();for(let i=objects.length-1;i>=0;i--){const el=objects[i],nx=(+el.dataset.x)-.42*(dt/16.7);el.dataset.x=nx;el.style.left=nx+'%';if(nx<-5){el.remove();objects.splice(i,1);continue}const r=el.getBoundingClientRect();const hit=!(horseRect.right<r.left+8||horseRect.left>r.right-8||horseRect.bottom<r.top+8||horseRect.top>r.bottom-8);if(hit){if(el.dataset.type==='star'){score++;PonyAudio.sfx('star');gameScore.textContent=score;el.remove();objects.splice(i,1)}else if(y<42){PonyAudio.sfx('bump');rp.animate([{transform:`translateY(${-y}px) rotate(-5deg)`},{transform:`translateY(${-y}px) translateX(-10px) rotate(-3deg)`},{transform:`translateY(${-y}px) rotate(-5deg)`}],{duration:260});el.remove();objects.splice(i,1)}}}
       if(time>=22000&&!done){done=true;save.games.runBest=Math.max(save.games.runBest,score);finishGame('Nice run!',`You caught ${score} shining star${score===1?'':'s'}.`,Math.max(3,score),()=>startGame('run'));return}raf=requestAnimationFrame(loop)}raf=requestAnimationFrame(loop);
     gameCleanup=()=>{cancelAnimationFrame(raf);window.removeEventListener('keydown',key);tap.removeEventListener('pointerdown',jump)};
   }
@@ -386,7 +619,7 @@ button:focus-visible{outline:4px solid white;outline-offset:4px}
     for(let y=0;y<rows;y++)for(let x=0;x<cols;x++){const c=document.createElement('div');c.className='maze-cell'+(layout[y][x]==='#'?' wall':'')+(x===goal.x&&y===goal.y?' goal':'');c.dataset.x=x;c.dataset.y=y;if(x===goal.x&&y===goal.y)c.innerHTML=carrot;board.appendChild(c)}
     const pimg=document.createElement('img');pimg.className='maze-pony';pimg.src=PONIES[save.current].file;pimg.alt='';cell(px,py).appendChild(pimg);
     function cell(x,y){return board.querySelector(`[data-x="${x}"][data-y="${y}"]`)}
-    function move(dir){if(won)return;let nx=px,ny=py;if(dir==='up')ny--;if(dir==='down')ny++;if(dir==='left')nx--;if(dir==='right')nx++;if(nx<0||ny<0||nx>=cols||ny>=rows||layout[ny][nx]==='#')return;px=nx;py=ny;pimg.style.transform=`scaleX(${dir==='left'?-1:1})`;cell(px,py).appendChild(pimg);if(px===goal.x&&py===goal.y){won=true;save.games.mazeWins++;gameScore.textContent=save.games.mazeWins;finishGame('You found it!','Your pony made it all the way to the carrot.',7,()=>startGame('maze'))}}
+    function move(dir){if(won)return;let nx=px,ny=py;if(dir==='up')ny--;if(dir==='down')ny++;if(dir==='left')nx--;if(dir==='right')nx++;if(nx<0||ny<0||nx>=cols||ny>=rows||layout[ny][nx]==='#'){PonyAudio.sfx('wall',220);return}px=nx;py=ny;pimg.style.transform=`scaleX(${dir==='left'?-1:1})`;cell(px,py).appendChild(pimg);PonyAudio.sfx('step');if(px===goal.x&&py===goal.y){won=true;save.games.mazeWins++;gameScore.textContent=save.games.mazeWins;finishGame('You found it!','Your pony made it all the way to the carrot.',7,()=>startGame('maze'))}}
     const key=e=>{const m={ArrowUp:'up',ArrowDown:'down',ArrowLeft:'left',ArrowRight:'right',w:'up',s:'down',a:'left',d:'right'};if(m[e.key]){e.preventDefault();move(m[e.key])}};window.addEventListener('keydown',key);const handlers=[];gameArea.querySelectorAll('[data-move]').forEach(b=>{const f=()=>move(b.dataset.move);b.addEventListener('pointerdown',f);handlers.push([b,f])});gameCleanup=()=>{window.removeEventListener('keydown',key);handlers.forEach(([b,f])=>b.removeEventListener('pointerdown',f))};
   }
 
@@ -394,6 +627,7 @@ button:focus-visible{outline:4px solid white;outline-offset:4px}
   today();thisWeek();renderGoals();evaluateGoals();
   document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden')persist();else{today();renderGoals();render()}});window.addEventListener('beforeunload',persist);setInterval(persist,15000);
   setInterval(()=>{const p=current();if(sleeping)p.energy=clamp(p.energy+.65);else{p.food=clamp(p.food-.05);p.energy=clamp(p.energy-.035)}render()},20000);
+  const soundBtn=$('#soundBtn'),SOUND_UI={all:['🎵','Music on'],sfx:['🔔','Sounds only'],off:['🔇','Quiet']};function syncSound(){const [icon,label]=SOUND_UI[PonyAudio.mode];soundBtn.textContent=icon;soundBtn.classList.toggle('muted',PonyAudio.mode!=='all');soundBtn.setAttribute('aria-label','Sound: '+label)}soundBtn.addEventListener('click',()=>{const m=PonyAudio.cycleMode();syncSound();PonyAudio.sfx('pop');say(SOUND_UI[m][1],SOUND_UI[m][0])});syncSound();
   window.addEventListener('pagehide',persist);syncPonyCards();render();
 })();
 </script>

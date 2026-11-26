@@ -10,7 +10,8 @@ A tiny, touch-first pony toy designed for a young child who is still learning to
 - Picture-only dress-up drawer with pony accessories
 - Meadow, stable, and horse-show scenes
 - Spoken pony names and actions using the browser's built-in speech
-- Gentle sound effects made in the browser
+- Original music for every scene (meadow, bedtime lullaby, Trail Ride hoedown, Star Run, Pony Maze) plus sound effects for every action, all synthesized in the browser with no audio files
+- Sound button (top right) cycles Music on → Sounds only → Quiet; the choice is remembered
 - Progress saved automatically with localStorage
 - Export/import backup hidden in grown-up settings
 - No database, login, framework, or build step
