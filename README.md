@@ -8,6 +8,8 @@ A tiny, touch-first pony toy designed for a young child who is still learning to
 - One large animated pony on screen
 - Four picture actions: apple, brush, ride, and dress up
 - Trail Ride quest: help Bunny find carrots, swim out to rescue Mama Duck's ducklings, then open the island treasure. Tap anywhere (or on the minimap) to ride there; a pink arrow always points to the next goal
+- Rodeo: pick any horse and a rider from the cast (dress riders in the Rider Closet), then try Barrel Racing, Trick Riding, Show Jumping, Calf Roping and Bronc Riding. Best scores and ribbons are saved
+- My Ranch + barn: free roam with drawn farm animals, stalls with treats and grooming tools (Sparkle Spray makes a pony glitter for 15 minutes), and the Tack Room
 - Star Run: tap to jump, tap again in the air to double-jump; jump the hay bales, grab the rainbow star magnet and lucky horseshoes
 - Picture-only dress-up drawer with pony accessories
 - Meadow, stable, and horse-show scenes
