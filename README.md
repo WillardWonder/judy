@@ -4,6 +4,7 @@ A tiny, touch-first pony toy designed for a young child who is still learning to
 
 ## What it does
 
+- Read-aloud voice for pre-readers: instructions, quest goals, counting, menu names and results are spoken (the 🔊 button repeats the last instruction; Quiet mode turns it off)
 - Six big pony faces to tap and switch horses
 - One large animated pony on screen
 - Four picture actions: apple, brush, ride, and dress up

@@ -78,7 +78,7 @@ button:focus-visible{outline:4px solid white;outline-offset:4px}
 .play-panel{width:min(820px,95vw)}.play-intro{margin:-5px 0 15px;text-align:center;font-weight:800;opacity:.75}.game-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.game-card{cursor:pointer;min-height:210px;border-radius:25px;padding:14px 10px 12px;border:3px solid white;box-shadow:0 5px 0 #916174,0 0 0 2px #684756;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:8px;font-weight:1000}.game-card:nth-child(1){background:#c9f0db}.game-card:nth-child(2){background:#ffe0a6}.game-card:nth-child(3){background:#dcd4ff}.game-card svg{width:88px;height:88px}.game-card strong{font-size:24px}.game-card small{font-size:14px;line-height:1.25;opacity:.72}.game-card:active{transform:translateY(4px)}
 
 /* Activity shell */
-.activity{position:absolute;inset:0;z-index:100;background:#aee3f8;display:flex;flex-direction:column}.activity-head{height:72px;padding:max(9px,env(safe-area-inset-top)) 12px 7px;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:10px;background:rgba(255,250,243,.96);border-bottom:4px solid #765164;box-shadow:0 4px 0 rgba(100,68,83,.15);z-index:4}.back-btn{width:51px;height:46px;border-radius:17px;background:#ffd8e6;border:3px solid white;box-shadow:0 3px 0 #956277,0 0 0 2px #684757;font-size:24px;font-weight:1000;cursor:pointer}.activity-title{text-align:center;font-size:clamp(21px,3.5vw,30px);font-weight:1000}.score-box{min-width:105px;height:46px;padding:0 10px;border-radius:16px;background:#fff2c0;border:3px solid white;box-shadow:0 3px 0 #aa7a55,0 0 0 2px #6c4e4a;display:flex;align-items:center;justify-content:center;gap:5px;font-size:20px;font-weight:1000}.game-area{position:relative;flex:1;overflow:hidden;touch-action:none}.game-message{position:absolute;z-index:20;left:50%;top:18px;transform:translateX(-50%);padding:8px 14px;border-radius:18px;background:rgba(255,250,244,.96);border:3px solid white;box-shadow:0 3px 0 #8f6071,0 0 0 2px #674554;font-weight:1000;white-space:nowrap;pointer-events:none}.game-over{position:absolute;z-index:30;inset:0;background:rgba(64,44,58,.28);display:grid;place-items:center;padding:20px}.result-card{width:min(420px,90vw);background:#fff9f2;border:4px solid white;box-shadow:0 7px 0 #89596c,0 0 0 3px #614150;border-radius:28px;padding:22px;text-align:center}.result-card h2{font-size:32px;margin:0 0 6px}.result-card p{font-size:18px;margin:5px 0 16px}.result-card button{cursor:pointer;background:#bcebd1;border:3px solid white;box-shadow:0 4px 0 #7d6570,0 0 0 2px #604451;border-radius:18px;padding:11px 18px;font-weight:1000;font-size:18px}
+.say-again{width:46px;height:46px;border-radius:16px;background:#d9f0ff;border:3px solid white;box-shadow:0 3px 0 #6a8fb0,0 0 0 2px #4d6276;font-size:21px;cursor:pointer;padding:0}.say-again:active{transform:translateY(3px)}.activity{position:absolute;inset:0;z-index:100;background:#aee3f8;display:flex;flex-direction:column}.activity-head{height:72px;padding:max(9px,env(safe-area-inset-top)) 12px 7px;display:grid;grid-template-columns:auto 1fr auto auto;align-items:center;gap:8px;background:rgba(255,250,243,.96);border-bottom:4px solid #765164;box-shadow:0 4px 0 rgba(100,68,83,.15);z-index:4}.back-btn{width:51px;height:46px;border-radius:17px;background:#ffd8e6;border:3px solid white;box-shadow:0 3px 0 #956277,0 0 0 2px #684757;font-size:24px;font-weight:1000;cursor:pointer}.activity-title{text-align:center;font-size:clamp(21px,3.5vw,30px);font-weight:1000}.score-box{min-width:105px;height:46px;padding:0 10px;border-radius:16px;background:#fff2c0;border:3px solid white;box-shadow:0 3px 0 #aa7a55,0 0 0 2px #6c4e4a;display:flex;align-items:center;justify-content:center;gap:5px;font-size:20px;font-weight:1000}.game-area{position:relative;flex:1;overflow:hidden;touch-action:none}.game-message{position:absolute;z-index:20;left:50%;top:64px;transform:translateX(-50%);padding:8px 14px;border-radius:18px;background:rgba(255,250,244,.96);border:3px solid white;box-shadow:0 3px 0 #8f6071,0 0 0 2px #674554;font-weight:1000;white-space:normal;text-align:center;width:max-content;max-width:calc(100% - 24px);pointer-events:none}.game-over{position:absolute;z-index:30;inset:0;background:rgba(64,44,58,.28);display:grid;place-items:center;padding:20px}.result-card{width:min(420px,90vw);background:#fff9f2;border:4px solid white;box-shadow:0 7px 0 #89596c,0 0 0 3px #614150;border-radius:28px;padding:22px;text-align:center}.result-card h2{font-size:32px;margin:0 0 6px}.result-card p{font-size:18px;margin:5px 0 16px}.result-card button{cursor:pointer;background:#bcebd1;border:3px solid white;box-shadow:0 4px 0 #7d6570,0 0 0 2px #604451;border-radius:18px;padding:11px 18px;font-weight:1000;font-size:18px}
 
 /* Trail Ride */
 .dpad{position:absolute;right:16px;bottom:max(14px,env(safe-area-inset-bottom));z-index:16;width:152px;height:152px}.dpad button{position:absolute;width:54px;height:54px;border-radius:18px;background:rgba(255,250,243,.95);border:3px solid white;box-shadow:0 3px 0 #875a6b,0 0 0 2px #614452;font-size:25px;font-weight:1000;cursor:pointer}.dpad .up{left:49px;top:0}.dpad .down{left:49px;bottom:0}.dpad .left{left:0;top:49px}.dpad .right{right:0;top:49px}.dpad button:active{transform:translateY(3px);box-shadow:0 0 0 #875a6b,0 0 0 2px #614452}
@@ -197,9 +197,9 @@ button:focus-visible{outline:4px solid white;outline-offset:4px}
 .goodies .big-link{margin:6px 0 4px}.goodies small{display:block;color:#8a6474;font-weight:800}
 .shake{animation:shake .4s}@keyframes shake{20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
 /* tack room */
-.tack-panel{width:min(1000px,96vw);max-height:94vh;display:flex;flex-direction:column}
+.tack-panel{width:min(1000px,100%);max-height:94vh;display:flex;flex-direction:column}
 .tack-stars{margin-left:auto;margin-right:10px;font:1000 20px system-ui,sans-serif;color:#8a5a22;background:#fff6d8;padding:4px 12px;border-radius:14px;box-shadow:0 0 0 2px #e9c67a}
-.tack-body{display:grid;grid-template-columns:minmax(230px,38%) 1fr;gap:14px;min-height:0;flex:1}
+.tack-body{display:grid;grid-template-columns:minmax(230px,38%) minmax(0,1fr);gap:14px;min-height:0;flex:1}
 .tack-left{display:flex;flex-direction:column;gap:8px;align-items:center;min-width:0}
 .tack-ponies{display:flex;gap:6px}.tack-pony{width:54px;height:54px;border-radius:15px;border:3px solid #fff;background:#fff4ea;box-shadow:0 0 0 2px #d7bcc8;padding:2px;cursor:pointer}.tack-pony img{width:100%;height:100%;object-fit:contain}.tack-pony.on{box-shadow:0 0 0 3px #f078aa;background:#ffe0ee}
 .tack-preview{position:relative;width:100%;aspect-ratio:520/420;max-height:36vh;border-radius:22px;background:radial-gradient(circle at 50% 85%,#fff 0 30%,#ffeaf3 60%,#ffd7e8);box-shadow:inset 0 0 0 3px #fff,0 0 0 2px #e6c3d2}
@@ -220,7 +220,7 @@ button:focus-visible{outline:4px solid white;outline-offset:4px}
 .tack-item.confirm{animation:pulse .8s infinite}.tack-item.confirm .ti-tag{background:#ffd35b;color:#5a3a12}
 @keyframes pulse{50%{transform:scale(1.06)}}
 .tack-item.worn{box-shadow:0 3px 0 #3f9c4f,0 0 0 3px #3f9c4f;background:#effbea}.ti-on{position:absolute;top:4px;right:8px;color:#3f9c4f;font-size:18px}
-@media(max-width:720px){.tack-body{grid-template-columns:1fr;overflow:auto}.tack-preview{max-height:26vh}.tack-grid{grid-template-columns:repeat(auto-fill,minmax(86px,1fr));overflow:visible}.tack-item{min-height:108px}}
+@media(max-width:720px){.tack-body{grid-template-columns:minmax(0,1fr);overflow:auto}.tack-preview{max-height:26vh}.tack-grid{grid-template-columns:repeat(auto-fill,minmax(86px,1fr));overflow:visible}.tack-item{min-height:108px}}
 /* barn stall tray */
 .stall-tray{position:absolute;left:50%;bottom:10px;transform:translateX(-50%);z-index:20;width:min(620px,96%);padding:8px 10px 10px;border-radius:22px;background:rgba(255,250,243,.96);border:3px solid #fff;box-shadow:0 5px 0 #8f6071,0 0 0 2px #674554;transition:transform .25s,opacity .25s}
 .stall-tray.hidden{opacity:0;transform:translate(-50%,30px);pointer-events:none}
@@ -248,7 +248,7 @@ button:focus-visible{outline:4px solid white;outline-offset:4px}
 .sparkle-layer i{position:absolute;width:22px;height:22px;margin:-11px 0 0 -11px;background:radial-gradient(circle,#fff 0 18%,transparent 20%),conic-gradient(from 45deg,transparent 0 10%,#fff 12%,transparent 14% 35%,#fff 37%,transparent 39% 60%,#fff 62%,transparent 64% 85%,#fff 87%,transparent 89%);filter:drop-shadow(0 0 4px #fff6c8);animation:glint 1.9s ease-in-out infinite;opacity:0}
 .sparkle-layer i:nth-child(3n){background:radial-gradient(circle,#fff 0 22%,#ffe8f5 30%,transparent 60%);width:12px;height:12px;margin:-6px 0 0 -6px}
 @keyframes glint{0%,100%{opacity:0;transform:scale(.3) rotate(0)}50%{opacity:1;transform:scale(1.1) rotate(45deg)}}
-#riderModal{z-index:140}
+#riderModal{z-index:140}@media(max-width:520px){.scrim{padding:8px}}
 .rc-person{display:flex;flex-direction:column;align-items:center;gap:0;padding:3px 4px 4px;border-radius:14px;border:3px solid #fff;background:#fff4ea;box-shadow:0 0 0 2px #d7bcc8;cursor:pointer;font:900 11px system-ui,sans-serif;color:#5a3444;flex:0 0 auto}.rc-person.on{box-shadow:0 0 0 3px #f078aa;background:#ffe0ee}.rc-person svg{display:block}
 .rc-cast{display:flex;gap:6px;overflow-x:auto;max-width:100%;padding:3px 2px 6px}
 .rc-name{display:flex;align-items:center;gap:6px;font:900 14px system-ui,sans-serif;color:#5a3444}.rc-name input{font:900 18px system-ui,sans-serif;color:#5a3444;border:3px solid #fff;box-shadow:0 0 0 2px #d7bcc8;border-radius:12px;padding:5px 10px;width:150px;background:#fffaf5}
@@ -394,7 +394,7 @@ button:focus-visible{outline:4px solid white;outline-offset:4px}
   </div>
 
   <section class="activity hidden" id="activity" aria-label="Pony game">
-    <header class="activity-head"><button class="back-btn" id="exitGame" aria-label="Back">‹</button><div class="activity-title" id="activityTitle">Trail Ride</div><div class="score-box"><svg viewBox="0 0 32 32" width="24" height="24" aria-hidden="true"><path d="m16 3 3.7 7.5 8.3 1.2-6 5.8 1.4 8.2-7.4-3.9-7.4 3.9 1.4-8.2-6-5.8 8.3-1.2Z" fill="#ffd04f" stroke="#8e603e" stroke-width="2.2"/></svg><span id="gameScore">0</span></div></header>
+    <header class="activity-head"><button class="back-btn" id="exitGame" aria-label="Back">‹</button><div class="activity-title" id="activityTitle">Trail Ride</div><button class="say-again" id="sayAgain" aria-label="Hear it again">🔊</button><div class="score-box"><svg viewBox="0 0 32 32" width="24" height="24" aria-hidden="true"><path d="m16 3 3.7 7.5 8.3 1.2-6 5.8 1.4 8.2-7.4-3.9-7.4 3.9 1.4-8.2-6-5.8 8.3-1.2Z" fill="#ffd04f" stroke="#8e603e" stroke-width="2.2"/></svg><span id="gameScore">0</span></div></header>
     <div class="game-area" id="gameArea"></div>
   </section>
 </main>
@@ -427,7 +427,7 @@ window.PonyAudio=(()=>{
     noise=ctx.createBuffer(1,ctx.sampleRate,ctx.sampleRate);const nd=noise.getChannelData(0);for(let i=0;i<nd.length;i++)nd[i]=Math.random()*2-1;
     applyMode();return true;
   }
-  function applyMode(){if(!ctx)return;const t=ctx.currentTime;musicBus.gain.setTargetAtTime(mode==='all'?.5:0,t,.15);sfxBus.gain.setTargetAtTime(mode==='off'?0:.95,t,.05)}
+  let duck=false;function applyMode(){if(!ctx)return;const t=ctx.currentTime;musicBus.gain.setTargetAtTime(mode==='all'?(duck?.16:.5):0,t,duck?.08:.4);sfxBus.gain.setTargetAtTime(mode==='off'?0:.95,t,.05)}
 
   // ---------- building blocks ----------
   function osc(type,f,t){const o=ctx.createOscillator();o.type=type;o.frequency.setValueAtTime(f,t);return o}
@@ -683,7 +683,7 @@ window.PonyAudio=(()=>{
   document.addEventListener('pointerdown',unlock,true);
   document.addEventListener('keydown',unlock,true);
   document.addEventListener('visibilitychange',()=>{if(!ctx)return;if(document.hidden)ctx.suspend();else if(unlocked)ctx.resume()});
-  return {unlock,setScene,sfx,fanfare,cycleMode,get mode(){return mode}};
+  return {unlock,setScene,sfx,fanfare,cycleMode,get mode(){return mode},duck(on){if(duck!==on){duck=on;applyMode()}}};
 })();
 </script>
 <script>
@@ -910,7 +910,21 @@ window.PonyAudio=(()=>{
   function renderGoals(){const d=today(),w=thisWeek(),ws=weekStats(),tg=currentTimeGoal();const care=!!(d.actions.feed&&d.actions.brush),friend=!!d.actions.pet,adventure=!!d.actions.play;$('#dailyGoals').innerHTML=goalRow(care,'Care Time','Feed and brush your pony.','1/3')+goalRow(friend,'Best Friends','Give your pony a pet.','2/3')+goalRow(adventure,'Adventure','Finish any pony game.','3/3');const td=!!d.timeBonuses[tg.key];$('#timeGoal').innerHTML=`${td?'✓ ':''}<strong>${tg.title}</strong><small>${tg.text} ${td?'Bonus earned.':'Bonus: 2 stars.'}</small>`;const allGames=!!(w.actions.ride&&w.actions.run&&w.actions.maze);$('#weeklyGoals').innerHTML=goalRow(ws.visits>=4,'Visit 4 Days',`${Math.min(ws.visits,4)} of 4 days this week.`,'Weekly')+goalRow(ws.chests>=3,'3 Great Care Days',`${Math.min(ws.chests,3)} of 3 daily chests.`,'Weekly')+goalRow(allGames,'Try Every Adventure',`${Number(!!w.actions.ride)+Number(!!w.actions.run)+Number(!!w.actions.maze)} of 3 games.`,'Weekly')}
   function renderHomeGoals(){const d=today();const care=!!(d.actions.feed&&d.actions.brush),friend=!!d.actions.pet,adventure=!!d.actions.play;const a=$('#homeCare'),b=$('#homeFriend'),c=$('#homeAdventure');if(a)a.classList.toggle('done',care);if(b)b.classList.toggle('done',friend);if(c)c.classList.toggle('done',adventure);}
   function render(){const meta=PONIES[save.current],p=current();renderHomeGoals();pony.src=meta.file;pony.alt=meta.alt;avatar.src=meta.file;ponyName.textContent=meta.name;stars.textContent=Math.floor(save.stars);happy.style.width=clamp(p.happy)+'%';food.style.width=clamp(p.food)+'%';energy.style.width=clamp(p.energy)+'%';$('#playPonyName').textContent=meta.name;renderAccessory();persist();}
-  function say(text,face='♥'){clearTimeout(toastTimer);toast.textContent=text;toast.classList.add('show');bubble.textContent=face;bubble.classList.add('show');toastTimer=setTimeout(()=>{toast.classList.remove('show');bubble.classList.remove('show')},1050)}
+  // ===== Read-aloud voice (Judy can't read yet) =====
+  const Voice=(()=>{const ss=window.speechSynthesis;let vo=null,last='',lastT=0,lastHint='';
+    const pick=()=>{if(!ss)return;const vs=ss.getVoices().filter(v=>/^en/i.test(v.lang));vo=vs.find(v=>/Samantha|Google US English|Aria|Jenny|Ava|Allison|Susan|Zira/i.test(v.name))||vs.find(v=>/en[-_]US/i.test(v.lang))||vs[0]||null};
+    if(ss){pick();ss.addEventListener&&ss.addEventListener('voiceschanged',pick)}
+    const clean=t=>String(t).replace(/<[^>]*>/g,' ').replace(/([a-z!.]\s*)[→➜](\s*[a-z])/gi,'$1, then$2').replace(/[→➜]/g,' ').replace(/[\p{Extended_Pictographic}☀-➿️‍★✓⬇⬅➡]/gu,' ').replace(/\s+/g,' ').replace(/\s+([!?.,])/g,'$1').trim();
+    function say(t,o={}){if(!ss||PonyAudio.mode==='off')return;t=clean(t);if(!(o.words?/[a-z]/i:/[a-z0-9]/i).test(t))return;const now=Date.now();if(t===last&&now-lastT<1800)return;last=t;lastT=now;if(!o.queue)ss.cancel();const u=new SpeechSynthesisUtterance(t);if(vo)u.voice=vo;u.lang=vo?vo.lang:'en-US';u.rate=o.rate||.92;u.pitch=1.12;u.onstart=()=>PonyAudio.duck(true);u.onend=u.onerror=()=>setTimeout(()=>{if(!ss.speaking)PonyAudio.duck(false)},150);try{ss.speak(u)}catch(e){}}
+    return{say,hint(t){lastHint=t;say(t)},again(){if(lastHint)say(lastHint)},stop(){ss&&ss.cancel()},set lastHint(t){lastHint=t}}})();
+  const NAME={'🐰':'bunny','🦆':'duck','🐿️':'squirrel','🦔':'hedgehog','🦀':'crab','🐢':'turtle','🐧':'penguin','🦌':'deer','🥕':'carrots','🌰':'acorns','🐚':'seashells','🔔':'bells','🐥':'ducklings'};
+  const nm=e=>NAME[e]||'friend';
+  // speak the name of whatever menu card / item gets tapped
+  document.addEventListener('click',e=>{const el=e.target.closest('.game-card,.ev-card,.level-card,.tack-item,.tack-tab,.rc-person,.pony-choice,.stall-tray button,[data-say]');if(!el)return;
+    let t=el.dataset.say||'';if(!t){const h=el.querySelector('strong,small,span:not(.ti-art):not(.ev-icon):not(.lv-art)');t=(h&&h.textContent)||el.getAttribute('aria-label')||el.title||''}
+    if(el.classList.contains('locked')){const st=el.querySelector('.lv-status,em');if(st)t+='. '+st.textContent.replace(/Buy\?/,'').replace(/(\d+)/,'$1 stars').replace('Finish','Finish the')+' first'}
+    Voice.say(t)},true);
+  function say(text,face='♥'){Voice.say(text);clearTimeout(toastTimer);toast.textContent=text;toast.classList.add('show');bubble.textContent=face;bubble.classList.add('show');toastTimer=setTimeout(()=>{toast.classList.remove('show');bubble.classList.remove('show')},1050)}
   function particles(kind='heart',count=7,target=pony){const r=target.getBoundingClientRect();for(let i=0;i<count;i++){const el=document.createElement('span');el.className='particle';el.textContent=kind==='star'?'★':'♥';el.style.color=kind==='star'?['#ffd04e','#fff0a1','#f8b642'][i%3]:['#f45f9d','#ff8db9','#ffb0cf'][i%3];el.style.left=(r.left+r.width*(.22+Math.random()*.56))+'px';el.style.top=(r.top+r.height*(.25+Math.random()*.45))+'px';el.style.animationDelay=(Math.random()*.12)+'s';fx.appendChild(el);setTimeout(()=>el.remove(),1150);}}
   function anim(cls,ms=720){[pony,accessoryLayer].forEach(el=>{el.classList.remove('hop','wiggle');void el.offsetWidth;el.classList.add(cls)});setTimeout(()=>{pony.classList.remove(cls);accessoryLayer.classList.remove(cls)},ms)}
   function wake(){if(!sleeping)return;sleeping=false;app.classList.remove('night');pony.classList.remove('sleepy');accessoryLayer.classList.remove('sleepy');say('Good morning!','♥');PonyAudio.sfx('wake');PonyAudio.setScene('home')}
@@ -946,10 +960,10 @@ window.PonyAudio=(()=>{
   // Play hub
   $('#play').addEventListener('click',()=>{wake();PonyAudio.sfx('open');$('#playModal').classList.remove('hidden')});
   $$('.game-card').forEach(b=>b.addEventListener('click',()=>{const g=b.dataset.game;$('#playModal').classList.add('hidden');startGame(g)}));
-  $('#exitGame').addEventListener('click',closeGame);
+  $('#exitGame').addEventListener('click',()=>{Voice.stop();closeGame()});$('#sayAgain').addEventListener('click',()=>Voice.again());
   function closeGame(){gameCleanup();gameCleanup=()=>{};activeGame=null;activity.classList.add('hidden');gameArea.innerHTML='';PonyAudio.setScene(sleeping?'night':'home');render()}
   function startGame(type){gameCleanup();gameArea.innerHTML='';activeGame=type;activity.classList.remove('hidden');gameScore.textContent='0';PonyAudio.setScene(type);if(type==='ranch')startRanch();if(type==='rodeo')startRodeo();if(type==='barn')startBarn();if(type==='ride')startRide();if(type==='run')startRun();if(type==='maze')startMaze()}
-  function finishGame(title,text,starsEarned,replay,extra=[]){save.stars+=starsEarned;current().happy=clamp(current().happy+8);recordAction('play');if(activeGame)recordAction(activeGame);persist();PonyAudio.fanfare();const over=document.createElement('div');over.className='game-over';over.innerHTML=`<div class="result-card"><h2>${title}</h2><p>${text}</p><p><strong>+${starsEarned} stars</strong></p><div class="btn-row"><button type="button">Play again</button>${extra.map(()=>'<button type="button" class="alt"></button>').join('')}</div></div>`;gameArea.appendChild(over);const bs=over.querySelectorAll('button');bs[0].addEventListener('click',replay);extra.forEach((x,i)=>{bs[i+1].textContent=x.label;bs[i+1].addEventListener('click',x.fn)});}
+  function finishGame(title,text,starsEarned,replay,extra=[]){Voice.say(title+'. '+text+'. You got '+starsEarned+' stars!');save.stars+=starsEarned;current().happy=clamp(current().happy+8);recordAction('play');if(activeGame)recordAction(activeGame);persist();PonyAudio.fanfare();const over=document.createElement('div');over.className='game-over';over.innerHTML=`<div class="result-card"><h2>${title}</h2><p>${text}</p><p><strong>+${starsEarned} stars</strong></p><div class="btn-row"><button type="button">Play again</button>${extra.map(()=>'<button type="button" class="alt"></button>').join('')}</div></div>`;gameArea.appendChild(over);const bs=over.querySelectorAll('button');bs[0].addEventListener('click',replay);extra.forEach((x,i)=>{bs[i+1].textContent=x.label;bs[i+1].addEventListener('click',x.fn)});}
 
   // ===== Riders: a cast of people with looks + outfits, drawn on the pony in any pose =====
   const SKINS=['#ffe3cc','#f6cda6','#e5b088','#c88c5c','#a56a3e','#774726'];
@@ -1135,7 +1149,7 @@ window.PonyAudio=(()=>{
   function drawParticles(cx,list,dt,grav=420){for(let i=list.length-1;i>=0;i--){const p=list[i];p.life-=dt;if(p.life<=0){list.splice(i,1);continue}p.vy+=grav*dt;p.x+=p.vx*dt;p.y+=p.vy*dt;p.rot+=dt*5;cx.globalAlpha=Math.min(1,p.life*2.5);starPath(cx,p.x,p.y,p.r,p.rot);cx.fillStyle=p.c;cx.fill()}cx.globalAlpha=1}
   function drawPops(cx,list,dt){cx.textAlign='center';cx.textBaseline='middle';for(let i=list.length-1;i>=0;i--){const p=list[i];p.life-=dt;if(p.life<=0){list.splice(i,1);continue}p.y-=40*dt;cx.globalAlpha=Math.min(1,p.life*2);cx.font=`900 ${p.size||30}px system-ui,sans-serif`;cx.lineWidth=7;cx.strokeStyle='#fff';cx.strokeText(p.txt,p.x,p.y);cx.fillStyle=p.c||'#e0528f';cx.fillText(p.txt,p.x,p.y)}cx.globalAlpha=1}
   function rrect(cx,x,y,w,h,r){cx.beginPath();cx.moveTo(x+r,y);cx.arcTo(x+w,y,x+w,y+h,r);cx.arcTo(x+w,y+h,x,y+h,r);cx.arcTo(x,y+h,x,y,r);cx.arcTo(x,y,x+w,y,r);cx.closePath()}
-  function hint(text,ms=3500){const m=document.createElement('div');m.className='game-message';m.textContent=text;gameArea.appendChild(m);setTimeout(()=>m.classList.add('fade'),ms);return m}
+  function hint(text,ms=3500){Voice.hint(text);const m=document.createElement('div');m.className='game-message';m.textContent=text;gameArea.appendChild(m);setTimeout(()=>m.classList.add('fade'),ms);return m}
 
   // ===== World engine: scrolling top-down maps with tap-to-ride, swimming, path finding, depth sorting =====
   const EMO='"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif';
@@ -1312,11 +1326,11 @@ window.PonyAudio=(()=>{
     const P={x:cfg.start.x,y:cfg.start.y,face:cfg.face||1,path:[],moving:false,step:0,hop:0,hopH:22,hopT:.35,swim:false,frozen:false,boost:0};api.P=P;
     const cam={x:P.x,y:P.y};api.cam=cam;
     function updateCam(dt,snap){const vw=st.w/st.k,vh=st.h/st.k,tx=vw>=W?W/2:Math.max(vw/2,Math.min(W-vw/2,P.x)),ty=vh>=H?H/2:Math.max(vh/2,Math.min(H-vh/2,P.y-(cfg.camDY??40)));if(snap){cam.x=tx;cam.y=ty}else{const f=Math.min(1,dt*5);cam.x+=(tx-cam.x)*f;cam.y+=(ty-cam.y)*f}st.ox=st.w/2-cam.x*st.k;st.oy=st.h/2-cam.y*st.k}
-    st.onresize=()=>{st.k=Math.max(.5,Math.min(1.25,Math.min(st.w,st.h)/(cfg.view||560)));paintBG();updateCam(0,true)};st.onresize();
+    st.onresize=()=>{st.k=Math.max(.64,Math.min(1.25,Math.min(st.w,st.h)/(cfg.view||560)));paintBG();updateCam(0,true)};st.onresize();
     // ---------- HUD pieces ----------
     let mm=null,mx=null;if(cfg.minimap!==false){mm=document.createElement('canvas');mm.className='minimap';mm.width=300;mm.height=Math.round(300*H/W);mm.setAttribute('aria-label','Map: tap to ride there');gameArea.appendChild(mm);mx=mm.getContext('2d')}
     const banner=document.createElement('div');banner.className='quest-banner';gameArea.appendChild(banner);
-    api.showBanner=(html,ms=1900)=>{banner.innerHTML=html;banner.classList.add('show');clearTimeout(banner._t);banner._t=setTimeout(()=>banner.classList.remove('show'),ms)};
+    api.showBanner=(html,ms=1900)=>{Voice.say(html,{words:true});banner.innerHTML=html;banner.classList.add('show');clearTimeout(banner._t);banner._t=setTimeout(()=>banner.classList.remove('show'),ms)};
     api.burst=(x,y,n,c)=>burst(parts,x,y,n,c);
     api.pop=(x,y,txt,c,size)=>pops.push({x,y,txt,life:1.2,c,size});
     // ---------- input ----------
@@ -1486,25 +1500,27 @@ window.PonyAudio=(()=>{
     // quest tracker
     const ui=document.createElement('div');ui.className='quest-panel';
     ui.innerHTML=Q.map((q,i)=>`<div class="quest-row" data-q="${i}"><span class="q-who">${npcs[q.npc].e}</span><span class="q-items">${`<span>${q.type==='collect'?q.icon:q.baby}</span>`.repeat(q.type==='collect'?q.count:q.spots.length)}</span><b class="q-check">✓</b></div>`).join('')+`<div class="quest-row" data-q="c"><span class="q-who">${L.chestIcon}</span><span class="q-items"><span class="q-lock">🔒</span></span><b class="q-check">✓</b></div>`;
-    gameArea.appendChild(ui);hint('Tap to ride! Follow the pink arrow.');gameScore.textContent='0';
+    const qSay=q=>{const n=nm(npcs[q.npc].e);return q.type==='collect'?`The ${n} needs ${q.count} ${nm(q.icon)}!`:`Help the ${n} find ${q.spots.length} ${q.baby==='🐥'?'ducklings':'babies'}!`};
+    const nextQSay=()=>{const q=Q.find(q=>!q.done);const t=q?qSay(q):'Now find the treasure!';Voice.lastHint=t;return t};
+    gameArea.appendChild(ui);hint('Tap to ride! Follow the pink arrow.');setTimeout(()=>Voice.say(nextQSay(),{queue:true}),200);gameScore.textContent='0';
     function syncUI(){Q.forEach((q,i)=>{const row=ui.querySelector(`[data-q="${i}"]`),n=q.type==='collect'?q.have:babies.filter(b=>Q[b.q]===q&&(b.follow||b.home)).length;row.querySelectorAll('.q-items span').forEach((s,k)=>s.classList.toggle('got',q.done||k<n));row.classList.toggle('done',q.done)});
       const lock=ui.querySelector('.q-lock'),u=unlocked();lock.textContent=u?'🎁':'🔒';lock.classList.toggle('got',u);ui.querySelector('[data-q="c"]').classList.toggle('done',chest.open);
       const active=Q.findIndex(q=>!q.done);ui.querySelectorAll('.quest-row').forEach(r=>r.classList.toggle('active',!chest.open&&r.dataset.q===(active<0?'c':String(active))))}
     syncUI();
     const addScore=n=>{score+=n;gameScore.textContent=score};
-    function questDone(q){const n=npcs[q.npc];q.done=true;n.hop=1.4;addScore(3);w.showBanner(`${n.e} <span class="qb-check">✓</span> <small>+3 ★</small>`);PonyAudio.sfx('chime');w.burst(n.x,n.y-60,22,['#ffd24e','#ff9fc8','#9fe28a','#8fd7ff']);syncUI();if(unlocked())w.later(()=>{w.showBanner(`${L.chestIcon} ➜ 🎁`,2200);PonyAudio.sfx('shiny')},2100)}
+    function questDone(q){const n=npcs[q.npc];q.done=true;n.hop=1.4;addScore(3);w.showBanner(`${n.e} <span class="qb-check">✓</span> <small>+3 ★</small>`);Voice.say(`Thank you! You helped the ${nm(n.e)}!`);w.later(()=>Voice.say(nextQSay(),{queue:true}),400);PonyAudio.sfx('chime');w.burst(n.x,n.y-60,22,['#ffd24e','#ff9fc8','#9fe28a','#8fd7ff']);syncUI();if(unlocked())w.later(()=>{w.showBanner(`${L.chestIcon} ➜ 🎁`,2200);PonyAudio.sfx('shiny');Voice.lastHint='Find the treasure! Follow the arrow!';Voice.say('Now find the treasure! Follow the arrow!',{queue:true})},2100)}
     function update(dt,api){const P=api.P;
-      items.forEach(o=>{if(o.got)return;const dx=(o.x-P.x)/64,dy=(o.y-P.y)/42;if(dx*dx+dy*dy<1){o.got=true;const q=Q[o.q];q.have++;PonyAudio.sfx('treat');api.burst(o.x,o.y-20,12,['#ff9340','#ffd24e','#6abf5a']);api.pop(o.x,o.y-60,q.have+' / '+q.count,'#e0782b');api.hopPony();syncUI();if(q.have===q.count&&!q.done)api.later(()=>api.showBanner(q.icon.repeat(q.count)+' ➜ '+npcs[q.npc].e),500)}});
+      items.forEach(o=>{if(o.got)return;const dx=(o.x-P.x)/64,dy=(o.y-P.y)/42;if(dx*dx+dy*dy<1){o.got=true;const q=Q[o.q];q.have++;PonyAudio.sfx('treat');api.burst(o.x,o.y-20,12,['#ff9340','#ffd24e','#6abf5a']);api.pop(o.x,o.y-60,q.have+' / '+q.count,'#e0782b');if(q.have===q.count){Voice.lastHint=`Bring the ${nm(q.icon)} to the ${nm(npcs[q.npc].e)}!`;Voice.say(q.have+'! Bring them to the '+nm(npcs[q.npc].e)+'!')}else Voice.say(q.have+'!');api.hopPony();syncUI();if(q.have===q.count&&!q.done)api.later(()=>api.showBanner(q.icon.repeat(q.count)+' ➜ '+npcs[q.npc].e),500)}});
       sparkles.forEach(o=>{if(o.got)return;if(Math.hypot(o.x-P.x,o.y-P.y)<58){o.got=true;addScore(1);PonyAudio.sfx('star');api.burst(o.x,o.y-30,8)}});
       babies.forEach(d=>{let tx,ty;const q=Q[d.q];
         if(d.follow){const back=(d.order+1)*13,h=api.hist[Math.max(0,api.hist.length-1-back)]||P;tx=h.x;ty=h.y}else if(d.home){tx=d.hx;ty=d.hy}else{tx=d.hx+Math.cos(api.time*.7+d.ph)*28;ty=d.hy+Math.sin(api.time*.55+d.ph)*16}
         const f=Math.min(1,dt*(d.follow?7:3));if(Math.abs(tx-d.x)>1)d.face=tx>d.x?1:-1;d.x+=(tx-d.x)*f;d.y+=(ty-d.y)*f;
-        if(!d.follow&&!d.home&&Math.hypot(d.x-P.x,d.y-P.y)<75){d.follow=true;d.order=babies.filter(o=>o.follow).length-1;PonyAudio.sfx(q.baby==='🐥'?'peep':'pop');const c=babies.filter(o=>Q[o.q]===q&&(o.follow||o.home)).length;api.pop(d.x,d.y-50,q.baby+' '+c+' / '+q.spots.length,'#e0a21e');api.burst(d.x,d.y-20,10,['#ffe14e','#fff3a6']);syncUI();if(babies.filter(o=>Q[o.q]===q).every(o=>o.follow))api.later(()=>api.showBanner(q.baby.repeat(q.spots.length)+' ➜ '+npcs[q.npc].e),500)}});
+        if(!d.follow&&!d.home&&Math.hypot(d.x-P.x,d.y-P.y)<75){d.follow=true;d.order=babies.filter(o=>o.follow).length-1;PonyAudio.sfx(q.baby==='🐥'?'peep':'pop');const c=babies.filter(o=>Q[o.q]===q&&(o.follow||o.home)).length;api.pop(d.x,d.y-50,q.baby+' '+c+' / '+q.spots.length,'#e0a21e');if(c===q.spots.length){Voice.lastHint=`Take the babies home to the ${nm(npcs[q.npc].e)}!`;Voice.say(c+'! Take them home to the '+nm(npcs[q.npc].e)+'!')}else Voice.say(c+'!');api.burst(d.x,d.y-20,10,['#ffe14e','#fff3a6']);syncUI();if(babies.filter(o=>Q[o.q]===q).every(o=>o.follow))api.later(()=>api.showBanner(q.baby.repeat(q.spots.length)+' ➜ '+npcs[q.npc].e),500)}});
       Q.forEach(q=>{if(q.done||done)return;const n=npcs[q.npc],near=Math.hypot(P.x-n.x,P.y-n.y)<140;if(!near)return;
         if(q.type==='collect'&&q.have>=q.count)questDone(q);
         if(q.type==='escort'){const mine=babies.filter(b=>Q[b.q]===q);if(mine.every(b=>b.follow)){mine.forEach((b,i)=>{b.follow=false;b.home=true;b.hx=n.x+50+i*30;b.hy=n.y+28+(i%2)*14});babies.forEach((b,i)=>{if(b.follow)b.order=babies.filter(o=>o.follow).indexOf(b)});PonyAudio.sfx(q.baby==='🐥'?'quack':'chime');questDone(q)}}});
       if(!done&&Math.hypot(P.x-chest.x,P.y-chest.y)<100){
-        if(!unlocked()){if(api.time-lockT>2.5){lockT=api.time;chest.shake=.5;PonyAudio.sfx('wall');api.pop(chest.x,chest.y-110,'🔒','#7a5262',40);api.showBanner(Q.filter(q=>!q.done).map(q=>npcs[q.npc].e).join(' ')+' ➜ 🔓',1700)}}
+        if(!unlocked()){if(api.time-lockT>2.5){lockT=api.time;chest.shake=.5;PonyAudio.sfx('wall');api.pop(chest.x,chest.y-110,'🔒','#7a5262',40);api.showBanner(Q.filter(q=>!q.done).map(q=>npcs[q.npc].e).join(' ')+' ➜ 🔓',1700);Voice.say('It\'s locked! Help '+Q.filter(q=>!q.done).map(q=>'the '+nm(npcs[q.npc].e)).join(' and ')+' first!')}}
         else{chest.open=true;done=true;api.stopMoving();addScore(5);syncUI();PonyAudio.sfx('shiny');for(let i=0;i<4;i++)api.later(()=>api.burst(chest.x+rnd(-30,30),chest.y-50,18,['#ffd24e','#fff3a6','#ff9fc8','#9fe28a']),i*220);api.later(win,1400)}}
       chest.shake=Math.max(0,chest.shake-dt);Object.values(npcs).forEach(n=>n.hop=Math.max(0,n.hop-dt));
       flies.forEach(fl=>{if(fl.away>0){fl.away-=dt;if(fl.away<=0){const p=api.pick(1,0,(x,y)=>!api.isWater(x,y)&&Math.hypot(x-P.x,y-P.y)>350)[0];if(p){fl.x=p.x;fl.y=p.y;fl.tx=p.x;fl.ty=p.y}}return}
@@ -1825,7 +1841,7 @@ window.PonyAudio=(()=>{
   function startEvent(key){gameCleanup();gameCleanup=()=>{};gameArea.innerHTML='';PonyAudio.setScene('rodeo');const ev=EVENTS.find(e=>e.key===key);activityTitle.textContent=ev.name;({barrel:evBarrel,trick:evTrick,jump:evJump,rope:evRope,bronc:evBronc})[key](ev)}
   function rodeoFinish(ev,score,ribbon,stars,title,text){const r=save.rodeo[ev.key];const better=!r||(ev.best==='low'?score<r.best:score>r.best);const rank={rosette:0,bronze:1,silver:2,gold:3};
     if(better)save.rodeo[ev.key]={best:score,ribbon:r&&rank[r.ribbon]>rank[ribbon]?r.ribbon:ribbon};else if(rank[ribbon]>rank[r.ribbon])r.ribbon=ribbon;
-    PonyAudio.sfx('cheer');finishGame(title,`<span class="big-ribbon">${RIBBONS[ribbon]}</span><br>${text}${better&&r?'<br><b>New personal best!</b>':''}`,stars,()=>startEvent(ev.key),[{label:'Rodeo menu',fn:startRodeo}])}
+    PonyAudio.sfx('cheer');setTimeout(()=>Voice.say({rosette:'You won a rosette',bronze:'Bronze ribbon',silver:'Silver ribbon',gold:'Gold ribbon'}[ribbon]+'!',{queue:true}),50);finishGame(title,`<span class="big-ribbon">${RIBBONS[ribbon]}</span><br>${text}${better&&r?'<br><b>New personal best!</b>':''}`,stars,()=>startEvent(ev.key),[{label:'Rodeo menu',fn:startRodeo}])}
   // ---- shared helpers ----
   function countdown(onGo,alive){const el=document.createElement('div');el.className='countdown';gameArea.appendChild(el);let n=3;
     const step=()=>{if(!alive())return;el.classList.remove('pop');void el.offsetWidth;el.classList.add('pop');if(n>0){el.textContent=n;PonyAudio.sfx('tick');n--;setTimeout(step,650)}else{el.textContent='GO!';PonyAudio.sfx('go');setTimeout(()=>el.remove(),650);onGo()}};setTimeout(step,250)}
@@ -1846,13 +1862,13 @@ window.PonyAudio=(()=>{
     const fo=((scroll)%130+130)%130;cx.fillStyle='#fff';cx.strokeStyle='#9a8a90';cx.lineWidth=2;for(let x=-fo;x<VW+20;x+=130){cx.fillRect(x,GY-74,10,58)}cx.fillRect(0,GY-66,VW,8);cx.fillRect(0,GY-44,VW,8);
     cx.strokeStyle='rgba(150,110,60,.35)';cx.lineWidth=3;const ro=((scroll)%90+90)%90;for(let y=GY+18;y<VH;y+=26){for(let x=-ro-((y/26)%2)*45;x<VW;x+=90){cx.beginPath();cx.moveTo(x,y);cx.lineTo(x+40,y);cx.stroke()}}}
   function drawSpr(cx,img,x,feetY,w,flip,rot=0,px=260,py=300,alpha=1){if(!img||!(img.width>0))return;const k=w/PONY_CROP.sw;cx.save();cx.globalAlpha=alpha;cx.translate(x,feetY);if(flip)cx.scale(-1,1);const ox=(px-260)*k,oy=(py-420)*k;cx.translate(ox,oy);cx.rotate(rot);cx.translate(-ox,-oy);cx.drawImage(img,-260*k,-img.height*k,520*k,img.height*k);cx.restore()}
-  function sideStage(onResize){const st=makeStage();st.VH=540;st.onresize=()=>{st.k=st.h/540;st.VW=Math.max(560,st.w/st.k);st.ox=0;st.oy=0;onResize&&onResize()};st.onresize();return st}
+  function sideStage(onResize){const st=makeStage();st.VH=540;st.onresize=()=>{st.k=Math.min(st.h/540,st.w/430);st.VW=Math.max(430,st.w/st.k);st.VH=Math.max(540,st.h/st.k);st.ox=0;st.oy=0;onResize&&onResize()};st.onresize();return st}
   function hudText(cx,txt,x,y,size,c='#fff',stroke='#5a3444',align='center'){cx.font=`1000 ${size}px system-ui,sans-serif`;cx.textAlign=align;cx.textBaseline='middle';cx.lineWidth=size*.22;cx.strokeStyle=stroke;cx.lineJoin='round';cx.strokeText(txt,x,y);cx.fillStyle=c;cx.fillText(txt,x,y)}
   function preload(pk,ri,poses,opts){poses.forEach(p=>riderSprite(pk,ri,p,opts));ponySprite(pk)}
   // ---- top-down arena shared by barrels & roping ----
   function topArena(W,H,extra){
     const st=makeStage(),A={st,W,H,cam:{x:W/2,y:H/2},bg:null};
-    st.onresize=()=>{st.k=Math.max(.42,Math.min(1.15,Math.min(st.w,st.h)/720));const s=Math.min(st.k*st.dpr,1.3);const bg=document.createElement('canvas');bg.width=Math.ceil(W*s);bg.height=Math.ceil(H*s);const b=bg.getContext('2d');b.scale(s,s);
+    st.onresize=()=>{st.k=Math.max(.64,Math.min(1.15,Math.min(st.w,st.h)/720));const s=Math.min(st.k*st.dpr,1.3);const bg=document.createElement('canvas');bg.width=Math.ceil(W*s);bg.height=Math.ceil(H*s);const b=bg.getContext('2d');b.scale(s,s);
       b.fillStyle='#8fcf6e';b.fillRect(0,0,W,H);b.fillStyle='#a86e4f';b.fillRect(0,0,W,150);for(let r=0;r<2;r++){b.fillStyle=r?'#c98a64':'#d99a72';b.fillRect(0,60+r*50,W,14)}
       for(let i=0;i<Math.floor(W/34);i++)crowdPerson(b,20+i*34+(i%2)*8,36+(i%2)*50,CROWD[i%CROWD.length],0,0);
       const g=b.createRadialGradient(W/2,H/2,100,W/2,H/2,W*.7);g.addColorStop(0,'#ecd09a');g.addColorStop(1,'#d9b47a');b.fillStyle=g;rrect(b,60,160,W-120,H-200,40);b.fill();
@@ -1936,7 +1952,7 @@ window.PonyAudio=(()=>{
       if(state==='go'){t+=dt;chart.forEach(n=>{if(!n.judged&&t>n.at+.25){n.judged=true;n.res='miss';combo=0;shake=.3;pops.push({x:zoneX(),y:110,txt:'Missed',life:.8,c:'#8a6474'})}});
         if(chart.every(n=>n.judged)&&t>chart[chart.length-1].at+1.2){state='done';const acc=(perfect+good*.6)/chart.length,ribbon=acc>=.8?'gold':acc>=.55?'silver':'bronze';const stars={gold:15,silver:10,bronze:6}[ribbon];pose='cheer';poseT=9;PonyAudio.sfx('cheer');
           setTimeout(()=>{if(alive)rodeoFinish(ev,score,ribbon,stars,'Trick Riding',`<b>${score} points</b><br>${perfect} perfect, ${good} good, best streak ${best}`)},900)}}}
-    function draw(dt){const VW=st.VW,zx=zoneX();cx.setTransform(1,0,0,1,0,0);st.begin();sideArena(cx,VW,540,GY,dist,cheer,time);
+    function draw(dt){const VW=st.VW,zx=zoneX();cx.setTransform(1,0,0,1,0,0);st.begin();sideArena(cx,VW,st.VH,GY,dist,cheer,time);
       const bob=Math.abs(Math.sin(time*12))*8,PX=zx;wShadow(cx,PX,GY+6,90,16,.25);const sh=shake>0?Math.sin(time*50)*4:0;
       drawSpr(cx,ponySprite(pk),PX+sh,GY-bob,260,false,Math.sin(time*12)*.025);drawSpr(cx,riderSprite(pk,save.rider,pose),PX+sh,GY-bob,260,false,Math.sin(time*12)*.025);
       for(let i=0;i<2;i++)parts.push({x:PX-70+rnd(-20,20),y:GY,vx:rnd(-160,-80),vy:rnd(-80,-20),life:.4,r:rnd(4,8),c:'#d9b47a',rot:0});
@@ -1993,7 +2009,7 @@ window.PonyAudio=(()=>{
       else{const fallY=f.hit?GY-6:top;pole(L,R,fallY,f.hit?.05:0);if(f.ty==='oxer'){const L2=L+30,R2=R-30;cx.globalAlpha=.9;pole(L2,R2,top-2)}pole(L,R,GY-f.h*.45)}
       cx.restore();cx.fillStyle='#fff';cx.strokeStyle='#7a5262';cx.lineWidth=2;rrect(cx,L-14,GY-f.h-74,28,24,6);cx.fill();cx.stroke();cx.fillStyle='#5a3444';cx.font='900 16px system-ui,sans-serif';cx.textAlign='center';cx.textBaseline='middle';cx.fillText(f.i+1,L,GY-f.h-62);
       for(let i=0;i<3;i++){cx.fillStyle=i<f.p?'#ff6fae':'rgba(255,255,255,.7)';cx.beginPath();cx.arc(sx-14+i*14,GY-f.h-90,5,0,7);cx.fill()}}
-    function draw(dt){const VW=st.VW,PX=ponyScreenX(),camX=P.x-PX;cx.setTransform(1,0,0,1,0,0);st.begin();sideArena(cx,VW,540,GY,camX,cheer,time);
+    function draw(dt){const VW=st.VW,PX=ponyScreenX(),camX=P.x-PX;cx.setTransform(1,0,0,1,0,0);st.begin();sideArena(cx,VW,st.VH,GY,camX,cheer,time);
       F.forEach(f=>{const sx=f.x-camX;if(sx<-260||sx>VW+260)return;if(!f.passed&&f.ty!=='water'||!f.passed&&f.ty==='water'){const ix=f.ideal-camX;cx.fillStyle='rgba(111,209,122,.55)';rrect(cx,ix-34,GY+4,68,12,6);cx.fill();cx.strokeStyle='#3f9c4f';cx.lineWidth=3;cx.beginPath();cx.moveTo(ix,GY+2);cx.lineTo(ix,GY+18);cx.stroke()}drawFence(f,sx)});
       const fsx=FINISH-camX;if(fsx<VW+60){cx.fillStyle='#fff';cx.fillRect(fsx-4,GY-160,8,160);cx.fillStyle='#ff4f6a';cx.fillRect(fsx+4,GY-160,50,30);hudText(cx,'FINISH',fsx,GY-176,22)}
       const ref=P.refuse>0?Math.sin(P.refuse*12)*.08:0,bob=P.air?0:Math.abs(Math.sin(time*11))*6,tilt=P.air?Math.max(-.3,Math.min(.3,P.vy*.00035)):Math.sin(time*11)*.02;
@@ -2073,7 +2089,7 @@ window.PonyAudio=(()=>{
       if(hvy||hy<0){hvy+=2400*dt;hy+=hvy*dt;if(hy>=0){hy=0;hvy=0;if(state==='ride'||state==='fall')burst(parts,st.VW/2,GY,8,['#d9b47a','#c99a62'])}}
       if(state==='fall'&&fall){fall.vy+=1500*dt;fall.x+=fall.vx*dt;fall.y+=fall.vy*dt;fall.rot+=fall.vr*dt;if(fall.y>GY-10){fall.y=GY-10;if(!fall.land){fall.land=true;PonyAudio.sfx('thud');burst(parts,fall.x,GY-20,20,['#f2c34f','#ffe58a','#fff']);fall.vx*=.3;fall.vr=0;fall.rot=Math.round(fall.rot/Math.PI)*Math.PI+Math.PI/2*(fall.vx>0?1:-1)*.4;
           const score=Math.round(rt/RIDE*50);setTimeout(()=>{if(alive)rodeoFinish(ev,score,'rosette',2+Math.floor(rt),'Whoa! Soft landing!',`You rode for <b>${rt.toFixed(1)} seconds</b>. Try for all 8!`)},1500)}fall.vy=0;fall.vx*=.9}}}
-    function draw(dt){const VW=st.VW,X=VW/2;cx.setTransform(1,0,0,1,0,0);st.begin();sideArena(cx,VW,540,GY,0,cheer,time);
+    function draw(dt){const VW=st.VW,X=VW/2;cx.setTransform(1,0,0,1,0,0);st.begin();sideArena(cx,VW,st.VH,GY,0,cheer,time);
       // chute
       cx.fillStyle='#8a5a3a';cx.fillRect(X-260,GY-210,18,210);cx.save();cx.translate(X-242,GY-200);cx.rotate(-gate*1.3);cx.fillStyle='#c88a55';cx.strokeStyle='#5b3a28';cx.lineWidth=3;for(let i=0;i<4;i++){cx.fillRect(0,i*46,150,14);cx.strokeRect(0,i*46,150,14)}cx.restore();
       // hay for soft landings
